@@ -6,18 +6,18 @@
  */
 class Fecha {
     public:
-        int AnnoMinimo, AnnoMaximo;
+        int AnnoMinimo = 1902, AnnoMaximo = 2037;
         int dia() const;
         int mes() const;
         int anno() const;
-    private:
-        int dia, mes, anno;
-        bool fechaValida() const;
         class Invalida{};
-
-    
+        Fecha(int dia = 0, int mes = 0, int anno = 0);
+        Fecha(const Fecha& fecha);
+        Fecha(const char*);
+    private:
+        int dia_, mes_, anno_;
+        bool fechaValida() const;
+        void normalizarFecha();
 };
-
-
 
 #endif

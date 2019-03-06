@@ -6,7 +6,6 @@
  */
 
 #include "caclibrary.h"
-
 #include <vector>
 #include <iostream>
 
