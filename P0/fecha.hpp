@@ -20,4 +20,6 @@ class Fecha {
         void normalizarFecha();
 };
 
+const static int[12] dia_meses = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
 #endif
