@@ -9,6 +9,7 @@ using namespace std;
  * Constructor de ningun parametro, a los 3
  */
 Fecha::Fecha(int dia, int mes, int anno) : dia_(dia), mes_(mes), anno_(anno) {
+    Fecha::normalizarFecha();
     if(!Fecha::fechaValida()) throw Invalida();
 }
 
@@ -19,6 +20,7 @@ Fecha::Fecha(const Fecha& fecha) : dia_(fecha.dia()), mes_(fecha.mes()), anno_(f
 
 Fecha::Fecha(const char* fecha) {
     if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) throw Invalida();
+    Fecha::normalizarFecha();
     if(!Fecha::fechaValida()) throw Invalida();
 }
 
@@ -39,20 +41,21 @@ void Fecha::normalizarFecha(){
 
 bool Fecha::fechaValida() const{
 
-    Fecha::normalizarFecha();
-
     if(dia_ < 0)
         return false;
-    if(dia_ > dia_meses[mes_] && mes_ !=2)
+    if(dia_ > dia_meses[mes_ - 1] && mes_ !=2)
         return false;
     else{
-        if( anno_ % 4 == 0 && ( anno_ % 400 == 0 || anno_ % 100 !=0) ){
-            if(dia_ > dia_meses[mes_] + 1)
+        if( anno_ % 4 == 0 && ( anno_ % 400 == 0 || anno_ % 100 !=0)) {
+            if(dia_ > dia_meses[mes_ - 1] + 1)
                 return false;
         }
         else{
-            if(dia_ > dia_meses[mes_])
+            if(dia_ > dia_meses[mes_ - 1]){
+
                 return false;   
+            }
+                
         }
         
     }

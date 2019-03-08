@@ -10,6 +10,7 @@ class Fecha {
         int dia() const;
         int mes() const;
         int anno() const;
+        static const int dia_meses[];
         class Invalida{};
         Fecha(int dia = 0, int mes = 0, int anno = 0);
         Fecha(const Fecha& fecha);
@@ -20,6 +21,7 @@ class Fecha {
         void normalizarFecha();
 };
 
-const static int[12] dia_meses = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+const int Fecha::dia_meses[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
 
 #endif
