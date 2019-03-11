@@ -48,27 +48,53 @@ bool Fecha::fechaValida() {
 }
 
 /**
+ * Pre incremento
+ */
+Fecha& Fecha::operator ++ (){
+
+    *this = *this + 1;
+
+    return *this;
+}
+
+/**
  * Post incremento
  */
-Fecha Fecha::operator++(int dia){
-    
+Fecha Fecha::operator ++ (int){
+
     Fecha aux {*this};
 
-    aux = aux + 1;
+    ++*this;
 
     return aux;
 }
 
-Fecha Fecha::operator++(){
+/**
+ * Pre decremento
+ */
+Fecha& Fecha::operator -- (){
+
+    *this = *this - 1;
+
+    return *this;
+}
+
+/**
+ * Post decremento
+ */
+Fecha Fecha::operator -- (int){
 
     Fecha aux {*this};
 
-    aux = aux + 1;
+    --*this;
 
     return aux;
 }
 
-Fecha Fecha::operator+(int dia){
+/**
+ * Suma de Fecha + entero
+ */
+Fecha Fecha::operator + (int dia){
     time_t tiempo = time(nullptr);
     tm* fechaSumada = localtime(&tiempo);
 
@@ -83,6 +109,27 @@ Fecha Fecha::operator+(int dia){
     return fechaAux;
 }
 
+/**
+ * Resta de Fecha - entero
+ */
+Fecha Fecha::operator - (int dia){
+
+    time_t tiempo = time(nullptr);
+    tm* fechaSumada = localtime(&tiempo);
+
+    fechaSumada->tm_mday = this->dia_ - dia;
+    fechaSumada->tm_mon = this->mes_ - 1;
+    fechaSumada->tm_year = this->anno_ - 1900;
+
+    mktime(fechaSumada);
+
+    Fecha fechaAux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year  + 1900};
+
+    return fechaAux;
+
+}
+
+
 int Fecha::dia() const{
     return dia_;
 }
@@ -96,18 +143,14 @@ int Fecha::anno() const{
 }
 
 int main() {
-    Fecha f{1,1,2020};
 
-    Fecha a = f;
+    Fecha f;
 
     cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
 
-    cout << a.dia() << "/" << a.mes() << "/" << a.anno() << endl;
-
-
-    /*for(int i = 0; i < 40; ++i){
+    /*for(int i = 0; i < 367; ++i){
         cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
-        f++;
+        ++f;
     }*/
     return 0;
 }
