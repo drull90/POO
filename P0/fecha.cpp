@@ -64,7 +64,7 @@ Fecha Fecha::operator ++ (int){
 
     Fecha aux {*this};
 
-    ++*this;
+    *this = *this + 1;
 
     return (*this + 1);
 }
@@ -86,7 +86,7 @@ Fecha Fecha::operator -- (int){
 
     Fecha aux {*this};
 
-    --*this;
+    *this = *this - 1;
 
     return aux;
 }
@@ -126,7 +126,6 @@ Fecha Fecha::operator - (int dia){
     Fecha fechaAux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year  + 1900};
 
     return fechaAux;
-
 }
 
 
