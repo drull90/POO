@@ -60,22 +60,20 @@ bool Fecha::fechaValida() {
 }
 
 Fecha Fecha::operator++(int dia){
+
     
+
+    return (*this + 1);
+}
+
+/*Fecha& Fecha::operator++(){
+
     Fecha aux {*this};
 
     aux = aux + 1;
 
     return aux;
-}
-
-Fecha Fecha::operator++(){
-
-    Fecha aux {*this};
-
-    aux = aux + 1;
-
-    return aux;
-}
+}*/
 
 Fecha Fecha::operator+(int dia){
     time_t tiempo = time(nullptr);
@@ -107,11 +105,11 @@ int Fecha::anno() const{
 int main() {
     Fecha f{1,1,2020};
 
-    Fecha a = f;
+    f++;
 
     cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
 
-    cout << a.dia() << "/" << a.mes() << "/" << a.anno() << endl;
+    //cout << a.dia() << "/" << a.mes() << "/" << a.anno() << endl;
 
 
     /*for(int i = 0; i < 40; ++i){

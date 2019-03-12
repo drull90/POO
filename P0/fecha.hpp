@@ -14,9 +14,9 @@ class Fecha {
         Fecha(int dia = 0, int mes = 0, int anno = 0);
         Fecha(const Fecha& fecha);
         Fecha(const char*);
-        Fecha operator ++(int dia);
-        Fecha operator --(int dia);
-        Fecha operator ++();
+        Fecha operator ++(int);
+        Fecha& operator --(int);
+        Fecha& operator ++();
         Fecha operator +(int dia);
     private:
         int dia_, mes_, anno_;
