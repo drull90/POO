@@ -9,25 +9,19 @@ using namespace std;
  * Constructor de ningun parametro, a los 3
  */
 Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
-    normalizarFecha();
     if(!fechaValida()) throw Invalida();
 }
-
-/**
- * Constructor copia
- */
-Fecha::Fecha(const Fecha& fecha) : dia_{fecha.dia_}, mes_{fecha.mes_}, anno_{fecha.anno_}{}
 
 /**
  * Constructor de parametro cadena
  */
 Fecha::Fecha(const char* fecha) {
     if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) throw Invalida();
-    normalizarFecha();
     if(!fechaValida()) throw Invalida();
 }
 
-void Fecha::normalizarFecha(){
+bool Fecha::fechaValida() {
+
     time_t tiempo_calendario = time(nullptr);
     tm* fechaHoy = localtime(&tiempo_calendario);
 
@@ -40,12 +34,6 @@ void Fecha::normalizarFecha(){
     if(anno_ == 0){
         anno_ = fechaHoy->tm_year + 1900;   //Años desde 1900
     }
-}
-
-bool Fecha::fechaValida() {
-
-    time_t tiempo_calendario = time(nullptr);
-    tm* fechaHoy = localtime(&tiempo_calendario);
 
     fechaHoy->tm_mday = dia_;
     fechaHoy->tm_mon = mes_ - 1;
@@ -59,23 +47,54 @@ bool Fecha::fechaValida() {
     return true;
 }
 
-Fecha Fecha::operator++(int dia){
+/**
+ * Pre incremento
+ */
+Fecha& Fecha::operator ++ (){
 
-    
+    *this = *this + 1;
+
+    return *this;
+}
+
+/**
+ * Post incremento
+ */
+Fecha Fecha::operator ++ (int){
+
+    Fecha aux {*this};
+
+    ++*this;
 
     return (*this + 1);
 }
 
-/*Fecha& Fecha::operator++(){
+/**
+ * Pre decremento
+ */
+Fecha& Fecha::operator -- (){
+
+    *this = *this - 1;
+
+    return *this;
+}
+
+/**
+ * Post decremento
+ */
+Fecha Fecha::operator -- (int){
 
     Fecha aux {*this};
 
-    aux = aux + 1;
+    --*this;
 
     return aux;
-}*/
+}
 
-Fecha Fecha::operator+(int dia){
+/**
+ * Suma de Fecha + entero
+ */
+Fecha Fecha::operator + (int dia){
     time_t tiempo = time(nullptr);
     tm* fechaSumada = localtime(&tiempo);
 
@@ -90,6 +109,27 @@ Fecha Fecha::operator+(int dia){
     return fechaAux;
 }
 
+/**
+ * Resta de Fecha - entero
+ */
+Fecha Fecha::operator - (int dia){
+
+    time_t tiempo = time(nullptr);
+    tm* fechaSumada = localtime(&tiempo);
+
+    fechaSumada->tm_mday = this->dia_ - dia;
+    fechaSumada->tm_mon = this->mes_ - 1;
+    fechaSumada->tm_year = this->anno_ - 1900;
+
+    mktime(fechaSumada);
+
+    Fecha fechaAux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year  + 1900};
+
+    return fechaAux;
+
+}
+
+
 int Fecha::dia() const{
     return dia_;
 }
@@ -103,18 +143,14 @@ int Fecha::anno() const{
 }
 
 int main() {
-    Fecha f{1,1,2020};
 
-    f++;
+    Fecha f;
 
     cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
 
-    //cout << a.dia() << "/" << a.mes() << "/" << a.anno() << endl;
-
-
-    /*for(int i = 0; i < 40; ++i){
+    /*for(int i = 0; i < 367; ++i){
         cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
-        f++;
+        ++f;
     }*/
     return 0;
 }
