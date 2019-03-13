@@ -10,29 +10,40 @@ using namespace std;
  */
 class Fecha {
     public:
-        int AnnoMinimo = 1902, AnnoMaximo = 2037;
+        //Constructores
+        Fecha(const char*);
+        explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
+        
+        //Sobrecargas de operadores
+        Fecha&  operator ++ ();
+        Fecha&  operator -- ();
+        Fecha   operator ++ (int);
+        Fecha   operator -- (int);
+        Fecha&  operator += (int);
+        Fecha&  operator -= (int);
+        Fecha   operator +  (int);
+        Fecha   operator -  (int);
+        friend ostream& operator << (ostream& o, const Fecha& fecha);
+
+        //Metodos
         int dia() const;
         int mes() const;
         int anno() const;
-        class Invalida{};
-        explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
-        Fecha(const char*);
-        Fecha   operator ++(int);
-        Fecha   operator --(int);
-        Fecha&  operator ++();
-        Fecha&  operator --();
-        Fecha   operator +(int);
-        Fecha   operator -(int);
-        Fecha&  operator +=(int);
-        Fecha&  operator -=(int);
-        friend ostream& operator << (ostream& o, const Fecha& fecha);
 
+        //Clases
+        class Invalida{
+            public:
+                Invalida(const char*);
+        };
+
+        //Atributos
+        int AnnoMinimo = 1902, AnnoMaximo = 2037;
+        
     private:
         int dia_, mes_, anno_;
         bool fechaValida();
-        bool rangoFecha();
+        bool fechaEnRango();
+        char* fechaTraducida(tm*) const;
 };
-
-char* fechaTraducida(const tm*);
 
 #endif

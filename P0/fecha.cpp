@@ -2,6 +2,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <ctime>
+#include <string.h>
 
 using namespace std;
 
@@ -9,15 +10,18 @@ using namespace std;
  * Constructor de ningun parametro, a los 3
  */
 Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
-    if(!fechaValida()) throw Invalida();
+    if(!fechaValida()) throw Invalida("Fecha no valida parametros");
+}
+
+Fecha::Invalida::Invalida(const char* error){
+    cout << error << endl;
 }
 
 /**
  * Constructor de parametro cadena
  */
 Fecha::Fecha(const char* fecha) {
-    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) throw Invalida();
-    if(!fechaValida()) throw Invalida();
+    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3 || !fechaValida()) throw Invalida("Fecha no valida cadenas");
 }
 
 /**
@@ -42,19 +46,24 @@ bool Fecha::fechaValida() {
     fechaHoy->tm_mon = mes_ - 1;
     fechaHoy->tm_year = anno_ - 1900;   
 
+    cout << "Dia : " << fechaHoy->tm_mday << " | " << dia_ << "Mes : " << fechaHoy->tm_mon + 1 << " | " << mes_ << "año : " << fechaHoy->tm_year + 1900 << " | " << anno_ << endl;
+
     mktime(fechaHoy);
 
-    if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || !rangoFecha())
+    cout << "Dia : " << fechaHoy->tm_mday << " | " << dia_ << "Mes : " << fechaHoy->tm_mon + 1 << " | " << mes_ << "año : " << fechaHoy->tm_year + 1900 << " | " << anno_ << endl;
+
+    if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || !fechaEnRango())
         return false;
         
 
     return true;
+    
 }
 
 /**
  * Comprobar rango de los años de la fecha
  */
-bool Fecha::rangoFecha(){
+bool Fecha::fechaEnRango(){
 
     if(this->anno_ < AnnoMinimo || this->anno_ > AnnoMaximo)
         return false;
@@ -148,7 +157,7 @@ Fecha& Fecha::operator += (int dia){
     time_t tiempo = time(nullptr);
     tm* fechaSumada = localtime(&tiempo);
 
-    fechaSumada->tm_mday = this->dia_ + dia;
+    fechaSumada->tm_mday = this->dia_ + 1;
     fechaSumada->tm_mon = this->mes_ - 1;
     fechaSumada->tm_year = this->anno_ - 1900;
 
@@ -156,7 +165,7 @@ Fecha& Fecha::operator += (int dia){
 
     Fecha aux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year + 1900};
 
-    if(!rangoFecha()) throw Invalida();
+    if(!fechaEnRango()) throw Invalida("Fecha no en rango");
 
     *this = aux;
     
@@ -175,19 +184,30 @@ ostream& operator << (ostream& o, const Fecha& fecha){
     fechaTiempo->tm_mon = fecha.mes() - 1;
     fechaTiempo->tm_year = fecha.anno() - 1900;
 
-    o << fechaTraducida(fechaTiempo) <<  endl;
-    
+    o << fecha.fechaTraducida(fechaTiempo) <<  endl;
+
     return o;
 }
 
-char* fechaTraducida(const tm* fecha){
+char* Fecha::fechaTraducida(tm* fecha) const{
 
-    const char* diaSemana[] = { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
+    const char* diaSemana[] = { "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
 
-    const char* mesAnno[] = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Nobiembre", "Diciembre"};
+    const char* mesAnno[] = { "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
 
-    
-    
+    char* cad;
+    char buffer[20];
+
+    mktime(fecha);
+
+    strcpy(cad, diaSemana[fecha->tm_wday]);
+    snprintf(buffer, 20, " %i de ", fecha->tm_mday);
+    strcat(cad, buffer);
+    strcat(cad, mesAnno[fecha->tm_mon]);
+    snprintf(buffer, 20, " de %i ", fecha->tm_year + 1900);
+    strcat(cad, buffer);
+
+    return cad;
 }
 
 int Fecha::dia() const{ return dia_; }
@@ -198,7 +218,7 @@ int Fecha::anno() const{ return anno_; }
 
 int main() {
 
-    Fecha f{11,0};
+    Fecha f{12, 9, 2010};
 
     cout << f << endl;
 
