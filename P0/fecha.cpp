@@ -20,6 +20,9 @@ Fecha::Fecha(const char* fecha) {
     if(!fechaValida()) throw Invalida();
 }
 
+/**
+ * Validamos si la fecha es correcta
+ */
 bool Fecha::fechaValida() {
 
     time_t tiempo_calendario = time(nullptr);
@@ -41,9 +44,21 @@ bool Fecha::fechaValida() {
 
     mktime(fechaHoy);
 
-    if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || anno_ < AnnoMinimo || anno_ > AnnoMaximo)
+    if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || !rangoFecha())
         return false;
+        
 
+    return true;
+}
+
+/**
+ * Comprobar rango de la fecha
+ */
+bool Fecha::rangoFecha(){
+
+    if(this->anno_ < AnnoMinimo || this->anno_ > AnnoMaximo)
+        return false;
+    
     return true;
 }
 
@@ -53,6 +68,8 @@ bool Fecha::fechaValida() {
 Fecha& Fecha::operator ++ (){
 
     *this = *this + 1;
+
+    if(!rangoFecha()) throw Invalida();
 
     return *this;
 }
@@ -66,6 +83,8 @@ Fecha Fecha::operator ++ (int){
 
     *this = *this + 1;
 
+    if(!rangoFecha()) throw Invalida();
+
     return aux;
 }
 
@@ -75,6 +94,8 @@ Fecha Fecha::operator ++ (int){
 Fecha& Fecha::operator -- (){
 
     *this = *this - 1;
+
+    if(!rangoFecha()) throw Invalida();
 
     return *this;
 }
@@ -87,6 +108,8 @@ Fecha Fecha::operator -- (int){
     Fecha aux {*this};
 
     *this = *this - 1;
+
+    if(!rangoFecha()) throw Invalida();
 
     return aux;
 }
@@ -128,6 +151,53 @@ Fecha Fecha::operator - (int dia){
     return fechaAux;
 }
 
+/** 
+ * Suma de fecha - entero
+ */
+Fecha& Fecha::operator += (int dia){
+    
+    *this = *this + dia;
+
+    if(!rangoFecha()) throw Invalida();
+
+    return *this;
+}
+
+/**
+ * Resta de fecha - entero
+ */
+Fecha& Fecha::operator -= (int dia){
+    
+    *this = *this - dia;
+
+    if(!rangoFecha()) throw Invalida();
+
+    return *this;
+}
+
+/**
+ * Imprimir fecha 
+ */
+ostream& operator << (ostream& o, Fecha& fecha){
+
+    const char * diaSemana[] = { "Domingo", "Lunes",
+                             "Martes", "Miércoles",
+                             "Jueves", "Viernes", "Sábado"};
+
+    time_t tiempo = time(nullptr);
+    tm* fechaTiempo = localtime(&tiempo);
+
+    fechaTiempo->tm_mday = fecha.dia();
+    fechaTiempo->tm_mon = fecha.mes() - 1;
+    fechaTiempo->tm_year = fecha.anno() - 1900;
+
+    mktime(fechaTiempo);
+
+    o << diaSemana[fechaTiempo->tm_wday] << endl;
+    
+
+    return o;
+}
 
 int Fecha::dia() const{
     return dia_;
@@ -143,9 +213,21 @@ int Fecha::anno() const{
 
 int main() {
 
-    Fecha f;
+    Fecha f{11}, a;
 
-    cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
+    f++;
+    cout << f << endl;
 
     /*for(int i = 0; i < 367; ++i){
         cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;

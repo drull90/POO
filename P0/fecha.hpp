@@ -1,8 +1,12 @@
 #ifndef FECHA_HPP
 #define FECHA_HPP
 
+#include<iostream>
+
+using namespace std;
+
 /**
- *
+ * Clase Fecha
  */
 class Fecha {
     public:
@@ -11,7 +15,7 @@ class Fecha {
         int mes() const;
         int anno() const;
         class Invalida{};
-        Fecha(int dia = 0, int mes = 0, int anno = 0);
+        explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
         Fecha(const char*);
         Fecha operator ++(int);
         Fecha operator --(int);
@@ -19,14 +23,15 @@ class Fecha {
         Fecha& operator --();
         Fecha operator +(int);
         Fecha operator -(int);
+        Fecha& operator +=(int);
+        Fecha& operator -=(int);
+        friend ostream& operator << (ostream& o, Fecha& fecha);
+
     private:
         int dia_, mes_, anno_;
         bool fechaValida();
+        bool rangoFecha();
         void normalizarFecha();
 };
-
-//Sobrecarfa de operadores
-
-
 
 #endif
