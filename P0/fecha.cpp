@@ -66,7 +66,7 @@ Fecha Fecha::operator ++ (int){
 
     *this = *this + 1;
 
-    return (*this + 1);
+    return aux;
 }
 
 /**
