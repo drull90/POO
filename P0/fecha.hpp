@@ -26,6 +26,7 @@ class Fecha {
         Fecha& operator +=(int);
         Fecha& operator -=(int);
         friend ostream& operator << (ostream& o, Fecha& fecha);
+        friend ostream& operator << (ostream& o, Fecha fecha);
 
     private:
         int dia_, mes_, anno_;

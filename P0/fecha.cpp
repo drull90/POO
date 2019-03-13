@@ -180,6 +180,8 @@ Fecha& Fecha::operator -= (int dia){
  */
 ostream& operator << (ostream& o, Fecha& fecha){
 
+    cout << "hola" << endl;
+
     const char * diaSemana[] = { "Domingo", "Lunes",
                              "Martes", "Miércoles",
                              "Jueves", "Viernes", "Sábado"};
@@ -187,9 +189,30 @@ ostream& operator << (ostream& o, Fecha& fecha){
     time_t tiempo = time(nullptr);
     tm* fechaTiempo = localtime(&tiempo);
 
-    fechaTiempo->tm_mday = fecha.dia();
-    fechaTiempo->tm_mon = fecha.mes() - 1;
-    fechaTiempo->tm_year = fecha.anno() - 1900;
+    fechaTiempo->tm_mday = fecha.dia_;
+    fechaTiempo->tm_mon = fecha.mes_ - 1;
+    fechaTiempo->tm_year = fecha.anno_ - 1900;
+
+    mktime(fechaTiempo);
+
+    o << diaSemana[fechaTiempo->tm_wday] << endl;
+    
+
+    return o;
+}
+
+ostream& operator << (ostream& o, Fecha fecha){
+
+    const char * diaSemana[] = { "Domingo", "Lunes",
+                             "Martes", "Miércoles",
+                             "Jueves", "Viernes", "Sábado"};
+
+    time_t tiempo = time(nullptr);
+    tm* fechaTiempo = localtime(&tiempo);
+
+    fechaTiempo->tm_mday = fecha.dia_;
+    fechaTiempo->tm_mon = fecha.mes_ - 1;
+    fechaTiempo->tm_year = fecha.anno_ - 1900;
 
     mktime(fechaTiempo);
 
@@ -215,19 +238,19 @@ int main() {
 
     Fecha f{11}, a;
 
-    cout << f << endl;
-    f++;
-    cout << f << endl;
-    f++;
-    cout << f << endl;
-    f++;
-    cout << f << endl;
-    f++;
-    cout << f << endl;
-    f++;
-    cout << f << endl;
-    f++;
-    cout << f << endl;
+    cout << ++f << endl;
+
+    cout << ++f << endl;
+
+    cout << ++f << endl;
+
+    cout << ++f << endl;
+    
+    cout << ++f << endl;
+
+    cout << ++f << endl;
+
+    cout << ++f << endl;
 
     /*for(int i = 0; i < 367; ++i){
         cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
