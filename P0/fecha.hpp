@@ -17,22 +17,22 @@ class Fecha {
         class Invalida{};
         explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
         Fecha(const char*);
-        Fecha operator ++(int);
-        Fecha operator --(int);
-        Fecha& operator ++();
-        Fecha& operator --();
-        Fecha operator +(int);
-        Fecha operator -(int);
-        Fecha& operator +=(int);
-        Fecha& operator -=(int);
-        friend ostream& operator << (ostream& o, Fecha& fecha);
-        friend ostream& operator << (ostream& o, Fecha fecha);
+        Fecha   operator ++(int);
+        Fecha   operator --(int);
+        Fecha&  operator ++();
+        Fecha&  operator --();
+        Fecha   operator +(int);
+        Fecha   operator -(int);
+        Fecha&  operator +=(int);
+        Fecha&  operator -=(int);
+        friend ostream& operator << (ostream& o, const Fecha& fecha);
 
     private:
         int dia_, mes_, anno_;
         bool fechaValida();
         bool rangoFecha();
-        void normalizarFecha();
 };
+
+char* fechaTraducida(const tm*);
 
 #endif

@@ -52,7 +52,7 @@ bool Fecha::fechaValida() {
 }
 
 /**
- * Comprobar rango de la fecha
+ * Comprobar rango de los años de la fecha
  */
 bool Fecha::rangoFecha(){
 
@@ -67,9 +67,7 @@ bool Fecha::rangoFecha(){
  */
 Fecha& Fecha::operator ++ (){
 
-    *this = *this + 1;
-
-    if(!rangoFecha()) throw Invalida();
+    *this += 1;
 
     return *this;
 }
@@ -79,11 +77,9 @@ Fecha& Fecha::operator ++ (){
  */
 Fecha Fecha::operator ++ (int){
 
-    Fecha aux {*this};
+    Fecha aux = *this;
 
-    *this = *this + 1;
-
-    if(!rangoFecha()) throw Invalida();
+    *this += 1;
 
     return aux;
 }
@@ -93,9 +89,7 @@ Fecha Fecha::operator ++ (int){
  */
 Fecha& Fecha::operator -- (){
 
-    *this = *this - 1;
-
-    if(!rangoFecha()) throw Invalida();
+    *this += -1;
 
     return *this;
 }
@@ -105,11 +99,9 @@ Fecha& Fecha::operator -- (){
  */
 Fecha Fecha::operator -- (int){
 
-    Fecha aux {*this};
+    Fecha aux = *this;
 
-    *this = *this - 1;
-
-    if(!rangoFecha()) throw Invalida();
+    *this += -1;
 
     return aux;
 }
@@ -118,16 +110,10 @@ Fecha Fecha::operator -- (int){
  * Suma de Fecha + entero
  */
 Fecha Fecha::operator + (int dia){
-    time_t tiempo = time(nullptr);
-    tm* fechaSumada = localtime(&tiempo);
 
-    fechaSumada->tm_mday = this->dia_ + dia;
-    fechaSumada->tm_mon = this->mes_ - 1;
-    fechaSumada->tm_year = this->anno_ - 1900;
+    Fecha fechaAux = *this;
 
-    mktime(fechaSumada);
-
-    Fecha fechaAux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year  + 1900};
+    fechaAux += dia; 
 
     return fechaAux;
 }
@@ -137,30 +123,11 @@ Fecha Fecha::operator + (int dia){
  */
 Fecha Fecha::operator - (int dia){
 
-    time_t tiempo = time(nullptr);
-    tm* fechaSumada = localtime(&tiempo);
+    Fecha fechaAux = *this;
 
-    fechaSumada->tm_mday = this->dia_ - dia;
-    fechaSumada->tm_mon = this->mes_ - 1;
-    fechaSumada->tm_year = this->anno_ - 1900;
-
-    mktime(fechaSumada);
-
-    Fecha fechaAux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year  + 1900};
+    fechaAux += -dia; 
 
     return fechaAux;
-}
-
-/** 
- * Suma de fecha - entero
- */
-Fecha& Fecha::operator += (int dia){
-    
-    *this = *this + dia;
-
-    if(!rangoFecha()) throw Invalida();
-
-    return *this;
 }
 
 /**
@@ -168,93 +135,72 @@ Fecha& Fecha::operator += (int dia){
  */
 Fecha& Fecha::operator -= (int dia){
     
-    *this = *this - dia;
+    *this = *this += - dia;
+
+    return *this;
+}
+
+/** 
+ * Suma de fecha + entero
+ */
+Fecha& Fecha::operator += (int dia){
+
+    time_t tiempo = time(nullptr);
+    tm* fechaSumada = localtime(&tiempo);
+
+    fechaSumada->tm_mday = this->dia_ + dia;
+    fechaSumada->tm_mon = this->mes_ - 1;
+    fechaSumada->tm_year = this->anno_ - 1900;
+
+    mktime(fechaSumada);
+
+    Fecha aux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year + 1900};
 
     if(!rangoFecha()) throw Invalida();
 
+    *this = aux;
+    
     return *this;
 }
 
 /**
  * Imprimir fecha 
  */
-ostream& operator << (ostream& o, Fecha& fecha){
-
-    cout << "hola" << endl;
-
-    const char * diaSemana[] = { "Domingo", "Lunes",
-                             "Martes", "Miércoles",
-                             "Jueves", "Viernes", "Sábado"};
+ostream& operator << (ostream& o, const Fecha& fecha){
 
     time_t tiempo = time(nullptr);
     tm* fechaTiempo = localtime(&tiempo);
 
-    fechaTiempo->tm_mday = fecha.dia_;
-    fechaTiempo->tm_mon = fecha.mes_ - 1;
-    fechaTiempo->tm_year = fecha.anno_ - 1900;
+    fechaTiempo->tm_mday = fecha.dia();
+    fechaTiempo->tm_mon = fecha.mes() - 1;
+    fechaTiempo->tm_year = fecha.anno() - 1900;
 
-    mktime(fechaTiempo);
-
-    o << diaSemana[fechaTiempo->tm_wday] << endl;
+    o << fechaTraducida(fechaTiempo) <<  endl;
     
-
     return o;
 }
 
-ostream& operator << (ostream& o, Fecha fecha){
+char* fechaTraducida(const tm* fecha){
 
-    const char * diaSemana[] = { "Domingo", "Lunes",
-                             "Martes", "Miércoles",
-                             "Jueves", "Viernes", "Sábado"};
+    const char* diaSemana[] = { "Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"};
 
-    time_t tiempo = time(nullptr);
-    tm* fechaTiempo = localtime(&tiempo);
+    const char* mesAnno[] = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Nobiembre", "Diciembre"};
 
-    fechaTiempo->tm_mday = fecha.dia_;
-    fechaTiempo->tm_mon = fecha.mes_ - 1;
-    fechaTiempo->tm_year = fecha.anno_ - 1900;
-
-    mktime(fechaTiempo);
-
-    o << diaSemana[fechaTiempo->tm_wday] << endl;
     
-
-    return o;
+    
 }
 
-int Fecha::dia() const{
-    return dia_;
-}
+int Fecha::dia() const{ return dia_; }
 
-int Fecha::mes() const{
-    return mes_;
-}
+int Fecha::mes() const{ return mes_; }
 
-int Fecha::anno() const{
-    return anno_;
-}
+int Fecha::anno() const{ return anno_; }
 
 int main() {
 
-    Fecha f{11}, a;
+    Fecha f{11,0};
 
-    cout << ++f << endl;
+    cout << f << endl;
 
-    cout << ++f << endl;
-
-    cout << ++f << endl;
-
-    cout << ++f << endl;
-    
-    cout << ++f << endl;
-
-    cout << ++f << endl;
-
-    cout << ++f << endl;
-
-    /*for(int i = 0; i < 367; ++i){
-        cout << f.dia() << "/" << f.mes() << "/" << f.anno() << endl;
-        ++f;
-    }*/
     return 0;
 }
