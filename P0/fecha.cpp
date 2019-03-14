@@ -11,7 +11,7 @@ using namespace std;
  * Constructor de ningun parametro, a los 3
  */
 Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
-    if(!fechaValida()) throw Invalida("Fecha no valida parametros");
+    if(!fechaValida()) throw Invalida("Fecha no valida constructor de enteros");
 }
 
 Fecha::Invalida::Invalida(const char* error){
@@ -22,7 +22,8 @@ Fecha::Invalida::Invalida(const char* error){
  * Constructor de parametro cadena
  */
 Fecha::Fecha(const char* fecha) {
-    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3 || !fechaValida()) throw Invalida("Fecha no valida cadenas");
+    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3 || !fechaValida()) 
+        throw Invalida("Fecha no valida constructor de cadenas");
 }
 
 /**
@@ -161,6 +162,7 @@ Fecha& Fecha::operator += (int dia){
     fechaSumada->tm_mday = this->dia_ + 1;
     fechaSumada->tm_mon = this->mes_ - 1;
     fechaSumada->tm_year = this->anno_ - 1900;
+    fechaSumada->tm_isdst = 0;                  //Comprobar funcionamiento*********************************************************+
 
     mktime(fechaSumada);
 
@@ -219,7 +221,7 @@ int Fecha::anno() const{ return anno_; }
 
 int main() {
 
-    Fecha f{31, 3, 2020};
+    Fecha f{29, 2, 2020};
 
     cout << f << endl;
 
