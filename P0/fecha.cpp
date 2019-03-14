@@ -32,6 +32,7 @@ bool Fecha::fechaValida() {
 
     time_t tiempo_calendario = time(nullptr);
     tm* fechaHoy = localtime(&tiempo_calendario);
+    const int diasMeses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
     if(dia_ == 0){
         dia_ = fechaHoy->tm_mday;
@@ -42,15 +43,20 @@ bool Fecha::fechaValida() {
     if(anno_ == 0){
         anno_ = fechaHoy->tm_year + 1900;   //Años desde 1900
     }
-
-    fechaHoy->tm_mday = dia_;
-    fechaHoy->tm_mon = mes_ - 1;
-    fechaHoy->tm_year = anno_ - 1900;
-
-    mktime(fechaHoy);
-
-    if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || !fechaEnRango())
+ 
+    if(dia_ < 1 || mes_ < 1 || mes_ > 12 || !fechaEnRango())
         return false;
+    if(dia_ > diasMeses[mes_ - 1] && mes_ != 2)
+        return false;
+    else{
+        if(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0)){
+            if(dia_ > diasMeses[mes_ - 1] + 1)
+                return false;
+        }
+        else
+            if(dia_ > diasMeses[mes_ - 1])
+                return false;
+    }
 
     return true;
 }
@@ -213,7 +219,7 @@ int Fecha::anno() const{ return anno_; }
 
 int main() {
 
-    Fecha f{12, 9, 2010};
+    Fecha f{31, 3, 2020};
 
     cout << f << endl;
 
