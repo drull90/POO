@@ -1,8 +1,9 @@
-#include "fecha.hpp"
 #include <iostream>
 #include <stdio.h>
 #include <ctime>
 #include <string.h>
+
+#include "fecha.hpp"
 
 using namespace std;
 
@@ -44,20 +45,14 @@ bool Fecha::fechaValida() {
 
     fechaHoy->tm_mday = dia_;
     fechaHoy->tm_mon = mes_ - 1;
-    fechaHoy->tm_year = anno_ - 1900;   
-
-    cout << "Dia : " << fechaHoy->tm_mday << " | " << dia_ << "Mes : " << fechaHoy->tm_mon + 1 << " | " << mes_ << "año : " << fechaHoy->tm_year + 1900 << " | " << anno_ << endl;
+    fechaHoy->tm_year = anno_ - 1900;
 
     mktime(fechaHoy);
 
-    cout << "Dia : " << fechaHoy->tm_mday << " | " << dia_ << "Mes : " << fechaHoy->tm_mon + 1 << " | " << mes_ << "año : " << fechaHoy->tm_year + 1900 << " | " << anno_ << endl;
-
     if(anno_ != fechaHoy->tm_year + 1900 || mes_ != fechaHoy->tm_mon + 1 || dia_ != fechaHoy->tm_mday || !fechaEnRango())
         return false;
-        
 
     return true;
-    
 }
 
 /**

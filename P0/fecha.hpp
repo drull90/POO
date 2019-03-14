@@ -1,9 +1,7 @@
 #ifndef FECHA_HPP
 #define FECHA_HPP
 
-#include<iostream>
-
-using namespace std;
+#include <iostream>
 
 /**
  * Clase Fecha
@@ -23,7 +21,7 @@ class Fecha {
         Fecha&  operator -= (int);
         Fecha   operator +  (int);
         Fecha   operator -  (int);
-        friend ostream& operator << (ostream& o, const Fecha& fecha);
+        friend std::ostream& operator << (std::ostream& o, const Fecha& fecha);
 
         //Metodos
         int dia() const;
