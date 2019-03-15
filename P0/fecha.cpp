@@ -35,14 +35,11 @@ bool Fecha::fechaValida() {
     tm* fechaHoy = localtime(&tiempo_calendario);
     const int diasMeses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-    dia_ = (dia == 0) ? fechaHoy->tm_mday : dia_;
+    dia_    = (dia_ == 0)   ? fechaHoy->tm_mday         : dia_;
 
-    if(mes_ == 0){
-        mes_ = fechaHoy->tm_mon + 1;        //Mes 0..11
-    }
-    if(anno_ == 0){
-        anno_ = fechaHoy->tm_year + 1900;   //Años desde 1900
-    }
+    mes_    = (mes_ == 0)   ? fechaHoy->tm_mon + 1      : mes_;
+
+    anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
     if(dia_ < 1 || mes_ < 1 || mes_ > 12 || !fechaEnRango())
         return false;
@@ -64,23 +61,14 @@ bool Fecha::fechaValida() {
 /**
  * Comprobar rango de los años de la fecha
  */
-bool Fecha::fechaEnRango(){
-
-    if(this->anno_ < AnnoMinimo || this->anno_ > AnnoMaximo)
-        return false;
-    
-    return true;
+bool Fecha::fechaEnRango(){ 
+    return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
 }
 
 /**
  * Pre incremento
  */
-Fecha& Fecha::operator ++ (){
-
-    *this += 1;
-
-    return *this;
-}
+Fecha& Fecha::operator ++ (){  return *this += 1; }
 
 /**
  * Post incremento
@@ -97,12 +85,7 @@ Fecha Fecha::operator ++ (int){
 /**
  * Pre decremento
  */
-Fecha& Fecha::operator -- (){
-
-    *this += -1;
-
-    return *this;
-}
+Fecha& Fecha::operator -- (){ return *this += -1; }
 
 /**
  * Post decremento
@@ -143,12 +126,7 @@ Fecha Fecha::operator - (int dia){
 /**
  * Resta de fecha - entero
  */
-Fecha& Fecha::operator -= (int dia){
-    
-    *this = *this += - dia;
-
-    return *this;
-}
+Fecha& Fecha::operator -= (int dia){ return *this += -dia; }
 
 /** 
  * Suma de fecha + entero
@@ -158,19 +136,19 @@ Fecha& Fecha::operator += (int dia){
     time_t tiempo = time(nullptr);
     tm* fechaSumada = localtime(&tiempo);
 
-    fechaSumada->tm_mday = this->dia_ + 1;
-    fechaSumada->tm_mon = this->mes_ - 1;
-    fechaSumada->tm_year = this->anno_ - 1900;
-    fechaSumada->tm_isdst = 0;                  //Comprobar funcionamiento*********************************************************+
+    fechaSumada->tm_mday    = this->dia_ + 1;
+    fechaSumada->tm_mon     = this->mes_ - 1;
+    fechaSumada->tm_year    = this->anno_ - 1900;
+    fechaSumada->tm_hour    = 12;
 
     mktime(fechaSumada);
 
     Fecha aux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year + 1900};
 
-    if(!fechaEnRango()) throw Invalida("Fecha no en rango");
-
     *this = aux;
     
+    if(!fechaEnRango()) throw Invalida("Fecha no en rango");
+
     return *this;
 }
 
@@ -182,9 +160,10 @@ ostream& operator << (ostream& o, const Fecha& fecha){
     time_t tiempo = time(nullptr);
     tm* fechaTiempo = localtime(&tiempo);
 
-    fechaTiempo->tm_mday = fecha.dia();
-    fechaTiempo->tm_mon = fecha.mes() - 1;
-    fechaTiempo->tm_year = fecha.anno() - 1900;
+    fechaTiempo->tm_mday    = fecha.dia();
+    fechaTiempo->tm_mon     = fecha.mes() - 1;
+    fechaTiempo->tm_year    = fecha.anno() - 1900;
+    fechaTiempo->tm_hour    = 12;
 
     o << fecha.fechaTraducida(fechaTiempo) <<  endl;
 
@@ -212,17 +191,56 @@ char* Fecha::fechaTraducida(tm* fecha) const{
     return cad;
 }
 
+bool Fecha::operator < (Fecha& fecha){ 
+
+    if(this->anno_ < fecha.anno_) 
+        return true;
+    else{
+        if(this->anno_ > fecha.anno_)
+            return false;
+        else{
+            if(this->mes_ < fecha.mes_)
+                return true;
+            else{
+                if(this->mes_ > fecha.mes_)
+                    return false;
+                else{
+                    if(this->dia_ < fecha.dia_)
+                        return true;
+                    else{
+                        if(this->dia_ > fecha.dia_)
+                            return false;
+                    }
+                }
+            }
+        }
+    }
+    
+    return false;
+}
+
+bool Fecha::operator == (Fecha& fecha){
+    return (this->anno_ == fecha.anno_ && this->mes_ == fecha.mes_ && this->dia_ == fecha.dia_);
+}
+
+bool Fecha::operator > (Fecha& fecha){
+    return fecha < *this;
+}
+
+bool Fecha::operator <= (Fecha& fecha){
+    return !(fecha < * this);
+}
+
+bool Fecha::operator >= (Fecha& fecha){
+    return !(*this < fecha);
+}
+
+bool Fecha::operator != (Fecha& fecha){
+    return !(*this == fecha);
+}
+
 int Fecha::dia() const{ return dia_; }
 
 int Fecha::mes() const{ return mes_; }
 
 int Fecha::anno() const{ return anno_; }
-
-int main() {
-
-    Fecha f{29, 2, 2020};
-
-    cout << f << endl;
-
-    return 0;
-}

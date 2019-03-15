@@ -21,6 +21,12 @@ class Fecha {
         Fecha&  operator -= (int);
         Fecha   operator +  (int);
         Fecha   operator -  (int);
+        bool    operator <  (Fecha&);
+        bool    operator == (Fecha&);
+        bool    operator >  (Fecha&);
+        bool    operator <= (Fecha&);
+        bool    operator >= (Fecha&);
+        bool    operator != (Fecha&);
         friend std::ostream& operator << (std::ostream& o, const Fecha& fecha);
 
         //Metodos
