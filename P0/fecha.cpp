@@ -37,9 +37,6 @@ bool Fecha::fechaValida() {
 
     dia_ = (dia == 0) ? fechaHoy->tm_mday : dia_;
 
-    if(dia_ == 0){
-        dia_ = fechaHoy->tm_mday;
-    }
     if(mes_ == 0){
         mes_ = fechaHoy->tm_mon + 1;        //Mes 0..11
     }
