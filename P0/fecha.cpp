@@ -14,16 +14,16 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
     if(!fechaValida()) throw Invalida("Fecha no valida constructor de enteros");
 }
 
-Fecha::Invalida::Invalida(const char* error){
-    cout << error << endl;
-}
-
 /**
  * Constructor de parametro cadena
  */
 Fecha::Fecha(const char* fecha) {
     if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3 || !fechaValida()) 
         throw Invalida("Fecha no valida constructor de cadenas");
+}
+
+Fecha::Invalida::Invalida(const char* error){
+    cout << error << endl;
 }
 
 /**
@@ -34,6 +34,8 @@ bool Fecha::fechaValida() {
     time_t tiempo_calendario = time(nullptr);
     tm* fechaHoy = localtime(&tiempo_calendario);
     const int diasMeses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    dia_ = (dia == 0) ? fechaHoy->tm_mday : dia_;
 
     if(dia_ == 0){
         dia_ = fechaHoy->tm_mday;
