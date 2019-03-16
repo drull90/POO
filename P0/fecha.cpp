@@ -11,25 +11,34 @@ using namespace std;
  * Constructor de ningun parametro, a los 3
  */
 Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
-    if(!fechaValida()) throw Invalida("Fecha no valida constructor de enteros");
+    fechaValida();
 }
 
 /**
  * Constructor de parametro cadena
  */
 Fecha::Fecha(const char* fecha) {
-    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3 || !fechaValida()) 
-        throw Invalida("Fecha no valida constructor de cadenas");
+    if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) 
+        throw Invalida("Cadena fecha introducida no válida");
+    fechaValida();
 }
 
-Fecha::Invalida::Invalida(const char* error){
-    cout << error << endl;
+/**
+ * Constructor clase Invalida
+ */
+Fecha::Invalida::Invalida(char* error) : error_{error} {}
+
+/**
+ * Metodo que devuelve el tipo de error
+ */
+char* Fecha::Invalida::por_que() const {
+    return error_;
 }
 
 /**
  * Validamos si la fecha es correcta
  */
-bool Fecha::fechaValida() {
+void Fecha::fechaValida() {
 
     time_t tiempo_calendario = time(nullptr);
     tm* fechaHoy = localtime(&tiempo_calendario);
@@ -41,21 +50,21 @@ bool Fecha::fechaValida() {
 
     anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
-    if(dia_ < 1 || mes_ < 1 || mes_ > 12 || !fechaEnRango())
-        return false;
+    if(dia_ < 1 || mes_ < 1 || mes_ > 12)
+        throw Invalida("Fecha fuera de rango");
+    if(!fechaEnRango())
+        throw Invalida("Año fuera del rango");
     if(dia_ > diasMeses[mes_ - 1] && mes_ != 2)
-        return false;
+        throw Invalida("Dia fuera del rango del mes");
     else{
         if(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0)){
             if(dia_ > diasMeses[mes_ - 1] + 1)
-                return false;
+                throw Invalida("Dia fuera del rango del mes");
         }
         else
             if(dia_ > diasMeses[mes_ - 1])
-                return false;
+                throw Invalida("Dia fuera del rango del mes");
     }
-
-    return true;
 }
 
 /**
@@ -147,7 +156,7 @@ Fecha& Fecha::operator += (int dia){
 
     *this = aux;
     
-    if(!fechaEnRango()) throw Invalida("Fecha no en rango");
+    if(!fechaEnRango()) throw Invalida("Año fuera del rango");
 
     return *this;
 }
