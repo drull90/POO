@@ -19,7 +19,7 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
  */
 Fecha::Fecha(const char* fecha) {
     if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) 
-        throw Invalida("Cadena fecha introducida no válida");
+        throw Invalida((char*)"Cadena fecha introducida no válida");
     fechaValida();
 }
 
@@ -51,19 +51,19 @@ void Fecha::fechaValida() {
     anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
     if(dia_ < 1 || mes_ < 1 || mes_ > 12)
-        throw Invalida("Fecha fuera de rango");
+        throw Invalida((char*)"Fecha fuera de rango");
     if(!fechaEnRango())
-        throw Invalida("Año fuera del rango");
+        throw Invalida((char*)"Año fuera del rango");
     if(dia_ > diasMeses[mes_ - 1] && mes_ != 2)
-        throw Invalida("Dia fuera del rango del mes");
+        throw Invalida((char*)"Dia fuera del rango del mes");
     else{
         if(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0)){
             if(dia_ > diasMeses[mes_ - 1] + 1)
-                throw Invalida("Dia fuera del rango del mes");
+                throw Invalida((char*)"Dia fuera del rango del mes");
         }
         else
             if(dia_ > diasMeses[mes_ - 1])
-                throw Invalida("Dia fuera del rango del mes");
+                throw Invalida((char*)"Dia fuera del rango del mes");
     }
 }
 
@@ -156,7 +156,7 @@ Fecha& Fecha::operator += (int dia){
 
     *this = aux;
     
-    if(!fechaEnRango()) throw Invalida("Año fuera del rango");
+    if(!fechaEnRango()) throw Invalida((char*)"Año fuera del rango");
 
     return *this;
 }
