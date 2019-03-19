@@ -37,10 +37,10 @@ class Fecha {
         //Clases
         class Invalida{
             public:
-                Invalida(char*);
-                char* por_que() const;
+                Invalida(const char*);
+                const char* por_que() const;
             private:
-                char* error_;
+                const char* error_;
         };
 
         //Atributos
@@ -49,8 +49,8 @@ class Fecha {
     private:
         int dia_, mes_, anno_;
         void fechaValida();
-        bool fechaEnRango();
-        char* fechaTraducida(tm*) const;
+        bool fechaEnRango() const;
+        const char* fechaTraducida(tm*) const;
 };
 
 #endif
