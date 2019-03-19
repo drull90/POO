@@ -169,9 +169,9 @@ ostream& operator << (ostream& o, const Fecha& fecha){
     time_t tiempo = time(nullptr);
     tm* fechaTiempo = localtime(&tiempo);
 
-    fechaTiempo->tm_mday    = fecha.dia();
-    fechaTiempo->tm_mon     = fecha.mes() - 1;
-    fechaTiempo->tm_year    = fecha.anno() - 1900;
+    fechaTiempo->tm_mday    = fecha.dia_;
+    fechaTiempo->tm_mon     = fecha.mes_ - 1;
+    fechaTiempo->tm_year    = fecha.anno_ - 1900;
     fechaTiempo->tm_hour    = 12;
 
     o << fecha.fechaTraducida(fechaTiempo) <<  endl;
