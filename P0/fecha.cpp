@@ -1,5 +1,4 @@
 #include <iostream>
-#include <stdio.h>
 #include <ctime>
 #include <string.h>
  
@@ -152,9 +151,9 @@ Fecha& Fecha::operator += (int dia){
 
     mktime(fechaSumada);
 
-    Fecha aux {fechaSumada->tm_mday, fechaSumada->tm_mon + 1, fechaSumada->tm_year + 1900};
-
-    *this = aux;
+    this->dia_ 	= fechaSumada->tm_mday;
+    this->mes_ 	= fechaSumada->tm_mon + 1;
+	this->anno_ = fechaSumada->tm_year + 1900;
     
     if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
 
