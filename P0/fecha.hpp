@@ -44,7 +44,7 @@ class Fecha {
         };
 
         //Atributos
-        int AnnoMinimo = 1902, AnnoMaximo = 2037;
+        const int AnnoMinimo = 1902, AnnoMaximo = 2037;
         
     private:
         int dia_, mes_, anno_;
