@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include <string.h>
+#include <cstdio>
  
 #include "fecha.hpp"
 
@@ -25,12 +25,12 @@ Fecha::Fecha(const char* fecha) {
 /**
  * Constructor clase Invalida
  */
-Fecha::Invalida::Invalida(const char* error) : error_{error} {}
+Fecha::Invalida::Invalida(const char* error) noexcept : error_{error} {}
 
 /**
  * Metodo que devuelve el tipo de error
  */
-const char* Fecha::Invalida::por_que() const {
+const char* Fecha::Invalida::por_que() const noexcept {
     return error_;
 }
 
@@ -69,7 +69,7 @@ void Fecha::fechaValida() {
 /**
  * Comprobar rango de los años de la fecha
  */
-bool Fecha::fechaEnRango() const {
+bool Fecha::fechaEnRango() const noexcept{
     return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
 }
 
@@ -110,7 +110,7 @@ Fecha Fecha::operator -- (int){
 /**
  * Suma de Fecha + entero
  */
-Fecha Fecha::operator + (int dia){
+Fecha Fecha::operator + (int dia) const{
 
     Fecha fechaAux = *this;
 
@@ -122,7 +122,7 @@ Fecha Fecha::operator + (int dia){
 /**
  * Resta de Fecha - entero
  */
-Fecha Fecha::operator - (int dia){
+Fecha Fecha::operator - (int dia) const{
 
     Fecha fechaAux = *this;
 
@@ -144,16 +144,16 @@ Fecha& Fecha::operator += (int dia){
     time_t tiempo = time(nullptr);
     tm* fechaSumada = localtime(&tiempo);
 
-    fechaSumada->tm_mday    = this->dia_ + 1;
-    fechaSumada->tm_mon     = this->mes_ - 1;
-    fechaSumada->tm_year    = this->anno_ - 1900;
+    fechaSumada->tm_mday    = (this->dia_ 	+ dia);
+    fechaSumada->tm_mon     = (this->mes_ 	- 1);
+    fechaSumada->tm_year    = (this->anno_ 	- 1900);
     fechaSumada->tm_hour    = 12;
 
     mktime(fechaSumada);
 
     this->dia_ 	= fechaSumada->tm_mday;
-    this->mes_ 	= fechaSumada->tm_mon + 1;
-	this->anno_ = fechaSumada->tm_year + 1900;
+    this->mes_ 	= (fechaSumada->tm_mon + 1);
+	this->anno_ = (fechaSumada->tm_year + 1900);
     
     if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
 
@@ -163,8 +163,9 @@ Fecha& Fecha::operator += (int dia){
 /**
  * Imprimir fecha 
  */
-ostream& operator << (ostream& o, const Fecha& fecha){
+ostream& operator << (ostream& o, const Fecha& fecha) noexcept{
 
+    char buffer[100];
     time_t tiempo = time(nullptr);
     tm* fechaTiempo = localtime(&tiempo);
 
@@ -173,50 +174,31 @@ ostream& operator << (ostream& o, const Fecha& fecha){
     fechaTiempo->tm_year    = fecha.anno_ - 1900;
     fechaTiempo->tm_hour    = 12;
 
-    o << fecha.fechaTraducida(fechaTiempo) <<  endl;
+	strftime(buffer, 100, "%A %d de %B de %G", fechaTiempo);
+
+    o << buffer;
 
     return o;
 }
 
-const char* Fecha::fechaTraducida(tm* fecha) const { 
+bool operator < (const Fecha& fecha, const Fecha& fecha2) noexcept{ 
 
-    const char* diaSemana[] = { "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
-
-    const char* mesAnno[] = { "enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"};
-
-    char* cad;
-    char buffer[20];
-
-    mktime(fecha);
-
-    strcpy(cad, diaSemana[fecha->tm_wday]);
-    snprintf(buffer, 20, " %i de ", fecha->tm_mday);
-    strcat(cad, buffer);
-    strcat(cad, mesAnno[fecha->tm_mon]);
-    snprintf(buffer, 20, " de %i ", fecha->tm_year + 1900);
-    strcat(cad, buffer);
-
-    return cad;
-}
-
-bool Fecha::operator < (Fecha& fecha){ 
-
-    if(this->anno_ < fecha.anno_) 
+    if(fecha.anno_ < fecha2.anno_)
         return true;
     else{
-        if(this->anno_ > fecha.anno_)
+        if(fecha.anno_ > fecha2.anno_)
             return false;
         else{
-            if(this->mes_ < fecha.mes_)
+            if(fecha.mes_ < fecha2.mes_)
                 return true;
             else{
-                if(this->mes_ > fecha.mes_)
+                if(fecha.mes_ > fecha2.mes_)
                     return false;
                 else{
-                    if(this->dia_ < fecha.dia_)
+                    if(fecha.dia_ < fecha2.dia_)
                         return true;
                     else{
-                        if(this->dia_ > fecha.dia_)
+                        if(fecha.dia_ > fecha2.dia_)
                             return false;
                     }
                 }
@@ -227,28 +209,28 @@ bool Fecha::operator < (Fecha& fecha){
     return false;
 }
 
-bool Fecha::operator == (Fecha& fecha){
-    return (this->anno_ == fecha.anno_ && this->mes_ == fecha.mes_ && this->dia_ == fecha.dia_);
+bool operator == (const Fecha& fecha, const Fecha& fecha2) noexcept{
+    return (fecha2.anno_ == fecha.anno_ && fecha2.mes_ == fecha.mes_ && fecha2.dia_ == fecha.dia_);
 }
 
-bool Fecha::operator > (Fecha& fecha){
-    return fecha < *this;
+bool operator > (const Fecha& fecha, const Fecha& fecha2) noexcept{
+    return fecha2 < fecha;
 }
 
-bool Fecha::operator <= (Fecha& fecha){
-    return !(fecha < * this);
+bool operator <= (const Fecha& fecha, const Fecha& fecha2) noexcept{
+    return !(fecha2 < fecha);
 }
 
-bool Fecha::operator >= (Fecha& fecha){
-    return !(*this < fecha);
+bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
+    return !(fecha < fecha2);
 }
 
-bool Fecha::operator != (Fecha& fecha){
-    return !(*this == fecha);
+bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
+    return !(fecha == fecha2);
 }
 
-int Fecha::dia() const{ return dia_; }
+inline int Fecha::dia() 	const noexcept { return dia_; }
 
-int Fecha::mes() const{ return mes_; }
+inline int Fecha::mes() 	const noexcept { return mes_; }
 
-int Fecha::anno() const{ return anno_; }
+inline int Fecha::anno() 	const noexcept { return anno_; }

@@ -19,38 +19,37 @@ class Fecha {
         Fecha   operator -- (int);
         Fecha&  operator += (int);
         Fecha&  operator -= (int);
-        Fecha   operator +  (int);
-        Fecha   operator -  (int);
-        bool    operator <  (Fecha&);
-        bool    operator == (Fecha&);
-        bool    operator >  (Fecha&);
-        bool    operator <= (Fecha&);
-        bool    operator >= (Fecha&);
-        bool    operator != (Fecha&);
-        friend std::ostream& operator << (std::ostream& o, const Fecha& fecha);
+        Fecha   operator +  (int) const;
+        Fecha   operator -  (int) const;
+		friend bool operator <  (const Fecha&, const Fecha&) noexcept;
+		friend bool operator == (const Fecha&, const Fecha&) noexcept;
+		friend bool operator >  (const Fecha&, const Fecha&) noexcept;
+		friend bool operator <= (const Fecha&, const Fecha&) noexcept;
+		friend bool operator >= (const Fecha&, const Fecha&) noexcept;
+		friend bool operator != (const Fecha&, const Fecha&) noexcept;
+        friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
 
         //Metodos
-        int dia() const;
-        int mes() const;
-        int anno() const;
+        inline int dia() 	const noexcept;
+        inline int mes() 	const noexcept;
+        inline int anno()	const noexcept;
 
         //Clases
         class Invalida{
             public:
-                Invalida(const char*);
-                const char* por_que() const;
+                Invalida(const char*) noexcept;
+                const char* por_que() const noexcept;
             private:
                 const char* error_;
         };
 
         //Atributos
-        const int AnnoMinimo = 1902, AnnoMaximo = 2037;
+        static const int AnnoMinimo = 1902, AnnoMaximo = 2037;
         
     private:
         int dia_, mes_, anno_;
         void fechaValida();
-        bool fechaEnRango() const;
-        const char* fechaTraducida(tm*) const;
+        bool fechaEnRango() const noexcept;
 };
 
 #endif
