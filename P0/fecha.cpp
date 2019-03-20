@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <ctime>
 #include <string.h>
-
+ 
 #include "fecha.hpp"
 
 using namespace std;
@@ -19,19 +19,19 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
  */
 Fecha::Fecha(const char* fecha) {
     if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3) 
-        throw Invalida((char*)"Cadena fecha introducida no válida");
+        throw Invalida((const char*)"Cadena fecha introducida no válida");
     fechaValida();
 }
 
 /**
  * Constructor clase Invalida
  */
-Fecha::Invalida::Invalida(char* error) : error_{error} {}
+Fecha::Invalida::Invalida(const char* error) : error_{error} {}
 
 /**
  * Metodo que devuelve el tipo de error
  */
-char* Fecha::Invalida::por_que() const {
+const char* Fecha::Invalida::por_que() const {
     return error_;
 }
 
@@ -51,26 +51,26 @@ void Fecha::fechaValida() {
     anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
     if(dia_ < 1 || mes_ < 1 || mes_ > 12)
-        throw Invalida((char*)"Fecha fuera de rango");
+        throw Invalida((const char*)"Fecha fuera de rango");
     if(!fechaEnRango())
         throw Invalida((char*)"Año fuera del rango");
     if(dia_ > diasMeses[mes_ - 1] && mes_ != 2)
-        throw Invalida((char*)"Dia fuera del rango del mes");
+        throw Invalida((const char*)"Dia fuera del rango del mes");
     else{
         if(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0)){
             if(dia_ > diasMeses[mes_ - 1] + 1)
-                throw Invalida((char*)"Dia fuera del rango del mes");
+                throw Invalida((const char*)"Dia fuera del rango del mes");
         }
         else
             if(dia_ > diasMeses[mes_ - 1])
-                throw Invalida((char*)"Dia fuera del rango del mes");
+                throw Invalida((const char*)"Dia fuera del rango del mes");
     }
 }
 
 /**
  * Comprobar rango de los años de la fecha
  */
-bool Fecha::fechaEnRango(){ 
+bool Fecha::fechaEnRango() const {
     return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
 }
 
@@ -156,7 +156,7 @@ Fecha& Fecha::operator += (int dia){
 
     *this = aux;
     
-    if(!fechaEnRango()) throw Invalida((char*)"Año fuera del rango");
+    if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
 
     return *this;
 }
@@ -179,7 +179,7 @@ ostream& operator << (ostream& o, const Fecha& fecha){
     return o;
 }
 
-char* Fecha::fechaTraducida(tm* fecha) const{
+const char* Fecha::fechaTraducida(tm* fecha) const { 
 
     const char* diaSemana[] = { "domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"};
 
