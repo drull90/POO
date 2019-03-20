@@ -174,6 +174,8 @@ ostream& operator << (ostream& o, const Fecha& fecha) noexcept{
     fechaTiempo->tm_year    = fecha.anno_ - 1900;
     fechaTiempo->tm_hour    = 12;
 
+    mktime(fechaTiempo);
+
 	strftime(buffer, 100, "%A %d de %B de %G", fechaTiempo);
 
     o << buffer;
