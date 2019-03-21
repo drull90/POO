@@ -230,9 +230,3 @@ bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
 bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
     return !(fecha == fecha2);
 }
-
-inline int Fecha::dia() 	const noexcept { return dia_; }
-
-inline int Fecha::mes() 	const noexcept { return mes_; }
-
-inline int Fecha::anno() 	const noexcept { return anno_; }

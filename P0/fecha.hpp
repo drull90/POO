@@ -32,9 +32,9 @@ class Fecha {
         friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
 
         // Metodos
-        inline int dia() 	const noexcept;
-        inline int mes() 	const noexcept;
-        inline int anno()	const noexcept;
+        inline int dia() const noexcept     { return dia_; };
+        inline int mes() const noexcept     { return mes_; };
+        inline int anno() const noexcept    { return anno_;};
 
         //Clases
         class Invalida{
