@@ -76,7 +76,7 @@ bool Fecha::fechaEnRango() const noexcept{
 /**
  * Pre incremento
  */
-Fecha& Fecha::operator ++ (){  return *this += 1; }
+Fecha& Fecha::operator ++ (){  return (*this += 1); }
 
 /**
  * Post incremento
@@ -93,7 +93,7 @@ Fecha Fecha::operator ++ (int){
 /**
  * Pre decremento
  */
-Fecha& Fecha::operator -- (){ return *this += -1; }
+Fecha& Fecha::operator -- (){ return (*this += -1); }
 
 /**
  * Post decremento
@@ -134,7 +134,7 @@ Fecha Fecha::operator - (int dia) const{
 /**
  * Resta de fecha - entero
  */
-Fecha& Fecha::operator -= (int dia){ return *this += -dia; }
+Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 
 /** 
  * Suma de fecha + entero

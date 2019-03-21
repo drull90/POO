@@ -8,11 +8,12 @@
  */
 class Fecha {
     public:
-        //Constructores
+        // Constructores
         Fecha(const char*);
         explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
         
-        //Sobrecargas de operadores
+        // Sobrecargas de operadores
+		// Operadores internos
         Fecha&  operator ++ ();
         Fecha&  operator -- ();
         Fecha   operator ++ (int);
@@ -21,6 +22,7 @@ class Fecha {
         Fecha&  operator -= (int);
         Fecha   operator +  (int) const;
         Fecha   operator -  (int) const;
+		// Operadores externos
 		friend bool operator <  (const Fecha&, const Fecha&) noexcept;
 		friend bool operator == (const Fecha&, const Fecha&) noexcept;
 		friend bool operator >  (const Fecha&, const Fecha&) noexcept;
@@ -29,7 +31,7 @@ class Fecha {
 		friend bool operator != (const Fecha&, const Fecha&) noexcept;
         friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
 
-        //Metodos
+        // Metodos
         inline int dia() 	const noexcept;
         inline int mes() 	const noexcept;
         inline int anno()	const noexcept;
