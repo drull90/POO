@@ -76,7 +76,7 @@ bool Fecha::fechaEnRango() const noexcept{
 /**
  * Pre incremento
  */
-Fecha& Fecha::operator ++ (){  return *this += 1; }
+Fecha& Fecha::operator ++ (){  return (*this += 1); }
 
 /**
  * Post incremento
@@ -93,7 +93,7 @@ Fecha Fecha::operator ++ (int){
 /**
  * Pre decremento
  */
-Fecha& Fecha::operator -- (){ return *this += -1; }
+Fecha& Fecha::operator -- (){ return (*this += -1); }
 
 /**
  * Post decremento
@@ -134,7 +134,7 @@ Fecha Fecha::operator - (int dia) const{
 /**
  * Resta de fecha - entero
  */
-Fecha& Fecha::operator -= (int dia){ return *this += -dia; }
+Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 
 /** 
  * Suma de fecha + entero
@@ -173,6 +173,8 @@ ostream& operator << (ostream& o, const Fecha& fecha) noexcept{
     fechaTiempo->tm_mon     = fecha.mes_ - 1;
     fechaTiempo->tm_year    = fecha.anno_ - 1900;
     fechaTiempo->tm_hour    = 12;
+
+    mktime(fechaTiempo);
 
 	strftime(buffer, 100, "%A %d de %B de %G", fechaTiempo);
 
@@ -228,9 +230,3 @@ bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
 bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
     return !(fecha == fecha2);
 }
-
-inline int Fecha::dia() 	const noexcept { return dia_; }
-
-inline int Fecha::mes() 	const noexcept { return mes_; }
-
-inline int Fecha::anno() 	const noexcept { return anno_; }
