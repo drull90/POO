@@ -4,24 +4,27 @@
 class Cadena{
 
 	public:
-		explicit Cadena(unsigned int = 0, char = ' ');
-		Cadena(const Cadena&);
-		Cadena(const char*);
-		~Cadena();
+		explicit Cadena(unsigned int = 0, char = ' ');				// OK
+		Cadena(const Cadena&);										// OK
+		Cadena(const char*);										// OK
 
-		Cadena& 	operator 	= 	(Cadena&);
-		Cadena& 	operator 	+= 	(Cadena&);
-		Cadena& 	operator	+	(Cadena&);
-		Cadena& 	operator	<	(Cadena&);
-		Cadena& 	operator	>	(Cadena&);
-		Cadena& 	operator	<=	(Cadena&);
-		Cadena& 	operator	>=	(Cadena&);
-		Cadena& 	operator	==	(Cadena&);
-		Cadena& 	operator	!=	(Cadena&);
-		const char	operator	[]	(int n) const;
-		char		operator	[]	(int n);
+		~Cadena();													// OK
 
-		unsigned int 	length();
+		Cadena& 		operator 	= 	(Cadena&);					// OK
+		Cadena& 		operator 	= 	(const char*);				// OK
+		friend Cadena& 	operator 	+= 	(Cadena&, Cadena&);			// OK
+		friend Cadena 	operator	+	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	<	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	>	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	<=	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	>=	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	==	(Cadena&, Cadena&);			// OK
+		friend bool 	operator	!=	(Cadena&, Cadena&);			// OK	
+		const char		operator	[]	(int n) const;
+		char			operator	[]	(int n);
+		operator 		const char* 	() const;					// OK
+
+		unsigned int 	length();									// OK
 		char 			at(int n);
 		const char		at(int n) const;
 		char* 			substr(unsigned int, unsigned int);
