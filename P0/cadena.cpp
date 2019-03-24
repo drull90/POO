@@ -40,9 +40,7 @@ Cadena::~Cadena(){
 
 }
 
-unsigned int Cadena::length(){
-	return tam_;
-}
+unsigned int Cadena::length() { return tam_; }
 
 /**
  * Asignacion cad a cad
@@ -68,6 +66,7 @@ Cadena& Cadena::operator = (const char* cad) {
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad);
+	strcat(s_, "\0");
 
 	return *this;
 }
@@ -97,12 +96,7 @@ Cadena operator + (Cadena& cad1, Cadena& cad2){
 	return aux;
 }
 
-bool operator < 	(Cadena& cad1, Cadena& cad2) { 
-	
-	puts(cad1);
-	puts(cad2);
-
-	return (strcmp(cad1, cad2) < 0); }
+bool operator < 	(Cadena& cad1, Cadena& cad2) { return (strcmp(cad1, cad2) < 0); }
 
 bool operator == 	(Cadena& cad1, Cadena& cad2) { return (strcmp(cad1, cad2) == 0); }
 
@@ -114,4 +108,51 @@ bool operator >= 	(Cadena& cad1, Cadena& cad2) { return (!(cad1 < cad2)); }
 
 bool operator != 	(Cadena& cad1, Cadena& cad2) { return (!(cad1 == cad2)); }
 
+const char 	Cadena::operator [] (unsigned int n) const{ return s_[n]; }
+
+char 		Cadena::operator [] (unsigned int n) { return s_[n]; }
+
+const char Cadena::at(unsigned int n) const { 
+
+	if(n >= tam_) throw out_of_range("Índice no válido");
+
+	return s_[n]; 
+}
+
+char Cadena::at(unsigned int n) { 
+	
+	if(n >= tam_) throw out_of_range("Índice no válido");
+
+	return s_[n]; 
+}
+
+Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
+
+	if(indice > tam_ || indice + tam > tam_) throw out_of_range("Rango substr no válido");
+
+	char* buff = new char[tam];
+	int j = 0;
+	for(unsigned int i = indice; i <= indice+tam; ++i){
+		buff[j] = s_[i];
+		++j;
+	}
+
+	Cadena aux{buff};
+
+	delete[] buff;
+
+	return aux;
+}
+
 Cadena::operator const char*() const { return s_; }
+
+int main(){
+
+	Cadena grande("NIHIL NOVVM SVB SOLEM");
+
+	Cadena nuevo = grande.substr(6, 5);
+
+	cout << nuevo << endl;
+
+	return 0;
+}

@@ -20,14 +20,14 @@ class Cadena{
 		friend bool 	operator	>=	(Cadena&, Cadena&);			// OK
 		friend bool 	operator	==	(Cadena&, Cadena&);			// OK
 		friend bool 	operator	!=	(Cadena&, Cadena&);			// OK	
-		const char		operator	[]	(int n) const;
-		char			operator	[]	(int n);
+		const char		operator	[]	(unsigned int n) const;		// OK
+		char			operator	[]	(unsigned int n);			// OK
 		operator 		const char* 	() const;					// OK
 
 		unsigned int 	length();									// OK
-		char 			at(int n);
-		const char		at(int n) const;
-		char* 			substr(unsigned int, unsigned int);
+		char 			at(unsigned int);							// OK
+		const char		at(unsigned int) const;						// OK
+		Cadena 			substr(unsigned int, unsigned int) const;				
 		
 	private:
 		char* s_;
