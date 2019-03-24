@@ -5,7 +5,7 @@
 
 using namespace std;
 
-Cadena::Cadena(unsigned int tam, char c) : tam_{tam} {
+Cadena::Cadena(unsigned int tam, char c) noexcept : tam_{tam} {
 
 	unsigned int i = 0;
 	s_ = new char[tam + 1];				// Caracter terminador \0 +1
@@ -16,7 +16,7 @@ Cadena::Cadena(unsigned int tam, char c) : tam_{tam} {
 
 }
 
-Cadena::Cadena(const Cadena& cad){
+Cadena::Cadena(const Cadena& cad) noexcept {
 
 	tam_ = cad.tam_;
 	s_ = new char[tam_ + 1];
@@ -24,7 +24,7 @@ Cadena::Cadena(const Cadena& cad){
 
 }
 
-Cadena::Cadena(const char* cad){
+Cadena::Cadena(const char* cad) noexcept {
 
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
@@ -40,12 +40,12 @@ Cadena::~Cadena(){
 
 }
 
-unsigned int Cadena::length() { return tam_; }
+inline unsigned int Cadena::length() noexcept { return tam_; }
 
 /**
  * Asignacion cad a cad
  */
-Cadena& Cadena::operator = (Cadena& cad) {
+Cadena& Cadena::operator = (Cadena& cad) noexcept {
 
 	if(this != &cad){
 		delete[] s_;
@@ -60,7 +60,7 @@ Cadena& Cadena::operator = (Cadena& cad) {
 /**
  * Asignacion const char* a cad
  */
-Cadena& Cadena::operator = (const char* cad) {
+Cadena& Cadena::operator = (const char* cad) noexcept {
 
 	delete[] s_;
 	tam_ = strlen(cad);
@@ -71,7 +71,7 @@ Cadena& Cadena::operator = (const char* cad) {
 	return *this;
 }
 
-Cadena& operator +=	(Cadena& cad1, Cadena& cad2){
+Cadena& operator +=	(Cadena& cad1, Cadena& cad2) noexcept {
 
 	char* aux;
 	aux = new char[cad1.tam_ + cad2.tam_ + 1];
@@ -88,7 +88,7 @@ Cadena& operator +=	(Cadena& cad1, Cadena& cad2){
 	return cad1;
 }
 
-Cadena operator + (Cadena& cad1, Cadena& cad2){
+Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
 
 	Cadena aux = cad1;
 	aux += cad2;
@@ -96,27 +96,27 @@ Cadena operator + (Cadena& cad1, Cadena& cad2){
 	return aux;
 }
 
-bool operator < 	(Cadena& cad1, Cadena& cad2) { return (strcmp(cad1, cad2) < 0); }
+bool operator < 	(Cadena& cad1, Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
 
-bool operator == 	(Cadena& cad1, Cadena& cad2) { return (strcmp(cad1, cad2) == 0); }
+bool operator == 	(Cadena& cad1, Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
 
-bool operator > 	(Cadena& cad1, Cadena& cad2) { return (cad2 < cad1); }
+bool operator > 	(Cadena& cad1, Cadena& cad2) noexcept { return (cad2 < cad1); }
 
-bool operator <= 	(Cadena& cad1, Cadena& cad2) { return (!(cad2 < cad1)); }
+bool operator <= 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad2 < cad1)); }
 
-bool operator >= 	(Cadena& cad1, Cadena& cad2) { return (!(cad1 < cad2)); }
+bool operator >= 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad1 < cad2)); }
 
-bool operator != 	(Cadena& cad1, Cadena& cad2) { return (!(cad1 == cad2)); }
+bool operator != 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
 
-const char 	Cadena::operator [] (unsigned int n) const{ return s_[n]; }
+const char 	Cadena::operator [] (unsigned int n) const noexcept{ return s_[n]; }
 
-char 		Cadena::operator [] (unsigned int n) { return s_[n]; }
+char 		Cadena::operator [] (unsigned int n) noexcept{ return s_[n]; }
 
 const char Cadena::at(unsigned int n) const { 
 
 	if(n >= tam_) throw out_of_range("Índice no válido");
 
-	return s_[n]; 
+	return s_[n];
 }
 
 char Cadena::at(unsigned int n) { 
@@ -145,14 +145,3 @@ Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
 }
 
 Cadena::operator const char*() const { return s_; }
-
-int main(){
-
-	Cadena grande("NIHIL NOVVM SVB SOLEM");
-
-	Cadena nuevo = grande.substr(6, 5);
-
-	cout << nuevo << endl;
-
-	return 0;
-}
