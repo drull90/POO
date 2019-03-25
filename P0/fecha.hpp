@@ -7,21 +7,21 @@
  * Clase Fecha
  */
 class Fecha {
-    public:
-        // Constructores
-        Fecha(const char*);
-        explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
-        
-        // Sobrecargas de operadores
+	public:
+		// Constructores
+		Fecha(const char*);
+		explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
+		
+		// Sobrecargas de operadores
 		// Operadores internos
-        Fecha&  operator ++ ();
-        Fecha&  operator -- ();
-        Fecha   operator ++ (int);
-        Fecha   operator -- (int);
-        Fecha&  operator += (int);
-        Fecha&  operator -= (int);
-        Fecha   operator +  (int) const;
-        Fecha   operator -  (int) const;
+		Fecha&  operator ++ ();
+		Fecha&  operator -- ();
+		Fecha   operator ++ (int);
+		Fecha   operator -- (int);
+		Fecha&  operator += (int);
+		Fecha&  operator -= (int);
+		Fecha   operator +  (int) const;
+		Fecha   operator -  (int) const;
 		// Operadores externos
 		friend bool operator <  (const Fecha&, const Fecha&) noexcept;
 		friend bool operator == (const Fecha&, const Fecha&) noexcept;
@@ -29,29 +29,29 @@ class Fecha {
 		friend bool operator <= (const Fecha&, const Fecha&) noexcept;
 		friend bool operator >= (const Fecha&, const Fecha&) noexcept;
 		friend bool operator != (const Fecha&, const Fecha&) noexcept;
-        friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
+		friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
 
-        // Metodos
-        inline int dia() const noexcept     { return dia_; };
-        inline int mes() const noexcept     { return mes_; };
-        inline int anno() const noexcept    { return anno_;};
+		// Metodos
+		inline int dia() const noexcept     { return dia_; };
+		inline int mes() const noexcept     { return mes_; };
+		inline int anno() const noexcept    { return anno_;};
 
-        //Clases
-        class Invalida{
-            public:
-                Invalida(const char*) noexcept;
-                const char* por_que() const noexcept;
-            private:
-                const char* error_;
-        };
+		//Clases
+		class Invalida{
+			public:
+				Invalida(const char*) noexcept;
+				const char* por_que() const noexcept;
+			private:
+				const char* error_;
+		};
 
-        //Atributos
-        static const int AnnoMinimo = 1902, AnnoMaximo = 2037;
-        
-    private:
-        int dia_, mes_, anno_;
-        void fechaValida();
-        bool fechaEnRango() const noexcept;
+		//Atributos
+		static const int AnnoMinimo = 1902, AnnoMaximo = 2037;
+		
+	private:
+		int dia_, mes_, anno_;
+		void fechaValida();
+		bool fechaEnRango() const noexcept;
 };
 
 #endif
