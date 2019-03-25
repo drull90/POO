@@ -71,26 +71,26 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	return *this;
 }
 
-Cadena& operator +=	(Cadena& cad1, Cadena& cad2) noexcept {
+Cadena& Cadena::operator +=	(Cadena& cad2) noexcept {
 
 	char* aux;
-	aux = new char[cad1.tam_ + cad2.tam_ + 1];
-	strcat(aux, cad1.s_);
+	aux = new char[tam_ + cad2.tam_ + 1];
+	strcat(aux, s_);
 	strcat(aux, cad2.s_);
 
-	delete[] cad1.s_;
-	cad1.tam_ = strlen(aux);
-	cad1.s_ = new char[cad1.tam_ + 1];
-	strcpy(cad1.s_, aux);
+	delete[] s_;
+	tam_ = strlen(aux);
+	s_ = new char[tam_ + 1];
+	strcpy(s_, aux);
 
 	delete[] aux;
 
-	return cad1;
+	return *this;
 }
 
-Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
+Cadena Cadena::operator + (Cadena& cad2) noexcept {
 
-	Cadena aux = cad1;
+	Cadena aux = *this;
 	aux += cad2;
 
 	return aux;
@@ -145,3 +145,12 @@ Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
 }
 
 Cadena::operator const char*() const { return s_; }
+
+int main(){
+
+	Cadena a{"XXX"};
+
+	cout << (a < "xxx") << endl;
+
+	return 0;
+}
