@@ -1,6 +1,6 @@
 
-DIR 		=../Tests-auto/
-
+all: fecha_check cadena_check
+	make -f Make_check.mk fecha_check cadena_check
 
 fecha_check:	
 	make -f Make_check.mk fecha_check

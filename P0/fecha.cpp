@@ -145,16 +145,16 @@ Fecha& Fecha::operator += (int dia){
 	time_t tiempo = time(nullptr);
 	tm* fechaSumada = localtime(&tiempo);
 
-	fechaSumada->tm_mday    = (this->dia_ 	+ dia);
-	fechaSumada->tm_mon     = (this->mes_ 	- 1);
-	fechaSumada->tm_year    = (this->anno_ 	- 1900);
+	fechaSumada->tm_mday	= (dia_		+ dia);
+	fechaSumada->tm_mon     = (mes_		- 1);
+	fechaSumada->tm_year    = (anno_	- 1900);
 	fechaSumada->tm_hour    = 12;
 
 	mktime(fechaSumada);
 
-	this->dia_ 	= fechaSumada->tm_mday;
-	this->mes_ 	= (fechaSumada->tm_mon + 1);
-	this->anno_ = (fechaSumada->tm_year + 1900);
+	dia_ 	= fechaSumada->tm_mday;
+	mes_ 	= (fechaSumada->tm_mon + 1);
+	anno_ 	= (fechaSumada->tm_year + 1900);
 	
 	if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
 
@@ -232,13 +232,4 @@ bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
 
 bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return !(fecha == fecha2);
-}
-
-int main(){
-
-	Fecha f{10, 1, 1998};
-
-	cout << f << endl;
-
-	return 0;
 }
