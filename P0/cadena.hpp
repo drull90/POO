@@ -12,8 +12,8 @@ class Cadena{
 
 		Cadena& 		operator 	= 	(Cadena&) noexcept;					// OK
 		Cadena& 		operator 	= 	(const char*) noexcept;				// OK
-		Cadena& 		operator 	+= 	(Cadena&) noexcept;		// OK
-		Cadena 			operator	+	(Cadena&) noexcept;		// OK
+		Cadena& 		operator 	+= 	(Cadena&) noexcept;					// OK
+		Cadena 			operator	+	(Cadena&) noexcept;					// OK
 		friend bool 	operator	<	(Cadena&, Cadena&) noexcept;		// OK
 		friend bool 	operator	>	(Cadena&, Cadena&) noexcept;		// OK
 		friend bool 	operator	<=	(Cadena&, Cadena&) noexcept;		// OK
