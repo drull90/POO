@@ -71,26 +71,26 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	return *this;
 }
 
-Cadena& Cadena::operator +=	(Cadena& cad2) noexcept {
+Cadena& operator +=	(Cadena& cad1, Cadena& cad2) noexcept {
 
 	char* aux;
-	aux = new char[tam_ + cad2.tam_ + 1];
-	strcat(aux, s_);
+	aux = new char[cad1.tam_ + cad2.tam_ + 1];
+	strcat(aux, cad1.s_);
 	strcat(aux, cad2.s_);
 
-	delete[] s_;
-	tam_ = strlen(aux);
-	s_ = new char[tam_ + 1];
-	strcpy(s_, aux);
+	delete[] cad1.s_;
+	cad1.tam_ = strlen(aux);
+	cad1.s_ = new char[cad1.tam_ + 1];
+	strcpy(cad1.s_, aux);
 
 	delete[] aux;
 
-	return *this;
+	return cad1;
 }
 
-Cadena Cadena::operator + (Cadena& cad2) noexcept {
+Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
 
-	Cadena aux = *this;
+	Cadena aux = cad1;
 	aux += cad2;
 
 	return aux;
@@ -110,7 +110,7 @@ bool operator != 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad1 == cad2
 
 const char 	Cadena::operator [] (unsigned int n) const noexcept{ return s_[n]; }
 
-char 		Cadena::operator [] (unsigned int n) noexcept{ return s_[n]; }
+char& 		Cadena::operator [] (unsigned int n) noexcept{ return s_[n]; }
 
 const char Cadena::at(unsigned int n) const { 
 
@@ -119,7 +119,7 @@ const char Cadena::at(unsigned int n) const {
 	return s_[n];
 }
 
-char Cadena::at(unsigned int n) { 
+char& Cadena::at(unsigned int n) { 
 	
 	if(n >= tam_) throw out_of_range("Índice no válido");
 
@@ -149,6 +149,7 @@ Cadena::operator const char*() const { return s_; }
 int main(){
 
 	Cadena a{"XXX"};
+
 
 	cout << (a < "xxx") << endl;
 

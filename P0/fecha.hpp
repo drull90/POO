@@ -22,6 +22,7 @@ class Fecha {
 		Fecha&  operator -= (int);
 		Fecha   operator +  (int) const;
 		Fecha   operator -  (int) const;
+		
 		// Operadores externos
 		friend bool operator <  (const Fecha&, const Fecha&) noexcept;
 		friend bool operator == (const Fecha&, const Fecha&) noexcept;

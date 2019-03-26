@@ -4,30 +4,39 @@
 class Cadena{
 
 	public:
-		explicit Cadena(unsigned int = 0, char = ' ') noexcept;				// OK
-		Cadena(const Cadena&) noexcept;										// OK
-		Cadena(const char*) noexcept;										// OK
+		// Constructores
+		Cadena(const Cadena&) 							noexcept;
+		Cadena(const char*) 							noexcept;
+		explicit Cadena(unsigned int = 0, char = ' ') 	noexcept;
+		
+		// Destructor
+		~Cadena();
 
-		~Cadena();															// OK
+		// Sobrecarga de operadores
+		// Operadores internos
+		Cadena& 		operator 	= 	(Cadena&) 				noexcept;
+		Cadena& 		operator 	= 	(const char*) 			noexcept;
+		const char		operator	[]	(unsigned int n) const 	noexcept;
+		char&			operator	[]	(unsigned int n) 		noexcept;
 
-		Cadena& 		operator 	= 	(Cadena&) noexcept;					// OK
-		Cadena& 		operator 	= 	(const char*) noexcept;				// OK
-		Cadena& 		operator 	+= 	(Cadena&) noexcept;					// OK
-		Cadena 			operator	+	(Cadena&) noexcept;					// OK
-		friend bool 	operator	<	(Cadena&, Cadena&) noexcept;		// OK
-		friend bool 	operator	>	(Cadena&, Cadena&) noexcept;		// OK
-		friend bool 	operator	<=	(Cadena&, Cadena&) noexcept;		// OK
-		friend bool 	operator	>=	(Cadena&, Cadena&) noexcept;		// OK
-		friend bool 	operator	==	(Cadena&, Cadena&) noexcept;		// OK
-		friend bool 	operator	!=	(Cadena&, Cadena&) noexcept;		// OK	
-		const char		operator	[]	(unsigned int n) const noexcept;	// OK
-		char			operator	[]	(unsigned int n) noexcept;			// OK
-		operator 		const char* 	() const;							// OK
+		// Operadores externos
+		friend Cadena& 	operator 	+= 	(Cadena&, Cadena&) 	noexcept;
+		friend Cadena 	operator	+	(Cadena&, Cadena&) 	noexcept;
+		friend bool 	operator	<	(Cadena&, Cadena&) 	noexcept;
+		friend bool 	operator	>	(Cadena&, Cadena&)	noexcept;
+		friend bool 	operator	<=	(Cadena&, Cadena&) 	noexcept;
+		friend bool 	operator	>=	(Cadena&, Cadena&) 	noexcept;
+		friend bool 	operator	==	(Cadena&, Cadena&) 	noexcept;
+		friend bool 	operator	!=	(Cadena&, Cadena&) 	noexcept;
+		
+		// Operadores de conversion
+		operator const char*() const;
 
-		inline unsigned int length() noexcept;								// OK
-		char 			at(unsigned int);									// OK
-		const char		at(unsigned int) const;								// OK
-		Cadena 			substr(unsigned int, unsigned int) const;				
+		// Metodos
+		inline unsigned int length() noexcept;
+		char& 			at(unsigned int);
+		const char		at(unsigned int) const;
+		Cadena 			substr(unsigned int, unsigned int) const;	
 		
 	private:
 		char* s_;
