@@ -74,6 +74,27 @@ bool Fecha::fechaEnRango() const noexcept{
 	return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
 }
 
+Fecha& Fecha::operator += (int dia){
+
+	time_t tiempo = time(nullptr);
+	tm* fechaSumada = localtime(&tiempo);
+
+	fechaSumada->tm_mday	= (dia_		+ dia);
+	fechaSumada->tm_mon     = (mes_		- 1);
+	fechaSumada->tm_year    = (anno_	- 1900);
+	fechaSumada->tm_hour    = 12;
+
+	mktime(fechaSumada);
+
+	dia_ 	= fechaSumada->tm_mday;
+	mes_ 	= (fechaSumada->tm_mon + 1);
+	anno_ 	= (fechaSumada->tm_year + 1900);
+	
+	if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
+
+	return *this;
+}
+
 /**
  * Pre incremento
  */
@@ -140,26 +161,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 /** 
  * Suma de fecha + entero
  */
-Fecha& Fecha::operator += (int dia){
 
-	time_t tiempo = time(nullptr);
-	tm* fechaSumada = localtime(&tiempo);
-
-	fechaSumada->tm_mday	= (dia_		+ dia);
-	fechaSumada->tm_mon     = (mes_		- 1);
-	fechaSumada->tm_year    = (anno_	- 1900);
-	fechaSumada->tm_hour    = 12;
-
-	mktime(fechaSumada);
-
-	dia_ 	= fechaSumada->tm_mday;
-	mes_ 	= (fechaSumada->tm_mon + 1);
-	anno_ 	= (fechaSumada->tm_year + 1900);
-	
-	if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
-
-	return *this;
-}
 
 /**
  * Imprimir fecha 
@@ -170,7 +172,6 @@ ostream& operator << (ostream& o, const Fecha& fecha) noexcept{
 	time_t tiempo = time(nullptr);
 	tm* fechaTiempo = localtime(&tiempo);
 	locale::global(std::locale(""));
-
 
 	fechaTiempo->tm_mday    = fecha.dia_;
 	fechaTiempo->tm_mon     = fecha.mes_ - 1;

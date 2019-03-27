@@ -150,7 +150,6 @@ int main(){
 
 	Cadena a{"XXX"};
 
-
 	cout << (a < "xxx") << endl;
 
 	return 0;
