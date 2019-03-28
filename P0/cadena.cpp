@@ -71,21 +71,19 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	return *this;
 }
 
-Cadena& operator +=	(Cadena& cad1, Cadena& cad2) noexcept {
+Cadena Cadena::operator +=	(const Cadena& cad) noexcept {
 
-	char* aux;
-	aux = new char[cad1.tam_ + cad2.tam_ + 1];
-	strcat(aux, cad1.s_);
-	strcat(aux, cad2.s_);
+	char* buff = new char[tam_ + cad.tam_ + 1];
 
-	delete[] cad1.s_;
-	cad1.tam_ = strlen(aux);
-	cad1.s_ = new char[cad1.tam_ + 1];
-	strcpy(cad1.s_, aux);
+	strcpy(buff, s_);
+	strcat(buff, cad.s_);
+	strcat(buff, "\0");
 
-	delete[] aux;
+	Cadena aux {buff};
 
-	return cad1;
+	delete[] buff;
+
+	return aux;
 }
 
 Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
@@ -96,17 +94,17 @@ Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
 	return aux;
 }
 
-bool operator < 	(Cadena& cad1, Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
+bool operator < 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
 
-bool operator == 	(Cadena& cad1, Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
+bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
 
-bool operator > 	(Cadena& cad1, Cadena& cad2) noexcept { return (cad2 < cad1); }
+bool operator > 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (cad2 < cad1); }
 
-bool operator <= 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad2 < cad1)); }
+bool operator <= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad2 < cad1)); }
 
-bool operator >= 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad1 < cad2)); }
+bool operator >= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 < cad2)); }
 
-bool operator != 	(Cadena& cad1, Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
+bool operator != 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
 
 const char 	Cadena::operator [] (unsigned int n) const noexcept{ return s_[n]; }
 
@@ -148,9 +146,11 @@ Cadena::operator const char*() const { return s_; }
 
 int main(){
 
-	Cadena a{"XXX"};
+	const Cadena a{"XXX"};
 
-	cout << (a < "xxx") << endl;
+	//puts(a);
+
+	cout << ("xxx" < a) << endl;
 
 	return 0;
 }

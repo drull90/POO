@@ -20,14 +20,17 @@ class Cadena{
 		char&			operator	[]	(unsigned int n) 		noexcept;
 
 		// Operadores externos
-		friend Cadena& 	operator 	+= 	(Cadena&, Cadena&) 	noexcept;
-		friend Cadena 	operator	+	(Cadena&, Cadena&) 	noexcept;
-		friend bool 	operator	<	(Cadena&, Cadena&) 	noexcept;
-		friend bool 	operator	>	(Cadena&, Cadena&)	noexcept;
-		friend bool 	operator	<=	(Cadena&, Cadena&) 	noexcept;
-		friend bool 	operator	>=	(Cadena&, Cadena&) 	noexcept;
-		friend bool 	operator	==	(Cadena&, Cadena&) 	noexcept;
-		friend bool 	operator	!=	(Cadena&, Cadena&) 	noexcept;
+		// Concatenacion
+		Cadena	 		operator 	+= 	(const Cadena&) 				noexcept;
+		friend Cadena 	operator	+	(const Cadena&, const Cadena&) 	noexcept;
+
+		// Comparacion
+		bool 	operator	<	(const Cadena&) 	noexcept;
+		friend bool 	operator	>	(const Cadena&, const Cadena&)	noexcept;
+		friend bool 	operator	<=	(const Cadena&, const Cadena&) 	noexcept;
+		friend bool 	operator	>=	(const Cadena&, const Cadena&) 	noexcept;
+		friend bool 	operator	==	(const Cadena&, const Cadena&) 	noexcept;
+		friend bool 	operator	!=	(const Cadena&, const Cadena&) 	noexcept;
 		
 		// Operadores de conversion
 		operator const char*() const;
