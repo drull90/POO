@@ -7,7 +7,7 @@ class Cadena{
 		// Constructores
 		Cadena(const Cadena&) 							noexcept;
 		Cadena(const char*) 							noexcept;
-		explicit Cadena(unsigned int = 0, char = ' ') 	noexcept;
+		explicit Cadena(unsigned long int  = 0, char = ' ') 	noexcept;
 		
 		// Destructor
 		~Cadena();
@@ -17,20 +17,34 @@ class Cadena{
 		Cadena& 		operator 	= 	(Cadena&) 				noexcept;
 		Cadena& 		operator 	= 	(const char*) 			noexcept;
 		const char		operator	[]	(unsigned int n) const 	noexcept;
-		char&			operator	[]	(unsigned int n) 		noexcept;
+		char&			operator	[]	(unsigned int n) 		noexcept;		
 
 		// Operadores externos
 		// Concatenacion
-		Cadena	 		operator 	+= 	(const Cadena&) 				noexcept;
 		friend Cadena 	operator	+	(const Cadena&, const Cadena&) 	noexcept;
+		friend Cadena&	operator 	+= 	(Cadena&, const Cadena&) 		noexcept;
 
-		// Comparacion
-		bool 	operator	<	(const Cadena&) 	noexcept;
+		//Comparacion
+		// Como el compilador no sabe que metodo usar al pasar const char* y Cadena, ya que puede transformar
+		// Cadena a const char* o const char* a cadena, hay que sobrecargar 2 veces mas los operadores para dejarlo claro
+		friend bool 	operator	<	(const Cadena&, const char*)	noexcept;
+		friend bool 	operator	>	(const Cadena&, const char*)	noexcept;
+		friend bool 	operator	<=	(const Cadena&, const char*) 	noexcept;
+		friend bool 	operator	>=	(const Cadena&, const char*) 	noexcept;
+		friend bool 	operator	!=	(const Cadena&, const char*) 	noexcept;
+		friend bool 	operator	==	(const Cadena&, const char*) 	noexcept;
 		friend bool 	operator	>	(const Cadena&, const Cadena&)	noexcept;
+		friend bool 	operator 	<	(const Cadena&, const Cadena&)	noexcept;
 		friend bool 	operator	<=	(const Cadena&, const Cadena&) 	noexcept;
 		friend bool 	operator	>=	(const Cadena&, const Cadena&) 	noexcept;
 		friend bool 	operator	==	(const Cadena&, const Cadena&) 	noexcept;
 		friend bool 	operator	!=	(const Cadena&, const Cadena&) 	noexcept;
+		friend bool 	operator	<	(const char*,  	const Cadena&)	noexcept;
+		friend bool 	operator	>	(const char*, 	const Cadena&)	noexcept;
+		friend bool 	operator	<=	(const char*, 	const Cadena&) 	noexcept;
+		friend bool 	operator	>=	(const char*, 	const Cadena&) 	noexcept;
+		friend bool 	operator	!=	(const char*, 	const Cadena&) 	noexcept;
+		friend bool 	operator	==	(const char*, 	const Cadena&) 	noexcept;
 		
 		// Operadores de conversion
 		operator const char*() const;
@@ -43,7 +57,7 @@ class Cadena{
 		
 	private:
 		char* s_;
-		unsigned int tam_;
+		unsigned long int tam_;
 
 };
 
