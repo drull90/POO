@@ -70,26 +70,26 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	return *this;
 }
 
-Cadena& operator +=	(Cadena& cad1, const Cadena& cad2) noexcept {
+Cadena& Cadena::operator +=	(const Cadena& cad2) noexcept {
 
-	int tam = cad1.tam_ + cad2.tam_ + 1;
+	int tam = this->tam_ + cad2.tam_ + 1;
 
 	char* buff = new char[tam];
 
-	strcpy(buff, cad1.s_);
+	strcpy(buff, this->s_);
 	strcat(buff, cad2.s_);
 	strcat(buff, "\0");
 
-	delete[] cad1.s_;
+	delete[] this->s_;
 
-	cad1.tam_ = tam;
-	cad1.s_ = new char[tam];
+	this->tam_ = tam;
+	this->s_ = new char[tam];
 
-	strcpy(cad1.s_, buff);
+	strcpy(this->s_, buff);
 
 	delete[] buff;
 
-	return cad1;
+	return *this;
 }
 
 Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
@@ -105,6 +105,12 @@ bool operator < 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (str
 bool operator <		(const Cadena& cad1, const char* cad2)	 noexcept { return (strcmp(cad1, cad2) < 0); }
 
 bool operator <		(const char* cad1, 	 const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
+
+bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
+
+bool operator == 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
+
+bool operator == 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
 
 bool operator > 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (cad2 < cad1); }
 
@@ -123,12 +129,6 @@ bool operator >= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(
 bool operator >= 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad1 < cad2)); }
 
 bool operator >= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 < cad2)); }
-
-bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
-
-bool operator == 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
-
-bool operator == 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
 
 bool operator != 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
 
@@ -173,3 +173,9 @@ Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
 }
 
 Cadena::operator const char*() const { return s_; }
+
+int main(){
+
+
+	return 0;
+}
