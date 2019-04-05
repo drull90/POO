@@ -1,6 +1,7 @@
 #include <iostream>
 #include <ctime>
 #include <cstdio>
+#include <cstring>
 #include <clocale>
  
 #include "fecha.hpp"
@@ -15,12 +16,19 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
 }
 
 /**
- * Constructor de parametro cadena
+ * Constructor de parametro const char*
  */
 Fecha::Fecha(const char* fecha) {
 	if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3)
 		throw Invalida((const char*)"Cadena fecha introducida no válida");
 	fechaValida();
+}
+
+Fecha::~Fecha(){
+	delete[] fecha;
+	dia_ 	= 0;
+	mes_ 	= 0;
+	anno_ 	= 0;
 }
 
 /**
@@ -74,6 +82,9 @@ bool Fecha::fechaEnRango() const noexcept{
 	return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
 }
 
+/**
+ * Suma con asignacion
+ */
 Fecha& Fecha::operator += (int dia){
 
 	time_t tiempo = time(nullptr);
@@ -158,53 +169,49 @@ Fecha Fecha::operator - (int dia) const{
  */
 Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 
-/** 
- * Suma de fecha + entero
- */
-
-
 /**
  * Imprimir fecha 
  */
-ostream& operator << (ostream& o, const Fecha& fecha) noexcept{
+Fecha::operator const char* () noexcept{
 
-	char buffer[100];
+	fecha = new char[50];
 	time_t tiempo = time(nullptr);
 	tm* fechaTiempo = localtime(&tiempo);
 	locale::global(std::locale(""));
 
-	fechaTiempo->tm_mday    = fecha.dia_;
-	fechaTiempo->tm_mon     = fecha.mes_ - 1;
-	fechaTiempo->tm_year    = fecha.anno_ - 1900;
+	fechaTiempo->tm_mday    = this->dia_;
+	fechaTiempo->tm_mon     = this->mes_ - 1;
+	fechaTiempo->tm_year    = this->anno_ - 1900;
 	fechaTiempo->tm_hour    = 12;
 
 	mktime(fechaTiempo);
 
-	strftime(buffer, 100, "%A %e de %B de %G", fechaTiempo);
+	strftime(fecha, 100, "%A %e de %B de %G", fechaTiempo);
 
-	o << buffer;
-
-	return o;
+	return fecha;
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator < (const Fecha& fecha, const Fecha& fecha2) noexcept{ 
 
-	if(fecha.anno_ < fecha2.anno_)
+	if(fecha.anno() < fecha2.anno())
 		return true;
 	else{
-		if(fecha.anno_ > fecha2.anno_)
+		if(fecha.anno() > fecha2.anno())
 			return false;
 		else{
-			if(fecha.mes_ < fecha2.mes_)
+			if(fecha.mes() < fecha2.mes())
 				return true;
 			else{
-				if(fecha.mes_ > fecha2.mes_)
+				if(fecha.mes() > fecha2.mes())
 					return false;
 				else{
-					if(fecha.dia_ < fecha2.dia_)
+					if(fecha.mes() < fecha2.mes())
 						return true;
 					else{
-						if(fecha.dia_ > fecha2.dia_)
+						if(fecha.mes() > fecha2.mes())
 							return false;
 					}
 				}
@@ -215,22 +222,37 @@ bool operator < (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return false;
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator == (const Fecha& fecha, const Fecha& fecha2) noexcept{
-	return (fecha2.anno_ == fecha.anno_ && fecha2.mes_ == fecha.mes_ && fecha2.dia_ == fecha.dia_);
+	return (fecha2.anno() == fecha.anno() && fecha2.mes() == fecha.mes() && fecha2.dia() == fecha.dia());
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator > (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return fecha2 < fecha;
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator <= (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return !(fecha2 < fecha);
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return !(fecha < fecha2);
 }
 
+/**
+ * Operador de comparacion de fecha
+ */
 bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return !(fecha == fecha2);
 }

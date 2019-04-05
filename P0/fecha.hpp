@@ -11,6 +11,9 @@ class Fecha {
 		// Constructores
 		Fecha(const char*);
 		explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
+
+		// Destructor
+		~Fecha();
 		
 		// Sobrecargas de operadores
 		// Operadores internos
@@ -22,15 +25,7 @@ class Fecha {
 		Fecha&  operator -= (int);
 		Fecha   operator +  (int) const;
 		Fecha   operator -  (int) const;
-		
-		// Operadores externos
-		friend bool operator <  (const Fecha&, const Fecha&) noexcept;
-		friend bool operator == (const Fecha&, const Fecha&) noexcept;
-		friend bool operator >  (const Fecha&, const Fecha&) noexcept;
-		friend bool operator <= (const Fecha&, const Fecha&) noexcept;
-		friend bool operator >= (const Fecha&, const Fecha&) noexcept;
-		friend bool operator != (const Fecha&, const Fecha&) noexcept;
-		friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
+		operator const char* ()	noexcept;
 
 		// Metodos
 		inline int dia() const noexcept     { return dia_; };
@@ -51,8 +46,17 @@ class Fecha {
 		
 	private:
 		int dia_, mes_, anno_;
+		char* fecha;
 		void fechaValida();
 		bool fechaEnRango() const noexcept;
 };
+
+//Operadores externos
+bool operator <  (const Fecha&, const Fecha&) noexcept;
+bool operator == (const Fecha&, const Fecha&) noexcept;
+bool operator >  (const Fecha&, const Fecha&) noexcept;
+bool operator <= (const Fecha&, const Fecha&) noexcept;
+bool operator >= (const Fecha&, const Fecha&) noexcept;
+bool operator != (const Fecha&, const Fecha&) noexcept;
 
 #endif
