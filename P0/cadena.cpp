@@ -39,7 +39,7 @@ Cadena::~Cadena(){
 
 }
 
-inline unsigned int Cadena::length() noexcept { return tam_; }
+inline unsigned long int Cadena::length() noexcept { return tam_; }
 
 /**
  * Asignacion cad a cad
