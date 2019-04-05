@@ -14,20 +14,20 @@ class Cadena{
 
 		// Sobrecarga de operadores
 		// Operadores internos
-		Cadena& 		operator 	= 	(Cadena&) 				noexcept;
-		Cadena& 		operator 	= 	(const char*) 			noexcept;
-		const char		operator	[]	(unsigned int n) const 	noexcept;
-		char&			operator	[]	(unsigned int n) 		noexcept;
-		Cadena&			operator 	+= 	(const Cadena&) 		noexcept;
+		Cadena& 		operator 	= 	(Cadena&) 						noexcept;
+		Cadena& 		operator 	= 	(const char*) 					noexcept;
+		const char		operator	[]	(unsigned long int n) const 	noexcept;
+		char&			operator	[]	(unsigned long int n) 			noexcept;
+		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
 		
 		// Operadores de conversion
 		operator const char*() const;
 
 		// Metodos
-		inline unsigned int length() noexcept;
-		char& 			at(unsigned int);
-		const char		at(unsigned int) const;
-		Cadena 			substr(unsigned int, unsigned int) const;	
+		inline unsigned long int length() noexcept;
+		char& 			at(unsigned long int);
+		const char		at(unsigned long int) const;
+		Cadena 			substr(unsigned long int, unsigned long int) const;	
 		
 	private:
 		char* s_;

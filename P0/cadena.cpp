@@ -92,7 +92,7 @@ Cadena& Cadena::operator +=	(const Cadena& cad2) noexcept {
 	return *this;
 }
 
-Cadena operator + (Cadena& cad1, Cadena& cad2) noexcept {
+Cadena operator + (const Cadena& cad1, const Cadena& cad2) noexcept {
 
 	Cadena aux = cad1;
 	aux += cad2;
@@ -136,25 +136,25 @@ bool operator != 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(
 
 bool operator != 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 == cad2)); }
 
-const char 	Cadena::operator [] (unsigned int n) const noexcept{ return s_[n]; }
+const char 	Cadena::operator [] (unsigned long int n) const noexcept{ return s_[n]; }
 
-char& 		Cadena::operator [] (unsigned int n) noexcept{ return s_[n]; }
+char& 		Cadena::operator [] (unsigned long int n) noexcept{ return s_[n]; }
 
-const char Cadena::at(unsigned int n) const { 
+const char Cadena::at(unsigned long int n) const { 
 
 	if(n >= tam_) throw out_of_range("Índice no válido");
 
 	return s_[n];
 }
 
-char& Cadena::at(unsigned int n) { 
+char& Cadena::at(unsigned long int n) { 
 	
 	if(n >= tam_) throw out_of_range("Índice no válido");
 
 	return s_[n]; 
 }
 
-Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
+Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 
 	if(indice > tam_ || indice + tam > tam_) throw out_of_range("Rango substr no válido");
 
@@ -173,9 +173,3 @@ Cadena Cadena::substr(unsigned int indice, unsigned int tam) const {
 }
 
 Cadena::operator const char*() const { return s_; }
-
-int main(){
-
-
-	return 0;
-}
