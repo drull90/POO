@@ -30,6 +30,7 @@ class Cadena{
 		Cadena 			substr(unsigned long int, unsigned long int) const;	
 		
 	private:
+		// Atributos
 		char* s_;
 		unsigned long int tam_;
 

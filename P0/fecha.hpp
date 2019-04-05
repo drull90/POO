@@ -1,8 +1,6 @@
 #ifndef FECHA_HPP
 #define FECHA_HPP
 
-#include <iostream>
-
 /**
  * Clase Fecha
  */

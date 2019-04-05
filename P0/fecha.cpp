@@ -1,12 +1,7 @@
-#include <iostream>
-#include <ctime>
 #include <cstdio>
-#include <cstring>
-#include <clocale>
+#include <iostream>
  
 #include "fecha.hpp"
-
-using namespace std;
 
 /**
  * Constructor de ningun parametro, a los 3
@@ -177,7 +172,7 @@ Fecha::operator const char* () noexcept{
 	fecha = new char[50];
 	time_t tiempo = time(nullptr);
 	tm* fechaTiempo = localtime(&tiempo);
-	locale::global(std::locale(""));
+	std::locale::global(std::locale(""));
 
 	fechaTiempo->tm_mday    = this->dia_;
 	fechaTiempo->tm_mon     = this->mes_ - 1;

@@ -2,8 +2,9 @@
 #include <cstring>
 #include "cadena.hpp"
 
-using namespace std;
-
+/**
+ * Constructor tam y char, tam, o predeterminado
+ */
 Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
 
 	unsigned int i = 0;
@@ -15,6 +16,9 @@ Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
 
 }
 
+/**
+ * Constructor de copia
+ */
 Cadena::Cadena(const Cadena& cad) noexcept {
 
 	tam_ = cad.tam_;
@@ -23,6 +27,9 @@ Cadena::Cadena(const Cadena& cad) noexcept {
 
 }
 
+/**
+ * Constructor de conversion const char* a Cadena
+ */
 Cadena::Cadena(const char* cad) noexcept {
 
 	tam_ = strlen(cad);
@@ -32,6 +39,9 @@ Cadena::Cadena(const char* cad) noexcept {
 
 }
 
+/**
+ * Destructor
+ */
 Cadena::~Cadena(){
 
 	delete[] s_;
@@ -39,6 +49,9 @@ Cadena::~Cadena(){
 
 }
 
+/**
+ * Muestra tamaño de la cadena
+ */
 inline unsigned long int Cadena::length() noexcept { return tam_; }
 
 /**
@@ -70,6 +83,9 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	return *this;
 }
 
+/**
+ * Concatenacion con asignacion
+ */
 Cadena& Cadena::operator +=	(const Cadena& cad2) noexcept {
 
 	int tam = this->tam_ + cad2.tam_ + 1;
@@ -92,6 +108,9 @@ Cadena& Cadena::operator +=	(const Cadena& cad2) noexcept {
 	return *this;
 }
 
+/**
+ * Concatenacion
+ */
 Cadena operator + (const Cadena& cad1, const Cadena& cad2) noexcept {
 
 	Cadena aux = cad1;
@@ -100,63 +119,132 @@ Cadena operator + (const Cadena& cad1, const Cadena& cad2) noexcept {
 	return aux;
 }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator < 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator <		(const Cadena& cad1, const char* cad2)	 noexcept { return (strcmp(cad1, cad2) < 0); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator <		(const char* cad1, 	 const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator == 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator == 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator > 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (cad2 < cad1); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator > 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (cad2 < cad1); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator > 	(const char* cad1, 	 const Cadena& cad2) noexcept { return (cad2 < cad1); }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator <= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad2 < cad1)); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator <= 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad2 < cad1)); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator <= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad2 < cad1)); }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator >= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 < cad2)); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator >= 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad1 < cad2)); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator >= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 < cad2)); }
 
+/**
+ * Comparacion Cadena Cadena
+ */
 bool operator != 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
 
+/**
+ * Comparaion Cadena const char*
+ */
 bool operator != 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad1 == cad2)); }
 
+/**
+ * Comparacion const char* Cadena
+ */
 bool operator != 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 == cad2)); }
 
+/**
+ * Operador [] para acceder a elemento Cadena constante
+ */
 const char 	Cadena::operator [] (unsigned long int n) const noexcept{ return s_[n]; }
 
+/**
+ * Operador [] para acceder a elemento Cadena
+ */
 char& 		Cadena::operator [] (unsigned long int n) noexcept{ return s_[n]; }
 
+/**
+ * Metodo para acceder a elemento Cadena constante
+ */
 const char Cadena::at(unsigned long int n) const { 
 
-	if(n >= tam_) throw out_of_range("Índice no válido");
+	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
 	return s_[n];
 }
 
+/**
+ * Metodo para acceder a elemento Cadena
+ */
 char& Cadena::at(unsigned long int n) { 
 	
-	if(n >= tam_) throw out_of_range("Índice no válido");
+	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
 	return s_[n]; 
 }
 
+/**
+ * Metodo para devolver un substring de la cadena
+ */
 Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 
-	if(indice > tam_ || indice + tam > tam_) throw out_of_range("Rango substr no válido");
+	if(indice > tam_ || indice + tam > tam_) throw std::out_of_range("Rango substr no válido");
 
 	char* buff = new char[tam];
 	int j = 0;
@@ -172,4 +260,7 @@ Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 	return aux;
 }
 
+/**
+ * Operador de conversion de Cadena a const char*
+ */
 Cadena::operator const char*() const { return s_; }
