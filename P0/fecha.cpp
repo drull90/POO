@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <iostream>
- 
+#include <cstring>
 #include "fecha.hpp"
 
 /**
@@ -17,14 +17,6 @@ Fecha::Fecha(const char* fecha) {
 	if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3)
 		throw Invalida((const char*)"Cadena fecha introducida no válida");
 	fechaValida();
-}
-
-Fecha::~Fecha(){
-	if(fecha != NULL)
-		delete[] fecha;
-	dia_ 	= 0;
-	mes_ 	= 0;
-	anno_ 	= 0;
 }
 
 /**
@@ -170,7 +162,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
  */
 Fecha::operator const char* () noexcept{
 
-	fecha = new char[50];
+	static char* fecha = new char[50];
 	time_t tiempo = time(nullptr);
 	tm* fechaTiempo = localtime(&tiempo);
 	std::locale::global(std::locale(""));
@@ -182,7 +174,7 @@ Fecha::operator const char* () noexcept{
 
 	mktime(fechaTiempo);
 
-	strftime(fecha, 100, "%A %e de %B de %G", fechaTiempo);
+	strftime(fecha, 50, "%A %e de %B de %G", fechaTiempo);
 
 	return fecha;
 }

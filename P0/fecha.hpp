@@ -9,9 +9,6 @@ class Fecha {
 		// Constructores
 		Fecha(const char*);
 		explicit Fecha(int dia = 0, int mes = 0, int anno = 0);
-
-		// Destructor
-		~Fecha();
 		
 		// Sobrecargas de operadores
 		// Operadores internos
@@ -44,7 +41,6 @@ class Fecha {
 		
 	private:
 		int dia_, mes_, anno_;
-		char* fecha;
 		void fechaValida();
 		bool fechaEnRango() const noexcept;
 };
