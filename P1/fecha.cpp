@@ -19,11 +19,15 @@ Fecha::Fecha(const char* fecha) {
 	fechaValida();
 }
 
+/**
+ * Destructor
+ */
 Fecha::~Fecha(){
-	delete[] fecha;
-	dia_ 	= 0;
-	mes_ 	= 0;
+	if(fecha != NULL)
+		delete[] fecha;
 	anno_ 	= 0;
+	mes_ 	= 0;
+	dia_ 	= 0;
 }
 
 /**
@@ -167,7 +171,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 /**
  * Imprimir fecha 
  */
-Fecha::operator const char* () noexcept{
+const char* Fecha::cadena() noexcept{
 
 	fecha = new char[50];
 	time_t tiempo = time(nullptr);
@@ -250,4 +254,46 @@ bool operator >= (const Fecha& fecha, const Fecha& fecha2) noexcept{
  */
 bool operator != (const Fecha& fecha, const Fecha& fecha2) noexcept{
 	return !(fecha == fecha2);
+}
+
+/**
+ * Imprimir fecha 
+ */
+std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept {
+
+	char buffer[100];
+	time_t tiempo = time(nullptr);
+	tm* fechaTiempo = localtime(&tiempo);
+	std::locale::global(std::locale(""));
+
+	fechaTiempo->tm_mday    = fecha.dia_;
+	fechaTiempo->tm_mon     = fecha.mes_ - 1;
+	fechaTiempo->tm_year    = fecha.anno_ - 1900;
+	fechaTiempo->tm_hour    = 12;
+
+	mktime(fechaTiempo);
+
+	strftime(buffer, 100, "%A %e de %B de %G", fechaTiempo);
+
+	o << buffer;
+
+	return o;
+}
+
+/**
+ * Leer fecha
+ */
+std::istream& operator >> (std::istream& i, const Fecha& fecha) noexcept {
+
+
+	return i;
+}
+
+int main(){
+
+	Fecha f;
+
+	std::cout << f << std::endl;
+
+	return 0;
 }

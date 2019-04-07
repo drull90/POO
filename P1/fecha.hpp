@@ -1,6 +1,8 @@
 #ifndef FECHA_HPP
 #define FECHA_HPP
 
+#include <iostream>
+
 /**
  * Clase Fecha
  */
@@ -23,12 +25,17 @@ class Fecha {
 		Fecha&  operator -= (int);
 		Fecha   operator +  (int) const;
 		Fecha   operator -  (int) const;
-		operator const char* ()	noexcept;
+		
+		// Operadores externos
+		friend std::ostream& operator << (std::ostream&, const Fecha&) noexcept;
+		friend std::istream& operator >> (std::istream&, const Fecha&) noexcept;
+
 
 		// Metodos
 		inline int dia() const noexcept     { return dia_; };
 		inline int mes() const noexcept     { return mes_; };
 		inline int anno() const noexcept    { return anno_;};
+		const char* cadena() noexcept;
 
 		//Clases
 		class Invalida{

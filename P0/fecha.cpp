@@ -20,7 +20,8 @@ Fecha::Fecha(const char* fecha) {
 }
 
 Fecha::~Fecha(){
-	delete[] fecha;
+	if(fecha != NULL)
+		delete[] fecha;
 	dia_ 	= 0;
 	mes_ 	= 0;
 	anno_ 	= 0;
