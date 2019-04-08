@@ -160,7 +160,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 /**
  * Imprimir fecha 
  */
-Fecha::operator const char* () noexcept{
+const char* Fecha::cadena() noexcept{
 
 	static char* fecha = new char[50];
 	time_t tiempo = time(nullptr);
@@ -177,6 +177,18 @@ Fecha::operator const char* () noexcept{
 	strftime(fecha, 50, "%A %e de %B de %G", fechaTiempo);
 
 	return fecha;
+}
+
+/**
+ * Operador <<
+ */
+std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept{
+
+	char* buff = new char[50];
+
+
+
+	return o;
 }
 
 /**
