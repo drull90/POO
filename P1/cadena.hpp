@@ -6,6 +6,7 @@ class Cadena{
 	public:
 		// Constructores
 		Cadena(const Cadena&) 									noexcept;
+		Cadena(Cadena&&)										noexcept;
 		Cadena(const char*) 									noexcept;
 		explicit Cadena(unsigned long int  = 0, char = ' ') 	noexcept;
 		
@@ -14,8 +15,9 @@ class Cadena{
 
 		// Sobrecarga de operadores
 		// Operadores internos
-		Cadena& 		operator 	= 	(Cadena&) 						noexcept;
+		Cadena& 		operator 	= 	(const Cadena&) 				noexcept;
 		Cadena& 		operator 	= 	(const char*) 					noexcept;
+		Cadena&			operator 	=	(Cadena&&)						noexcept;
 		const char		operator	[]	(unsigned long int n) const 	noexcept;
 		char&			operator	[]	(unsigned long int n) 			noexcept;
 		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;

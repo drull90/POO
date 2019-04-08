@@ -19,9 +19,8 @@ Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
 /**
  * Constructor de copia
  */
-Cadena::Cadena(const Cadena& cad) noexcept {
+Cadena::Cadena(const Cadena& cad) noexcept : tam_{cad.tam_} {
 
-	tam_ = cad.tam_;
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad.s_);
 

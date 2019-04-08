@@ -21,12 +21,22 @@ Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
 /**
  * Constructor de copia
  */
-Cadena::Cadena(const Cadena& cad) noexcept {
+Cadena::Cadena(const Cadena& cad) noexcept : tam_{cad.tam_} {
 
-	tam_ = cad.tam_;
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad.s_);
 
+}
+
+/**
+ * Constructor de movimiento
+ */
+Cadena::Cadena(Cadena&& cadena) noexcept : tam_{cadena.tam_} {
+
+	s_ = cadena.s_;	// Copiamos la direccion de memoria
+	cadena.s_ = nullptr;
+	tam_ = cadena.tam_;
+	cadena.tam_ = 0;
 }
 
 /**
@@ -59,7 +69,7 @@ inline unsigned long int Cadena::length() noexcept { return tam_; }
 /**
  * Asignacion cad a cad
  */
-Cadena& Cadena::operator = (Cadena& cad) noexcept {
+Cadena& Cadena::operator = (const Cadena& cad) noexcept {
 
 	if(this != &cad){
 		delete[] s_;
@@ -81,6 +91,18 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad);
 	strcat(s_, "\0");
+
+	return *this;
+}
+/**
+ * Asignacion con movimiento
+ */
+Cadena&	Cadena::operator = (Cadena&& cad) noexcept {
+
+	s_ = cad.s_;
+	cad.s_ = nullptr;
+	tam_ = cad.tam_;
+	cad.tam_ = 0;
 
 	return *this;
 }
