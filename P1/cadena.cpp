@@ -246,9 +246,8 @@ std::istream& operator >> (std::istream& i, Cadena& cad) {
 	char *buff = new char[32];
 	i >> buff;
 
-	Cadena aux{buff};
+	cad = buff;
 	delete[] buff;
-	cad = aux;
 
 	return i;
 }
