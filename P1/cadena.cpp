@@ -2,6 +2,8 @@
 #include <cstring>
 #include "cadena.hpp"
 
+#include <iostream>
+
 /**
  * Constructor tam y char, tam, o predeterminado
  */
@@ -122,32 +124,12 @@ Cadena operator + (const Cadena& cad1, const Cadena& cad2) noexcept {
 /**
  * Comparacion Cadena Cadena
  */
-bool operator < 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
-
-/**
- * Comparaion Cadena const char*
- */
-bool operator <		(const Cadena& cad1, const char* cad2)	 noexcept { return (strcmp(cad1, cad2) < 0); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator <		(const char* cad1, 	 const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) < 0); }
+bool operator < 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1.c_str(), cad2.c_str()) < 0); }
 
 /**
  * Comparacion Cadena Cadena
  */
-bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1, cad2) == 0); }
-
-/**
- * Comparaion Cadena const char*
- */
-bool operator == 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator == 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (strcmp(cad1, cad2) == 0); }
+bool operator == 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (strcmp(cad1.c_str(), cad2.c_str()) == 0); }
 
 /**
  * Comparacion Cadena Cadena
@@ -155,29 +137,9 @@ bool operator == 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (st
 bool operator > 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (cad2 < cad1); }
 
 /**
- * Comparaion Cadena const char*
- */
-bool operator > 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (cad2 < cad1); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator > 	(const char* cad1, 	 const Cadena& cad2) noexcept { return (cad2 < cad1); }
-
-/**
  * Comparacion Cadena Cadena
  */
 bool operator <= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad2 < cad1)); }
-
-/**
- * Comparaion Cadena const char*
- */
-bool operator <= 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad2 < cad1)); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator <= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad2 < cad1)); }
 
 /**
  * Comparacion Cadena Cadena
@@ -185,29 +147,9 @@ bool operator <= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(
 bool operator >= 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 < cad2)); }
 
 /**
- * Comparaion Cadena const char*
- */
-bool operator >= 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad1 < cad2)); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator >= 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 < cad2)); }
-
-/**
  * Comparacion Cadena Cadena
  */
 bool operator != 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(cad1 == cad2)); }
-
-/**
- * Comparaion Cadena const char*
- */
-bool operator != 	(const Cadena& cad1, const char* cad2) 	 noexcept { return (!(cad1 == cad2)); }
-
-/**
- * Comparacion const char* Cadena
- */
-bool operator != 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(cad1 == cad2)); }
 
 /**
  * Operador [] para acceder a elemento Cadena constante
@@ -261,6 +203,6 @@ Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 }
 
 /**
- * Operador de conversion de Cadena a const char*
+ * funcionque devuelve const char*
  */
-Cadena::operator const char*() const { return s_; }
+const char* Cadena::c_str() const noexcept { return s_; }
