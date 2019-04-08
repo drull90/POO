@@ -1,6 +1,8 @@
 #ifndef CADENA_HPP_
 #define CADENA_HPP_
 
+#include <iostream>
+
 class Cadena{
 
 	public:
@@ -22,6 +24,10 @@ class Cadena{
 		char&			operator	[]	(unsigned long int n) 			noexcept;
 		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
 
+		// Operadores externos
+		friend std::ostream& operator << (std::ostream&, const Cadena&) noexcept;
+		friend std::istream& operator >> (std::istream&, Cadena&);
+
 		// Metodos
 		inline unsigned long int length() noexcept;
 		char& 			at(unsigned long int);
@@ -38,14 +44,14 @@ class Cadena{
 
 // Operadores externos
 // Concatenacion
-Cadena 	operator	+	(const Cadena&, const Cadena&) 	noexcept;
+Cadena 	operator +	(const Cadena&, const Cadena&) noexcept;
 
 //Comparacion
-bool operator >	 (const Cadena&, const Cadena&)	noexcept;
-bool operator <	 (const Cadena&, const Cadena&)	noexcept;
-bool operator <= (const Cadena&, const Cadena&) noexcept;
-bool operator >= (const Cadena&, const Cadena&) noexcept;
-bool operator == (const Cadena&, const Cadena&) noexcept;
-bool operator != (const Cadena&, const Cadena&) noexcept;
+bool 	operator >	(const Cadena&, const Cadena&) noexcept;
+bool 	operator <	(const Cadena&, const Cadena&) noexcept;
+bool 	operator <= (const Cadena&, const Cadena&) noexcept;
+bool 	operator >= (const Cadena&, const Cadena&) noexcept;
+bool 	operator == (const Cadena&, const Cadena&) noexcept;
+bool 	operator != (const Cadena&, const Cadena&) noexcept;
 
 #endif

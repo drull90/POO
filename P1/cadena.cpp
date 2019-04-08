@@ -228,3 +228,31 @@ Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
  * funcionque devuelve const char*
  */
 const char* Cadena::c_str() const noexcept { return s_; }
+
+/**
+ * Operador de inserccion
+ */
+std::ostream& operator << (std::ostream& o, const Cadena& cad) noexcept {
+
+	o << cad.c_str();
+
+	return o;
+}
+
+/**
+ * Operador de extraccion
+ */
+std::istream& operator >> (std::istream& o, const Cadena& cad) noexcept {
+	
+	
+
+}
+
+int main() {
+
+Cadena a{5, 'X'};
+
+	std::cout << a;
+
+	return 0;
+}
