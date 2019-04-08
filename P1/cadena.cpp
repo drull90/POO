@@ -1,8 +1,8 @@
 #include <stdexcept>
 #include <cstring>
-#include "cadena.hpp"
-
 #include <iostream>
+
+#include "cadena.hpp"
 
 /**
  * Constructor tam y char, tam, o predeterminado
@@ -11,9 +11,8 @@ Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
 
 	unsigned int i = 0;
 	s_ = new char[tam + 1];				// Caracter terminador \0 +1
-	for(i = 0; i < tam; ++i){
+	for(i = 0; i < tam; ++i)
 		s_[i] = c;
-	}
 	s_[i] = '\0';
 
 }
@@ -33,10 +32,10 @@ Cadena::Cadena(const Cadena& cad) noexcept : tam_{cad.tam_} {
  */
 Cadena::Cadena(Cadena&& cadena) noexcept : tam_{cadena.tam_} {
 
-	s_ = cadena.s_;	// Copiamos la direccion de memoria
-	cadena.s_ = nullptr;
-	tam_ = cadena.tam_;
+	s_ = cadena.s_;
 	cadena.tam_ = 0;
+	cadena.s_ = nullptr;
+	
 }
 
 /**
@@ -188,7 +187,7 @@ char& 		Cadena::operator [] (unsigned long int n) noexcept{ return s_[n]; }
  */
 const char Cadena::at(unsigned long int n) const { 
 
-	if(n >= tam_) throw std::out_of_range("Índice no válido");
+	if(n >= tam_ || n < 0) throw std::out_of_range("Índice no válido");
 
 	return s_[n];
 }
@@ -198,7 +197,7 @@ const char Cadena::at(unsigned long int n) const {
  */
 char& Cadena::at(unsigned long int n) { 
 	
-	if(n >= tam_) throw std::out_of_range("Índice no válido");
+	if(n >= tam_ || n < 0) throw std::out_of_range("Índice no válido");
 
 	return s_[n]; 
 }
@@ -242,17 +241,14 @@ std::ostream& operator << (std::ostream& o, const Cadena& cad) noexcept {
 /**
  * Operador de extraccion
  */
-std::istream& operator >> (std::istream& o, const Cadena& cad) noexcept {
-	
-	
+std::istream& operator >> (std::istream& i, Cadena& cad) {
 
-}
+	char *buff = new char[32];
+	i >> buff;
 
-int main() {
+	Cadena aux{buff};
+	delete[] buff;
+	cad = aux;
 
-Cadena a{5, 'X'};
-
-	std::cout << a;
-
-	return 0;
+	return i;
 }
