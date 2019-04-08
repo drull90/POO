@@ -29,7 +29,7 @@ class Fecha {
 		inline int dia() const noexcept     { return dia_; };
 		inline int mes() const noexcept     { return mes_; };
 		inline int anno() const noexcept    { return anno_;};
-		const char* cadena() noexcept;
+		const char* cadena() const noexcept;
 
 		//Clases
 		class Invalida{

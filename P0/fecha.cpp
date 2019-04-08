@@ -160,7 +160,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 /**
  * Imprimir fecha 
  */
-Fecha::operator const char* () noexcept{
+Fecha::operator const char* () const noexcept{
 
 	static char* fecha = new char[50];
 	time_t tiempo = time(nullptr);
@@ -174,7 +174,7 @@ Fecha::operator const char* () noexcept{
 
 	mktime(fechaTiempo);
 
-	strftime(fecha, 50, "%A %e de %B de %G", fechaTiempo);
+	strftime(fecha, 50, "%A %e de %B de %Y", fechaTiempo);
 
 	return fecha;
 }

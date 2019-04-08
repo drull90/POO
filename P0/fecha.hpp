@@ -20,7 +20,7 @@ class Fecha {
 		Fecha&  operator -= (int);
 		Fecha   operator +  (int) const;
 		Fecha   operator -  (int) const;
-		operator const char* ()	noexcept;
+		operator const char* ()	const noexcept;
 
 		// Metodos
 		inline int dia() const noexcept     { return dia_; };

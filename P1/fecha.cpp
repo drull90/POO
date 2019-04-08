@@ -160,7 +160,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
 /**
  * Imprimir fecha 
  */
-const char* Fecha::cadena() noexcept{
+const char* Fecha::cadena() const noexcept{
 
 	static char* fecha = new char[50];
 	time_t tiempo = time(nullptr);
@@ -174,21 +174,49 @@ const char* Fecha::cadena() noexcept{
 
 	mktime(fechaTiempo);
 
-	strftime(fecha, 50, "%A %e de %B de %G", fechaTiempo);
+	strftime(fecha, 50, "%A %e de %B de %Y", fechaTiempo);
 
 	return fecha;
 }
 
 /**
- * Operador <<
+ * Operador << inserccion
  */
 std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept{
 
-	char* buff = new char[50];
+	char* buff = new char[11];
 
+	strcpy(buff, fecha.cadena());
 
+	o << buff;
+	delete[] buff;
 
 	return o;
+}
+
+/**
+ * Operador >> extraccion
+ */
+std::istream& operator >> (std::istream& i, Fecha& fecha) {
+
+	int dia, mes, anno;
+
+	fflush(stdin);
+	scanf("%i/%i/%i", &dia, &mes ,&anno);
+
+	fecha.dia_ 	= dia;
+	fecha.mes_ 	= mes;
+	fecha.anno_ = anno;
+
+	try{
+		fecha.fechaValida();
+	}
+	catch(const Fecha::Invalida& e){
+		i.setstate(std::ios_base::failbit);
+		throw;
+	}
+
+	return i;
 }
 
 /**
