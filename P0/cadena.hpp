@@ -40,7 +40,7 @@ class Cadena{
 // Concatenacion
 Cadena 	operator	+	(const Cadena&, const Cadena&) 	noexcept;
 
-//Comparacion
+// Comparacion
 // Como el compilador no sabe que metodo usar al pasar const char* y Cadena, ya que puede transformar
 // Cadena a const char* o const char* a cadena, hay que sobrecargar 2 veces mas los operadores para dejarlo claro
 bool operator <	 (const Cadena&, const char*)	noexcept;
