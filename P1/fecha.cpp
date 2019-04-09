@@ -236,10 +236,10 @@ bool operator < (const Fecha& fecha, const Fecha& fecha2) noexcept{
 				if(fecha.mes() > fecha2.mes())
 					return false;
 				else{
-					if(fecha.mes() < fecha2.mes())
+					if(fecha.dia() < fecha2.dia())
 						return true;
 					else{
-						if(fecha.mes() > fecha2.mes())
+						if(fecha.dia() > fecha2.dia())
 							return false;
 					}
 				}
