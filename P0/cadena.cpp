@@ -49,11 +49,6 @@ Cadena::~Cadena(){
 }
 
 /**
- * Muestra tamaño de la cadena
- */
-inline size_t Cadena::length() noexcept { return tam_; }
-
-/**
  * Asignacion cad a cad
  */
 Cadena& Cadena::operator = (Cadena& cad) noexcept {

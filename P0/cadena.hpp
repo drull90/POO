@@ -1,13 +1,15 @@
 #ifndef CADENA_HPP_
 #define CADENA_HPP_
 
+#include <cstddef>
+
 class Cadena{
 
 	public:
 		// Constructores
 		Cadena(const Cadena&) 									noexcept;
 		Cadena(const char*) 									noexcept;
-		explicit Cadena(size_t  = 0, char = ' ') 	noexcept;
+		explicit Cadena(size_t = 0, char = ' ') 				noexcept;
 		
 		// Destructor
 		~Cadena();
@@ -24,7 +26,7 @@ class Cadena{
 		operator const char*() const;
 
 		// Metodos
-		inline size_t 	length() noexcept;
+		inline size_t 	length() noexcept { return tam_; }
 		char& 			at(size_t);
 		const char		at(size_t) const;
 		Cadena 			substr(size_t, size_t) const;	
