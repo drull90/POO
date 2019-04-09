@@ -20,9 +20,9 @@ class Cadena{
 		Cadena& 		operator 	= 	(const Cadena&) 				noexcept;
 		Cadena& 		operator 	= 	(const char*) 					noexcept;
 		Cadena&			operator 	=	(Cadena&&)						noexcept;
+		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
 		const char		operator	[]	(unsigned long int n) const 	noexcept;
 		char&			operator	[]	(unsigned long int n) 			noexcept;
-		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
 
 		// Operadores externos
 		friend std::ostream& operator << (std::ostream&, const Cadena&) noexcept;

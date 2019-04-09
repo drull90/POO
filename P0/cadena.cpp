@@ -223,7 +223,7 @@ char& 		Cadena::operator [] (unsigned long int n) noexcept{ return s_[n]; }
  */
 const char Cadena::at(unsigned long int n) const { 
 
-	if(n >= tam_ || n < 0) throw std::out_of_range("Índice no válido");
+	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
 	return s_[n];
 }
@@ -233,7 +233,7 @@ const char Cadena::at(unsigned long int n) const {
  */
 char& Cadena::at(unsigned long int n) { 
 	
-	if(n >= tam_ || n < 0) throw std::out_of_range("Índice no válido");
+	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
 	return s_[n]; 
 }
@@ -243,7 +243,7 @@ char& Cadena::at(unsigned long int n) {
  */
 Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 
-	if(indice > tam_ || indice + tam > tam_ || indice < 0) throw std::out_of_range("Rango substr no válido");
+	if(indice > tam_ || indice + tam > tam_) throw std::out_of_range("Rango substr no válido");
 
 	char* buff = new char[tam];
 	int j = 0;
