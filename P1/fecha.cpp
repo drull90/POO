@@ -1,6 +1,8 @@
 #include <cstdio>
 #include <iostream>
 #include <cstring>
+#include <clocale>
+#include <time.h>
 #include "fecha.hpp"
 
 /**
