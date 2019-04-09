@@ -68,18 +68,16 @@ class Cadena{
 
 };
 
-
-
 // Operadores externos
 // Concatenacion
 Cadena 	operator +	(const Cadena&, const Cadena&) noexcept;
 
 //Comparacion
-bool 	operator >	(const Cadena&, const Cadena&) noexcept;
-bool 	operator <	(const Cadena&, const Cadena&) noexcept;
-bool 	operator <= (const Cadena&, const Cadena&) noexcept;
-bool 	operator >= (const Cadena&, const Cadena&) noexcept;
-bool 	operator == (const Cadena&, const Cadena&) noexcept;
-bool 	operator != (const Cadena&, const Cadena&) noexcept;
+bool operator >	 (const Cadena&, const Cadena&) noexcept;
+bool operator <	 (const Cadena&, const Cadena&) noexcept;
+bool operator <= (const Cadena&, const Cadena&) noexcept;
+bool operator >= (const Cadena&, const Cadena&) noexcept;
+bool operator == (const Cadena&, const Cadena&) noexcept;
+bool operator != (const Cadena&, const Cadena&) noexcept;
 
 #endif
