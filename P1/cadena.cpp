@@ -224,7 +224,7 @@ Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
 }
 
 /**
- * funcionque devuelve const char*
+ * funcion que devuelve const char*
  */
 const char* Cadena::c_str() const noexcept { return s_; }
 
@@ -250,4 +250,34 @@ std::istream& operator >> (std::istream& i, Cadena& cad) {
 	delete[] buff;
 
 	return i;
+}
+
+/**
+ * Funcion begin
+ */
+Cadena::iterator Cadena::begin() { return s_; }
+
+/**
+ * Funcion end
+ */
+Cadena::iterator Cadena::end() { return s_ + tam_; }
+
+/**
+ * Funcion rbegin();
+ */
+Cadena::reverse_iterator Cadena::rbegin() { return reverse_iterator(end()); }
+
+/**
+ * Funcion rend();
+ */
+Cadena::reverse_iterator Cadena::rend() { return reverse_iterator(begin()); }
+
+int main(){
+
+	Cadena a = "ABCDEFG";
+
+	for( auto i = a.rbegin(); i != a.rend(); ++i)
+		std::cout << *i;
+
+	return 0;
 }

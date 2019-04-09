@@ -34,6 +34,32 @@ class Cadena{
 		const char		at(unsigned long int) const;
 		Cadena 			substr(unsigned long int, unsigned long int) const;
 		const char* 	c_str() const noexcept;
+
+		// Iteradores
+		// No-const
+		typedef char* iterator;
+		typedef std::reverse_iterator<iterator> reverse_iterator;
+
+		// Const
+		typedef const char* const_iterator;
+		typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
+
+		// Funciones de Iteradores
+		// No-const
+		iterator 				begin();
+		iterator 				end();
+		reverse_iterator 		rbegin();
+		reverse_iterator 		rend();
+
+		// Const
+		const_iterator 			begin() 	const;
+		const_iterator 			cbegin() 	const;
+		const_iterator 			end() 		const;
+		const_iterator 			cend() 		const;
+		const_reverse_iterator 	rbegin() 	const;
+		const_reverse_iterator 	crbegin() 	const;
+		const_reverse_iterator 	rend() 		const;
+		const_reverse_iterator 	crend() 	const;
 		
 	private:
 		// Atributos
@@ -41,6 +67,8 @@ class Cadena{
 		unsigned long int tam_;
 
 };
+
+
 
 // Operadores externos
 // Concatenacion
