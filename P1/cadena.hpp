@@ -10,7 +10,7 @@ class Cadena{
 		Cadena(const Cadena&) 									noexcept;
 		Cadena(Cadena&&)										noexcept;
 		Cadena(const char*) 									noexcept;
-		explicit Cadena(unsigned long int  = 0, char = ' ') 	noexcept;
+		explicit Cadena(size_t = 0, char = ' ') 	noexcept;
 		
 		// Destructor
 		~Cadena();
@@ -21,18 +21,18 @@ class Cadena{
 		Cadena& 		operator 	= 	(const char*) 					noexcept;
 		Cadena&			operator 	=	(Cadena&&)						noexcept;
 		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
-		const char		operator	[]	(unsigned long int n) const 	noexcept;
-		char&			operator	[]	(unsigned long int n) 			noexcept;
+		const char		operator	[]	(size_t) const 	noexcept;
+		char&			operator	[]	(size_t) 			noexcept;
 
 		// Operadores externos
 		friend std::ostream& operator << (std::ostream&, const Cadena&) noexcept;
 		friend std::istream& operator >> (std::istream&, Cadena&);
 
 		// Metodos
-		inline unsigned long int length() noexcept;
-		char& 			at(unsigned long int);
-		const char		at(unsigned long int) const;
-		Cadena 			substr(unsigned long int, unsigned long int) const;
+		inline size_t 	length() const noexcept;
+		char& 			at(size_t);
+		const char		at(size_t) const;
+		Cadena 			substr(size_t, size_t) const;
 		const char* 	c_str() const noexcept;
 
 		// Iteradores
@@ -52,15 +52,19 @@ class Cadena{
 		reverse_iterator 		rend();
 
 		// Const
+		const_iterator 			begin() 	const;
+		const_iterator 			end() 		const;
 		const_iterator 			cbegin() 	const;
 		const_iterator 			cend() 		const;
+		const_reverse_iterator 	rbegin() 	const;
+		const_reverse_iterator 	rend() 		const;
 		const_reverse_iterator 	crbegin() 	const;
 		const_reverse_iterator 	crend() 	const;
 		
 	private:
 		// Atributos
 		char* s_;
-		unsigned long int tam_;
+		size_t tam_;
 
 };
 

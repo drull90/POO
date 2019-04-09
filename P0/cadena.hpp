@@ -7,7 +7,7 @@ class Cadena{
 		// Constructores
 		Cadena(const Cadena&) 									noexcept;
 		Cadena(const char*) 									noexcept;
-		explicit Cadena(unsigned long int  = 0, char = ' ') 	noexcept;
+		explicit Cadena(size_t  = 0, char = ' ') 	noexcept;
 		
 		// Destructor
 		~Cadena();
@@ -16,23 +16,23 @@ class Cadena{
 		// Operadores internos
 		Cadena& 		operator 	= 	(Cadena&) 						noexcept;
 		Cadena& 		operator 	= 	(const char*) 					noexcept;
-		const char		operator	[]	(unsigned long int n) const 	noexcept;
-		char&			operator	[]	(unsigned long int n) 			noexcept;
+		const char		operator	[]	(size_t) 		const 			noexcept;
+		char&			operator	[]	(size_t) 						noexcept;
 		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
 		
 		// Operadores de conversion
 		operator const char*() const;
 
 		// Metodos
-		inline unsigned long int length() noexcept;
-		char& 			at(unsigned long int);
-		const char		at(unsigned long int) const;
-		Cadena 			substr(unsigned long int, unsigned long int) const;	
+		inline size_t 	length() noexcept;
+		char& 			at(size_t);
+		const char		at(size_t) const;
+		Cadena 			substr(size_t, size_t) const;	
 		
 	private:
 		// Atributos
 		char* s_;
-		unsigned long int tam_;
+		size_t tam_;
 
 };
 

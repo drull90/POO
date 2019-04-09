@@ -5,9 +5,9 @@
 /**
  * Constructor tam y char, tam, o predeterminado
  */
-Cadena::Cadena(unsigned long int tam, char c) noexcept : tam_{tam} {
+Cadena::Cadena(size_t tam, char c) noexcept : tam_{tam} {
 
-	unsigned int i = 0;
+	size_t i = 0;
 	s_ = new char[tam + 1];				// Caracter terminador \0 +1
 	for(i = 0; i < tam; ++i){
 		s_[i] = c;
@@ -51,7 +51,7 @@ Cadena::~Cadena(){
 /**
  * Muestra tamaño de la cadena
  */
-inline unsigned long int Cadena::length() noexcept { return tam_; }
+inline size_t Cadena::length() noexcept { return tam_; }
 
 /**
  * Asignacion cad a cad
@@ -211,17 +211,17 @@ bool operator != 	(const char* cad1, const Cadena& cad2) 	 noexcept { return (!(
 /**
  * Operador [] para acceder a elemento Cadena constante
  */
-const char 	Cadena::operator [] (unsigned long int n) const noexcept{ return s_[n]; }
+const char 	Cadena::operator [] (size_t n) const noexcept{ return s_[n]; }
 
 /**
  * Operador [] para acceder a elemento Cadena
  */
-char& 		Cadena::operator [] (unsigned long int n) noexcept{ return s_[n]; }
+char& 		Cadena::operator [] (size_t n) noexcept{ return s_[n]; }
 
 /**
  * Metodo para acceder a elemento Cadena constante
  */
-const char Cadena::at(unsigned long int n) const { 
+const char Cadena::at(size_t n) const { 
 
 	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
@@ -231,7 +231,7 @@ const char Cadena::at(unsigned long int n) const {
 /**
  * Metodo para acceder a elemento Cadena
  */
-char& Cadena::at(unsigned long int n) { 
+char& Cadena::at(size_t n) { 
 	
 	if(n >= tam_) throw std::out_of_range("Índice no válido");
 
@@ -241,13 +241,13 @@ char& Cadena::at(unsigned long int n) {
 /**
  * Metodo para devolver un substring de la cadena
  */
-Cadena Cadena::substr(unsigned long int indice, unsigned long int tam) const {
+Cadena Cadena::substr(size_t indice, size_t tam) const {
 
 	if(indice > tam_ || indice + tam > tam_) throw std::out_of_range("Rango substr no válido");
 
 	char* buff = new char[tam];
 	int j = 0;
-	for(unsigned int i = indice; i <= indice+tam; ++i){
+	for(size_t i = indice; i <= indice+tam; ++i){
 		buff[j] = s_[i];
 		++j;
 	}
