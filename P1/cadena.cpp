@@ -263,21 +263,51 @@ Cadena::iterator Cadena::begin() { return s_; }
 Cadena::iterator Cadena::end() { return s_ + tam_; }
 
 /**
- * Funcion rbegin();
+ * Funcion rbegin
  */
 Cadena::reverse_iterator Cadena::rbegin() { return reverse_iterator(end()); }
 
 /**
- * Funcion rend();
+ * Funcion rend
  */
 Cadena::reverse_iterator Cadena::rend() { return reverse_iterator(begin()); }
 
-int main(){
+/**
+ * Funcion begin const
+ */
+Cadena::const_iterator Cadena::begin() const { return s_; }
 
-	Cadena a = "ABCDEFG";
+/**
+ * Funcion cbegin
+ */
+Cadena::const_iterator Cadena::cbegin() const { return s_; }
 
-	for( auto i = a.rbegin(); i != a.rend(); ++i)
-		std::cout << *i;
+/**
+ * Funcion end const
+ */
+Cadena::const_iterator Cadena::end() const { return s_ + tam_; }
 
-	return 0;
-}
+/**
+ * Funcion cend const
+ */
+Cadena::const_iterator Cadena::cend() const { return s_ + tam_; }
+
+/**
+ * Funcion rbegin const
+ */
+Cadena::const_reverse_iterator Cadena::rbegin() const { return const_reverse_iterator(end()); }
+
+/**
+ * Funcion crbegin const
+ */
+Cadena::const_reverse_iterator Cadena::crbegin() const { return const_reverse_iterator(cend()); }
+
+/**
+ * Funcion rend const
+ */
+Cadena::const_reverse_iterator Cadena::rend() const { return const_reverse_iterator(begin()); }
+
+/**
+ * Funcion crend const
+ */
+Cadena::const_reverse_iterator Cadena::crend() const { return const_reverse_iterator(cbegin()); }
