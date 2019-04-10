@@ -26,7 +26,7 @@ class Cadena{
 		operator const char*() const;
 
 		// Metodos
-		inline size_t 	length() noexcept { return tam_; }
+		inline size_t 	length() const noexcept { return tam_; }
 		char& 			at(size_t);
 		const char		at(size_t) const;
 		Cadena 			substr(size_t, size_t) const;	

@@ -1,13 +1,15 @@
 
-CXX 		= clang++
-CPPFLAGS 	= -DP0 -I../Tests-auto -I.
-CXXFLAGS 	= -std=c++11 -Wall -pedantic
-VPATH 		= ../Tests-auto:.
+DSL			:= ../dsl-comprobaciones/
+DIR			= ../Tests-auto/
+CXX 		:= clang++
+CPPFLAGS 	:= -DP0 -I${DIR}
+CXXFLAGS 	:= -std=c++11 -Wall -pedantic
+VPATH 		:= ../Tests-auto:.
 SOURCES		:= fecha.cpp cadena.cpp
 OBJECTS     := $(SOURCES:.cpp=.o)
 
 
-################################# TEST- AUTO ###############################################
+################################# TEST - AUTO ##############################################
 test-P0-auto: test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o $(OBJECTS)
 
 test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o: test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp test-auto.hpp fecha.hpp cadena.hpp
@@ -17,7 +19,7 @@ test-P0-consola: test-P0-consola.o $(OBJECTS)
 	@echo "Link test-P0-consola.o"
 	@$(CXX) -o $@ test-P0-consola.o $(OBJECTS)
 
-test-P0-consola.o:
+test-P0-consola.o: test-P0-consola.cpp
 	@$(CXX) $(CXXFLAGS) -c test-P0-consola.cpp
 
 #################################### FECHA.O ###############################################
@@ -46,5 +48,4 @@ checks:
 
 ##################################### CLEAN #################################################
 clean:
-	@echo "Limpiando"
-	@${RM} *.o test-P0-consola test-P0-auto fecha_check cadena_check
+	@${RM} *.o test-P0-consola test-P0-auto fecha_check cadena_check $(DSL)*.o

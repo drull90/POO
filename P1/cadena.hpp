@@ -29,7 +29,7 @@ class Cadena{
 		friend std::istream& operator >> (std::istream&, Cadena&);
 
 		// Metodos
-		inline size_t 	length() const noexcept;
+		inline size_t 	length() const noexcept { return tam_; }
 		char& 			at(size_t);
 		const char		at(size_t) const;
 		Cadena 			substr(size_t, size_t) const;
