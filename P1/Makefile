@@ -1,8 +1,38 @@
+DSL   		:= ../dsl-comprobaciones/
+TEST		:= ../Tests-auto/
 
-all: fecha_check cadena_check
-	make -f Make_check.mk $@
+CXX 		:= clang++
+CPPFLAGS	:= -DP1 -I${DSL} ${TEST}
+CXXFLAGS 	:= -std=c++11 -Wall -pedantic -g
+SOURCES		:= fecha.cpp cadena.cpp
+OBJECTS     := $(SOURCES:.cpp=.o)
+EXES		:= fecha_check cadena_check test-P1-consola test-P1-auto
 
-fecha_check:	
+
+################################# TEST - AUTO #####################-DP0 -I../dsl-comprobaciones#########################
+test-P1-auto: test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o $(OBJECTS)
+	$(CXX) -o $@
+test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o:
+	$(CXX) $(CXXFLAGS) -I ${TEST} -c test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp 
+
+################################# TEST-P0-CONSOLA ##########################################
+test-P1-consola: test-P1-consola.o $(OBJECTS)
+	@echo "Link test-P1-consola.o"
+	@$(CXX) -o $@ $^
+
+test-P1-consola.o: test-P1-consola.cpp
+	@$(CXX) $(CXXFLAGS) -c $^
+
+#################################### FECHA.O ###############################################
+fecha.o: fecha.hpp fecha.cpp
+	@$(CXX) $(CXXFLAGS) -c fecha.cpp
+
+#################################### CADENA.O ##############################################
+cadena.o: cadena.hpp cadena.cpp
+	@$(CXX) $(CXXFLAGS) -c cadena.cpp
+
+############################### CHECKS DEL CODIGO FUENTE ###################################
+fecha_check:
 	make -f Make_check.mk $@
 
 check_Fecha:
@@ -17,5 +47,6 @@ check_Cadena:
 checks:
 	make -f Make_check.mk $@
 
+##################################### CLEAN #################################################
 clean:
-	make -f Make_check.mk $@
+	@${RM} $(EXES) *.o $(DSL)*.o $(TEST)*.o

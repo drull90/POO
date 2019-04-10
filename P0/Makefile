@@ -1,26 +1,28 @@
 
-DSL			:= ../dsl-comprobaciones/
-DIR			= ../Tests-auto/
+DSL   		:= ../dsl-comprobaciones/
+TEST		:= ../Tests-auto/
+
 CXX 		:= clang++
-CPPFLAGS 	:= -DP0 -I${DIR}
-CXXFLAGS 	:= -std=c++11 -Wall -pedantic
-VPATH 		:= ../Tests-auto:.
+CPPFLAGS	:= -DP0 -I${DSL} ${TEST}
+CXXFLAGS 	:= -std=c++11 -Wall -pedantic -g
 SOURCES		:= fecha.cpp cadena.cpp
 OBJECTS     := $(SOURCES:.cpp=.o)
+EXES		:= fecha_check cadena_check test-P0-consola test-P0-auto
 
 
-################################# TEST - AUTO ##############################################
+################################# TEST - AUTO #####################-DP0 -I../dsl-comprobaciones#########################
 test-P0-auto: test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o $(OBJECTS)
-
-test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o: test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp test-auto.hpp fecha.hpp cadena.hpp
+	$(CXX) -o $@
+test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o:
+	$(CXX) $(CXXFLAGS) -I ${TEST} -c test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp 
 
 ################################# TEST-P0-CONSOLA ##########################################
 test-P0-consola: test-P0-consola.o $(OBJECTS)
 	@echo "Link test-P0-consola.o"
-	@$(CXX) -o $@ test-P0-consola.o $(OBJECTS)
+	@$(CXX) -o $@ $^
 
 test-P0-consola.o: test-P0-consola.cpp
-	@$(CXX) $(CXXFLAGS) -c test-P0-consola.cpp
+	@$(CXX) $(CXXFLAGS) -c $^
 
 #################################### FECHA.O ###############################################
 fecha.o: fecha.hpp fecha.cpp
@@ -48,4 +50,4 @@ checks:
 
 ##################################### CLEAN #################################################
 clean:
-	@${RM} *.o test-P0-consola test-P0-auto fecha_check cadena_check $(DSL)*.o
+	@${RM} $(EXES) *.o $(DSL)*.o $(TEST)*.o
