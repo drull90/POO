@@ -10,7 +10,7 @@ EXES		:= fecha_check cadena_check test-P1-consola test-P1-auto
 
 
 ################################# TEST - AUTO #####################-DP0 -I../dsl-comprobaciones#########################
-test-P1-auto: test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o $(OBJECTS)
+test-P1-auto: ../Tests-auto/test-caso0-fecha-auto.o ../Tests-auto/test-caso0-cadena-auto.o ../Tests-auto/test-auto.o $(OBJECTS)
 	$(CXX) -o $@
 test-caso0-fecha-auto.o test-caso0-cadena-auto.o test-auto.o:
 	$(CXX) $(CXXFLAGS) -I ${TEST} -c test-caso0-fecha-auto.cpp test-caso0-cadena-auto.cpp test-auto.cpp 
