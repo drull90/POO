@@ -10,6 +10,7 @@ class Clave {
 		// Constructor
 		Clave(const Cadena&);
 
+		// Enum de error
 		enum Razon{CORTA, ERROR_CRYPT};
 
 		// Clase de error
@@ -25,10 +26,8 @@ class Clave {
 		inline const Cadena& clave() const 	noexcept { return clave_; }
 		bool verifica(const Cadena&) 		noexcept;
 
-		const Cadena cifrar(const Cadena&);
-
 	private:
-		
+		const Cadena cifrar(const Cadena&);
 		Cadena clave_;
 
 };

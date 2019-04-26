@@ -1,16 +1,16 @@
+#include <cstring>
 
 #include "clave.hpp"
 #include "cadena.hpp"
 #include "sha256.hpp"
 
-#include <iostream>
-#include <cstring>
-
 Clave::Clave(const Cadena& clave) {
 
-	clave_ = cifrar(clave);
 	Razon r;
-	
+	if(clave.length() < 5)
+		throw Incorrecta(r = CORTA);
+
+	clave_ = cifrar(clave);
 
 }
 
@@ -40,12 +40,4 @@ const Cadena Clave::cifrar(const Cadena& pass) {
         sprintf(buf+i*2, "%02x", digest[i]);
 
     return buf;
-}
-
-int main() {
-
-
-
-
-	return 0;
 }
