@@ -184,7 +184,7 @@ Cadena Cadena::substr(size_t indice, size_t tam) const {
 
 	char* buff = new char[tam];
 	int j = 0;
-	for(size_t i = indice; i <= indice+tam; ++i){
+	for(size_t i = indice; i < indice+tam; ++i){
 		buff[j] = s_[i];
 		++j;
 	}

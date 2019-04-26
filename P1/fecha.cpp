@@ -186,7 +186,7 @@ const char* Fecha::cadena() const noexcept{
  */
 std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept{
 
-	char* buff = new char[11];
+	char* buff = new char[100];
 
 	strcpy(buff, fecha.cadena());
 
