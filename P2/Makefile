@@ -9,7 +9,7 @@
 # de práctica: P1, P2, etc.
 # NOMBREALUMNO debería ser de la forma: Ap1_Ap2_NP
 # (Véanse las instrucciones de entrega).
-NOMBREALUMNO =
+NOMBREALUMNO = POO
 
 # Compilador de C++ preferido: el de LLVM (clang++), el de GNU (g++),
 # el de GNU en la versión 5 (g++-5), el de Intel (icpc)...

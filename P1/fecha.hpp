@@ -28,10 +28,10 @@ class Fecha {
 		friend std::istream& operator >> (std::istream&, Fecha&);
 
 		// Metodos
-		inline int dia() const noexcept     { return dia_; };
-		inline int mes() const noexcept     { return mes_; };
-		inline int anno() const noexcept    { return anno_;};
-		const char* cadena() const noexcept;
+		inline int 	dia() 		const noexcept  { return dia_; };
+		inline int 	mes() 		const noexcept  { return mes_; };
+		inline int 	anno() 		const noexcept	{ return anno_;};
+		const char* cadena() 	const noexcept;
 
 		//Clases
 		class Invalida{
