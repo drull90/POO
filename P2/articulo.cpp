@@ -8,16 +8,7 @@ Articulo::Articulo(const Cadena& ref, const Cadena& titulo, const Fecha& fecha, 
 
 std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
-    o << articulo.ref_ << ", " << articulo.fecha_.anno << ". " << articulo.precio;
+	o << "[" << articulo.ref_ << "] " << "\"" << articulo.titulo_ << "\"" ", " << articulo.fecha_.anno() << ". " << articulo.precio_ << "€";
 
-    return o;
-}
-
-int main(){
-
-    Articulo a{"0001", "Fundamentos de C++", "20/11/2012", 29.95, 10};
-
-    std::cout << a << std::endl;
-
-    return 0;
+	return o;
 }
