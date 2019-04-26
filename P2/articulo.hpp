@@ -19,13 +19,13 @@ class Articulo {
 		friend std::ostream& operator << (std::ostream& o, const Articulo&);
 
 		// Metodos
-		inline const 	Cadena&	referencia() 	const 	{ return ref_; 		}
-		inline const 	Cadena&	titulo()		const 	{ return titulo_;	}
-		inline const 	Fecha&	f_publi()		const 	{ return fecha_; 	}
-		inline double 			precio()		const 	{ return precio_; 	}
-		inline size_t 			stock()			const 	{ return stock_; 	}
-		inline size_t& 			stock()					{ return stock_; 	}
-		inline double& 			precio() 				{ return precio_; 	}
+		inline const 	Cadena&	referencia() 	const noexcept { return ref_; 		}
+		inline const 	Cadena&	titulo()		const noexcept { return titulo_;	}
+		inline const 	Fecha&	f_publi()		const noexcept { return fecha_; 	}
+		inline double 			precio()		const noexcept { return precio_; 	}
+		inline size_t 			stock()			const noexcept { return stock_; 	}
+		inline size_t& 			stock()				  noexcept { return stock_; 	}
+		inline double& 			precio() 			  noexcept { return precio_; 	}
 
 	private:
 		// Atributos
