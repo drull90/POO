@@ -15,7 +15,7 @@ class Cadena{
 		// Destructor
 		~Cadena();
 
-		// Sobrecarga de operadores
+		// Sobrecarga de operadores 
 		// Operadores internos
 		Cadena& 		operator 	= 	(const Cadena&) noexcept;
 		Cadena& 		operator 	= 	(const char*) 	noexcept;

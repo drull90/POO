@@ -14,7 +14,6 @@ Cadena::Cadena(size_t tam, char c) noexcept : tam_{tam} {
 	for(i = 0; i < tam; ++i)
 		s_[i] = c;
 	s_[i] = '\0';
-
 }
 
 /**
@@ -47,7 +46,7 @@ Cadena::Cadena(const char* cad) noexcept {
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad);
 	strcat(s_, "\0");
-
+	
 }
 
 /**
@@ -84,7 +83,6 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad);
-	strcat(s_, "\0");
 
 	return *this;
 }
@@ -153,7 +151,7 @@ const char 	Cadena::operator [] (size_t n) const noexcept{ return s_[n]; }
 /**
  * Operador [] para acceder a elemento Cadena
  */
-char& 		Cadena::operator [] (size_t n) noexcept{ return s_[n]; }
+char& Cadena::operator [] (size_t n) noexcept{ return s_[n]; }
 
 /**
  * Metodo para acceder a elemento Cadena constante
@@ -233,9 +231,9 @@ Cadena::const_iterator 			Cadena::end() 		const 	{ return s_ + tam_; }
 Cadena::reverse_iterator 		Cadena::rbegin() 			{ return reverse_iterator(end()); }
 Cadena::reverse_iterator 		Cadena::rend() 				{ return reverse_iterator(begin()); }
 Cadena::const_reverse_iterator 	Cadena::rbegin() 	const 	{ return const_reverse_iterator(end()); }
-Cadena::const_reverse_iterator 	Cadena::rend() 	const 	{ return const_reverse_iterator(begin()); }
+Cadena::const_reverse_iterator 	Cadena::rend() 		const 	{ return const_reverse_iterator(begin()); }
 
-Cadena::const_iterator Cadena::cbegin() const { return begin(); }
-Cadena::const_reverse_iterator Cadena::crbegin() const { return rbegin();}
-Cadena::const_iterator Cadena::cend() const{ return end();}
-Cadena::const_reverse_iterator Cadena::crend() const { return rend();}
+Cadena::const_iterator 			Cadena::cbegin() 	const 	{ return begin(); }
+Cadena::const_reverse_iterator 	Cadena::crbegin()	const 	{ return rbegin();}
+Cadena::const_iterator 			Cadena::cend() 		const	{ return end();}
+Cadena::const_reverse_iterator 	Cadena::crend() 	const 	{ return rend();}

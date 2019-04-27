@@ -6,9 +6,8 @@
 
 Clave::Clave(const Cadena& clave) {
 
-	Razon r;
 	if(clave.length() < 5)
-		throw Incorrecta(r = CORTA);
+		throw Incorrecta(CORTA);
 
 	clave_ = cifrar(clave);
 

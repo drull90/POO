@@ -7,20 +7,20 @@ class Cadena{
 
 	public:
 		// Constructores
-		Cadena(const Cadena&) 									noexcept;
-		Cadena(const char*) 									noexcept;
-		explicit Cadena(size_t = 0, char = ' ') 				noexcept;
+		Cadena(const Cadena&) 					noexcept;
+		Cadena(const char*) 					noexcept;
+		explicit Cadena(size_t = 0, char = ' ') noexcept;
 		
 		// Destructor
 		~Cadena();
 
 		// Sobrecarga de operadores
 		// Operadores internos
-		Cadena& 		operator 	= 	(Cadena&) 						noexcept;
-		Cadena& 		operator 	= 	(const char*) 					noexcept;
-		const char		operator	[]	(size_t) 		const 			noexcept;
-		char&			operator	[]	(size_t) 						noexcept;
-		Cadena&			operator 	+= 	(const Cadena&) 				noexcept;
+		Cadena& 		operator 	= 	(Cadena&) 				noexcept;
+		Cadena& 		operator 	= 	(const char*) 			noexcept;
+		const char		operator	[]	(size_t) 		const 	noexcept;
+		char&			operator	[]	(size_t) 				noexcept;
+		Cadena&			operator 	+= 	(const Cadena&) 		noexcept;
 		
 		// Operadores de conversion
 		operator const char*() const;
