@@ -10,10 +10,10 @@ class Usuario {
 
 	private:
 		Cadena iden_;
-		Cadena nom_;
-		Cadena apell;
-		Cadena dirr;
-		Clave  clave;
+		Cadena nomb_;
+		Cadena apell_;
+		Cadena dirr_;
+		Clave  clave_;
 
 };
 
