@@ -39,11 +39,11 @@ class Tarjeta {
 		// Enum tipo
 		enum Tipo {Otro, VISA, Mastercard, Maestro, JCB, AmericanExpress};
 
-		// Constructor eliminado
-		Tarjeta(Tarjeta& ) = delete;
-
-		// Operador de asignacion eliminado
-		void operator = (void*) = delete;
+		// Asignaciones eliminadas
+		Tarjeta			(const Tarjeta&) 	= delete;
+		Tarjeta			(Tarjeta&) 			= delete;
+		void operator = (const Tarjeta&) 	= delete;
+		void operator = (Tarjeta&) 			= delete;
 
 		// Sobrecarga de operadores
 		// Internos
@@ -53,14 +53,14 @@ class Tarjeta {
 		friend std::ostream& operator << (std::ostream&, Tipo);
 
 		// Metodos
-		void 			anula_titular();
+		void 					anula_titular();
 
-		Tipo& 			tipo();
-		Numero& 		numero();
-		const Usuario* 	titular();
-		Fecha& 			caducidad();
-		bool 			activa();
-		bool			activa(bool = true);
+		inline const Tipo& 		tipo()					const 	{ return tipo_;			}
+		inline const Numero& 	numero()				const 	{ return num_;  		}
+		inline const Fecha& 	caducidad() 			const 	{ return caducidad_;	}
+		inline const bool 		activa()				const 	{ return estado_;		}
+		inline const bool		activa(bool b = true) 			{ return estado_ = b; 	}
+		Usuario* 				titular();
 
 		// Clase de error Tarjeta Desactivada
 		class Desactivada { };

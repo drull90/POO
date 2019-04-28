@@ -80,26 +80,17 @@ class Clave {
 class Usuario {
 
 	public:
-		// Clase de error Id duplicado
-		class Id_duplicado {
-			public:
-				Id_duplicado(const Cadena&);
-				inline const Cadena& idd() { return iden_; }
-			private:
-				Cadena iden_;
-		};
-
 		// Constructor
 		explicit Usuario(const Cadena&, const Cadena&, const Cadena&, const Cadena&, const Clave&);
 
+		// Eliminar la copia de usuarios
+		Usuario(const Usuario&) 			= delete;
+		Usuario(Usuario&) 					= delete;
+		void operator = (const Usuario&) 	= delete;
+		void operator = (Usuario&) 			= delete;
+
 		// Destructor
 		~Usuario();
-
-		// Constructor eliminado
-		Usuario(const Usuario&) = delete;
-
-		// Operador de asignacion eliminado
-		void operator = (void*) = delete;
 
 		// Operador externo
 		friend std::ostream& operator << (std::ostream&, const Usuario&);
@@ -111,12 +102,21 @@ class Usuario {
 		typedef std::map<Numero, Tarjeta*> Tarjetas;
 		typedef std::unordered_map<Articulo*, unsigned int> Articulos;
 
+		// Clase de error
+		class Id_duplicado {
+			public:
+				Id_duplicado(const Cadena&);
+				inline const Cadena& idd() { return iden_; }
+			private:
+				Cadena iden_;
+		};
+
 		// Metodos
-		const 	Cadena& 	id();
-		const 	Cadena& 	nombre();
-		const	Cadena& 	apellidos();
-		const 	Cadena& 	direccion();
-		const 	Tarjeta& 	tarjetas();
+		inline const 	Cadena& 	id()		const	{ return iden_; }
+		inline const 	Cadena& 	nombre()	const	{ return nomb_;	}
+		inline const	Cadena& 	apellidos()	const	{ return apell_;}
+		inline const 	Cadena& 	direccion()	const	{ return dirr_;	}
+		const 			Tarjeta& 	tarjetas();
 
 		void 	es_titular_de		(const Tarjeta&);
 		void 	no_es_titular_de	(const Tarjeta&);

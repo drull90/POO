@@ -27,4 +27,4 @@ Numero::Incorrecto::Incorrecto(Razon r) : razon_{r} {}
 
 bool Numero::operator < (Numero& num) { return (this->num_ < num.num_); }
 
-Tarjeta::Tarjeta(const Numero& num, Usuario* const us, const Fecha& fe) : num_{num}, titular_{us}, caducidad_{fe} {}
+Tarjeta::Tarjeta(const Numero& num, Usuario* const us, const Fecha& fe) : num_{num}, titular_{us}, caducidad_{fe}, estado_{true} {}

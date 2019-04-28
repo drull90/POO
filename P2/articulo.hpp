@@ -15,9 +15,6 @@ class Articulo {
 		// Constructores eliminados
 		Articulo(Articulo&) = delete;
 
-		// Operadores externos
-		friend std::ostream& operator << (std::ostream& o, const Articulo&);
-
 		// Metodos
 		inline const 	Cadena&	referencia() 	const noexcept { return ref_; 		}
 		inline const 	Cadena&	titulo()		const noexcept { return titulo_;	}
@@ -36,5 +33,7 @@ class Articulo {
 		size_t	stock_;
 
 };
+
+std::ostream& operator << (std::ostream& o, const Articulo&);
 
 #endif
