@@ -2,10 +2,13 @@
 #define USUARIO_HPP
 
 #include <unordered_set>
+#include <iostream>
 
 #include "cadena.hpp"
 #include "clave.hpp"
 #include "tarjeta.hpp"
+#include "numero.hpp"
+#include "articulo.hpp"
 
 class Usuario {
 
@@ -22,15 +25,25 @@ class Usuario {
 		// Operador de asignacion eliminado
 		void operator = (void*) = delete;
 
-		// Metodos
-		const Cadena& 	id();
-		const Cadena& 	nombre();
-		const Cadena& 	apellidos();
-		const Cadena& 	direccion();
-		const Tarjeta& 	tarjetas();
+		// Operador externo
+		friend std::ostream& operator << (std::ostream&, const Usuario&);
 
-		void es_titular_de		(const Tarjeta&);
-		void no_es_titular_de	(const Tarjeta&);
+		// Funcion externa
+		friend void mostrar_carro(std::ostream&, const Usuario&);
+
+		// Metodos
+		const 	Cadena& 	id();
+		const 	Cadena& 	nombre();
+		const	Cadena& 	apellidos();
+		const 	Cadena& 	direccion();
+		const 	Tarjeta& 	tarjetas();
+
+		void 	es_titular_de		(const Tarjeta&);
+		void 	no_es_titular_de	(const Tarjeta&);
+
+		void 	compra				(const Articulo&, size_t = 1);
+		const 	Articulos& compra	();
+		int 	n_articulos			(const Articulos&);
 
 		// Clase de error Id duplicado
 		class Id_duplicado {
@@ -41,12 +54,18 @@ class Usuario {
 				Cadena iden_;
 		};
 
+		// Maps
+		map<Numero, Tarjeta*> Tarjetas;
+		std::unordered_map<Articulo*, size_t> Articulos;
+
 	private:
-		Cadena iden_;
-		Cadena nomb_;
-		Cadena apell_;
-		Cadena dirr_;
-		Clave  clave_;
+		Cadena 		iden_;
+		Cadena 		nomb_;
+		Cadena 		apell_;
+		Cadena 		dirr_;
+		Clave  		clave_;
+		Tarjetas 	tarjetas_;
+		Articulos 	articulos_;
 
 };
 
