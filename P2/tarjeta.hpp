@@ -48,7 +48,7 @@ class Tarjeta {
 		// Clase de error fecha caducada
 		class Caducada {
 			public:
-				Caducada(Fecha);
+				Caducada(const Fecha&);
 				inline Fecha& cuando() { return fecha_; }
 			private:
 				Fecha fecha_;
@@ -57,7 +57,7 @@ class Tarjeta {
 		// Clase de error Num duplicado
 		class Num_duplicado {
 			public:
-				Num_duplicado(Numero&);
+				Num_duplicado(const Numero&);
 				inline Numero& num() { return num_; }
 			private:
 				Numero num_;

@@ -3,6 +3,18 @@
 
 #include <iostream>
 
+// Para P2 y ss.
+// Especialización de la plantilla hash<T>para definir la
+// función hash a utilizar con contenedores desordenados de
+// Cadena, unordered_[set|map|multiset|multimap].
+namespace std {
+	template <> struct hash<Cadena> {
+		size_t operator()(const Cadena& cad) const { // conversión const char* ->string
+			return hash<string>{}(cad.c_str());
+		}
+	};
+}
+
 class Cadena{
 
 	public:
