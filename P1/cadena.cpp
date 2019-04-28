@@ -224,16 +224,17 @@ std::istream& operator >> (std::istream& i, Cadena& cad) {
 }
 
 // Funciones de iteradores
-Cadena::iterator 				Cadena::begin() 			{ return s_; }
+Cadena::iterator 				Cadena::begin() 			{ return s_; 		}
 Cadena::iterator 				Cadena::end() 				{ return s_ + tam_; }
-Cadena::const_iterator 			Cadena::begin() 	const 	{ return s_; }
+Cadena::const_iterator 			Cadena::begin() 	const 	{ return s_; 		}
 Cadena::const_iterator 			Cadena::end() 		const 	{ return s_ + tam_; }
-Cadena::reverse_iterator 		Cadena::rbegin() 			{ return reverse_iterator(end()); }
-Cadena::reverse_iterator 		Cadena::rend() 				{ return reverse_iterator(begin()); }
-Cadena::const_reverse_iterator 	Cadena::rbegin() 	const 	{ return const_reverse_iterator(end()); }
-Cadena::const_reverse_iterator 	Cadena::rend() 		const 	{ return const_reverse_iterator(begin()); }
 
-Cadena::const_iterator 			Cadena::cbegin() 	const 	{ return begin(); }
-Cadena::const_reverse_iterator 	Cadena::crbegin()	const 	{ return rbegin();}
-Cadena::const_iterator 			Cadena::cend() 		const	{ return end();}
-Cadena::const_reverse_iterator 	Cadena::crend() 	const 	{ return rend();}
+Cadena::reverse_iterator 		Cadena::rbegin() 			{ return reverse_iterator(end()); 			}
+Cadena::reverse_iterator 		Cadena::rend() 				{ return reverse_iterator(begin()); 		}
+Cadena::const_reverse_iterator 	Cadena::rbegin() 	const 	{ return const_reverse_iterator(cend()); 	}
+Cadena::const_reverse_iterator 	Cadena::rend() 		const 	{ return const_reverse_iterator(cbegin()); 	}
+
+Cadena::const_iterator 			Cadena::cbegin() 	const 	{ return begin(); 							}
+Cadena::const_iterator 			Cadena::cend() 		const	{ return end();								}
+Cadena::const_reverse_iterator 	Cadena::crbegin()	const 	{ return const_reverse_iterator(end());		}
+Cadena::const_reverse_iterator 	Cadena::crend() 	const 	{ return const_reverse_iterator(begin());	}

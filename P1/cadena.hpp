@@ -25,10 +25,6 @@ class Cadena{
 		const char		operator	[]	(size_t) const 	noexcept;
 		char&			operator	[]	(size_t) 		noexcept;
 
-		// Operadores externos
-		friend std::ostream& operator << (std::ostream&, const Cadena&) noexcept;
-		friend std::istream& operator >> (std::istream&, Cadena&);
-
 		// Metodos
 		inline size_t 	length() const noexcept { return tam_; }
 		char& 			at(size_t);
@@ -57,6 +53,7 @@ class Cadena{
 		const_iterator 			end() 		const;
 		const_iterator 			cbegin() 	const;
 		const_iterator 			cend() 		const;
+		
 		const_reverse_iterator 	rbegin() 	const;
 		const_reverse_iterator 	rend() 		const;
 		const_reverse_iterator 	crbegin() 	const;
@@ -80,6 +77,9 @@ bool operator <= (const Cadena&, const Cadena&) noexcept;
 bool operator >= (const Cadena&, const Cadena&) noexcept;
 bool operator == (const Cadena&, const Cadena&) noexcept;
 bool operator != (const Cadena&, const Cadena&) noexcept;
+
+std::ostream& operator << (std::ostream&, const Cadena&) noexcept;
+std::istream& operator >> (std::istream&, Cadena&);
 
 // Para P2 y ss.
 // Especialización de la plantilla hash<T>para definir la
