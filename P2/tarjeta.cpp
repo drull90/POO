@@ -1,7 +1,6 @@
-
 #include "tarjeta.hpp"
 
-bool luhn(const Cadena& numero);
+bool luhn(const Cadena&);
 
 Numero::Numero(const Cadena& num) {
 	Cadena cad = num;
@@ -17,14 +16,14 @@ Numero::Numero(const Cadena& num) {
 	cad 	= cad.substr(0,j);
 	int tam = cad.length();
 
-	if(tam < 13 || tam > 19)    throw Incorrecto(LONGITUD);
-	if(luhn(cad) != true)       throw Incorrecto(NO_VALIDO);
+	if(tam < 13 || tam > 19) 	throw Incorrecto(LONGITUD);
+	if(luhn(cad) != true) 		throw Incorrecto(NO_VALIDO);
 
 	num_ = cad;
 }
 
-Numero::Incorrecto::Incorrecto(Razon r) : razon_{r} {}
+Numero::Incorrecto::Incorrecto(const Razon& r) : razon_{r} {}
 
-bool Numero::operator < (Numero& num) { return (this->num_ < num.num_); }
+bool Numero::operator < (const Numero& num) const { return (this->num_ < num.num_); }
 
-Tarjeta::Tarjeta(const Numero& num, Usuario* const us, const Fecha& fe) : num_{num}, titular_{us}, caducidad_{fe}, estado_{true} {}
+Tarjeta::Tarjeta(const Numero& num, Usuario& const us, const Fecha& fe) : num_{num}, titular_{&us}, caducidad_{fe}, estado_{true} {}

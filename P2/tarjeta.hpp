@@ -7,6 +7,7 @@
 #include "usuario.hpp"
 
 class Usuario;
+
 class Numero {
 	public:
 		// Constructor
@@ -15,14 +16,14 @@ class Numero {
 		enum Razon {LONGITUD, DIGITOS, NO_VALIDO};
 		class Incorrecto {
 			public:
-				Incorrecto(Razon);
-				inline Razon razon() { return razon_; }
+				Incorrecto(const Razon&);
+				inline const Razon razon() const { return razon_; }
 			private:
 				Razon razon_;
 		};
 		// Operadores
 		inline 	operator const char* () const { return num_.c_str(); }
-		bool 	operator < (Numero&);
+		bool 	operator < (const Numero&) const;
 	private:
 		Cadena num_;
 };
@@ -31,7 +32,7 @@ class Tarjeta {
 
 	public:
 		// Constructor
-		explicit Tarjeta(const Numero&, Usuario* const, const Fecha&);
+		explicit Tarjeta(const Numero&, Usuario& const, const Fecha&);
 
 		// Destructor
 		~Tarjeta();
@@ -69,7 +70,7 @@ class Tarjeta {
 		class Caducada {
 			public:
 				Caducada(const Fecha&);
-				inline Fecha& cuando() { return fecha_; }
+				inline const Fecha& cuando() { return fecha_; }
 			private:
 				Fecha fecha_;
 		};
@@ -78,7 +79,7 @@ class Tarjeta {
 		class Num_duplicado {
 			public:
 				Num_duplicado(const Numero&);
-				inline Numero& num() { return num_; }
+				inline const Numero& num() { return num_; }
 			private:
 				Numero num_;
 		};

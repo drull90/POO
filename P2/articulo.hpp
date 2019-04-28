@@ -12,20 +12,16 @@ class Articulo {
 		// Constructor
 		explicit Articulo(const Cadena&, const Cadena&, const Fecha&, double, size_t);
 
-		// Constructores eliminados
-		Articulo(Articulo&) = delete;
-
 		// Metodos
-		inline const 	Cadena&	referencia() 	const noexcept { return ref_; 		}
-		inline const 	Cadena&	titulo()		const noexcept { return titulo_;	}
-		inline const 	Fecha&	f_publi()		const noexcept { return fecha_; 	}
-		inline double 			precio()		const noexcept { return precio_; 	}
-		inline size_t 			stock()			const noexcept { return stock_; 	}
-		inline size_t& 			stock()				  noexcept { return stock_; 	}
-		inline double& 			precio() 			  noexcept { return precio_; 	}
+		inline const 	Cadena&	referencia() const 	noexcept { return ref_; 	}
+		inline const 	Cadena&	titulo()	 const 	noexcept { return titulo_;	}
+		inline const 	Fecha&	f_publi()	 const 	noexcept { return fecha_; 	}
+		inline double 			precio()	 const 	noexcept { return precio_; 	}
+		inline size_t 			stock()		 const 	noexcept { return stock_; 	}
+		inline size_t& 			stock()			   	noexcept { return stock_; 	}
+		inline double& 			precio() 			noexcept { return precio_; 	}
 
 	private:
-		// Atributos
 		Cadena 	ref_;
 		Cadena 	titulo_;
 		Fecha	fecha_;
@@ -34,6 +30,7 @@ class Articulo {
 
 };
 
+// Operador <<
 std::ostream& operator << (std::ostream& o, const Articulo&);
 
 #endif
