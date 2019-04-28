@@ -31,7 +31,7 @@ class Tarjeta {
 
 	public:
 		// Constructor
-		explicit Tarjeta(const Numero&, const Usuario*, const Fecha&);
+		explicit Tarjeta(const Numero&, Usuario* const, const Fecha&);
 
 		// Destructor
 		~Tarjeta();
@@ -53,7 +53,7 @@ class Tarjeta {
 		friend std::ostream& operator << (std::ostream&, Tipo);
 
 		// Metodos
-		void anula_titular();
+		void 			anula_titular();
 
 		Tipo& 			tipo();
 		Numero& 		numero();

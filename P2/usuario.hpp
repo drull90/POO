@@ -34,6 +34,9 @@
 		   | ((uint32) *((str) + 0) << 24);   \
 }
 
+class Numero;
+class Tarjeta;
+
 class Clave {
 	public:
 		enum Razon{CORTA, ERROR_CRYPT};
@@ -47,7 +50,7 @@ class Clave {
 			private:
 				Razon razon_;
 		};
-		
+
 		class SHA256 {
 			protected:
 				typedef unsigned char 		uint8;

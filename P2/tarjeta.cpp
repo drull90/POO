@@ -1,6 +1,7 @@
 
 #include "tarjeta.hpp"
-#include "luhn.hpp"
+
+bool luhn(const Cadena& numero);
 
 Numero::Numero(const Cadena& num) {
 	Cadena cad = num;
@@ -13,7 +14,7 @@ Numero::Numero(const Cadena& num) {
 				throw Incorrecto(DIGITOS);
 		}
 	}
-	cad = cad.substr(0,j);
+	cad 	= cad.substr(0,j);
 	int tam = cad.length();
 
 	if(tam < 13 || tam > 19)    throw Incorrecto(LONGITUD);
