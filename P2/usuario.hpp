@@ -6,15 +6,86 @@
 #include <unordered_map>
 #include <iostream>
 
-#include "clave.hpp"
 #include "cadena.hpp"
 #include "articulo.hpp"
-#include "numero.hpp"
+#include "tarjeta.hpp"
 
-class Tarjeta;
+#define SHA2_SHFR(x, n)    (x >> n)
+#define SHA2_ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))
+#define SHA2_ROTL(x, n)   ((x << n) | (x >> ((sizeof(x) << 3) - n)))
+#define SHA2_CH(x, y, z)  ((x & y) ^ (~x & z))
+#define SHA2_MAJ(x, y, z) ((x & y) ^ (x & z) ^ (y & z))
+#define SHA256_F1(x) (SHA2_ROTR(x,  2) ^ SHA2_ROTR(x, 13) ^ SHA2_ROTR(x, 22))
+#define SHA256_F2(x) (SHA2_ROTR(x,  6) ^ SHA2_ROTR(x, 11) ^ SHA2_ROTR(x, 25))
+#define SHA256_F3(x) (SHA2_ROTR(x,  7) ^ SHA2_ROTR(x, 18) ^ SHA2_SHFR(x,  3))
+#define SHA256_F4(x) (SHA2_ROTR(x, 17) ^ SHA2_ROTR(x, 19) ^ SHA2_SHFR(x, 10))
+
+#define SHA2_UNPACK32(x, str) {               \
+	*((str) + 3) = (uint8) ((x)      );       \
+	*((str) + 2) = (uint8) ((x) >>  8);       \
+	*((str) + 1) = (uint8) ((x) >> 16);       \
+	*((str) + 0) = (uint8) ((x) >> 24);       \
+}
+
+#define SHA2_PACK32(str, x) {                 \
+	*(x) =   ((uint32) *((str) + 3)      )    \
+		   | ((uint32) *((str) + 2) <<  8)    \
+		   | ((uint32) *((str) + 1) << 16)    \
+		   | ((uint32) *((str) + 0) << 24);   \
+}
+
+class Clave {
+	public:
+		enum Razon{CORTA, ERROR_CRYPT};
+		// Constructor
+		Clave(const char*);
+
+		class Incorrecta {
+			public:
+				Incorrecta(const Razon);
+				inline Razon razon() const noexcept { return razon_; }
+			private:
+				Razon razon_;
+		};
+		
+		class SHA256 {
+			protected:
+				typedef unsigned char 		uint8;
+				typedef unsigned int 		uint32;
+				typedef unsigned long long 	uint64;
+				const static 				uint32 sha256_k[];
+				static const unsigned int 	SHA224_256_BLOCK_SIZE = 64;
+				unsigned int 				m_tot_len;
+				unsigned int				m_len;
+				unsigned char 				m_block[2*SHA224_256_BLOCK_SIZE];
+				uint32 						m_h[8];
+				void transform(const unsigned char *message, unsigned int block_nb);
+			public:
+				void init();
+				void update	(const unsigned char *message, unsigned int len);
+				void final	(unsigned char *digest);
+				static const unsigned int DIGEST_SIZE = 32;
+		};
+		// Metodos
+		inline const Cadena& clave() const 	noexcept { return clave_; }
+		bool verifica(const Cadena&) 		noexcept;
+	private:
+		const Cadena cifrar(const Cadena&);
+		Cadena clave_;
+};
+
 class Usuario {
 
 	public:
+		// Clase de error Id duplicado
+		class Id_duplicado {
+			public:
+				Id_duplicado(const Cadena&);
+				inline const Cadena& idd() { return iden_; }
+			private:
+				Cadena iden_;
+		};
+
 		// Constructor
 		explicit Usuario(const Cadena&, const Cadena&, const Cadena&, const Cadena&, const Clave&);
 
@@ -50,15 +121,6 @@ class Usuario {
 		void 	compra				(const Articulo&, size_t = 1);
 		const 	Articulos& compra	();
 		int 	n_articulos			(const Articulo&);
-
-		// Clase de error Id duplicado
-		class Id_duplicado {
-			public:
-				Id_duplicado(const Cadena&);
-				inline const Cadena& idd() { return iden_; }
-			private:
-				Cadena iden_;
-		};
 
 	private:
 		Cadena 		iden_;

@@ -3,16 +3,35 @@
 
 #include <iostream>
 
-#include "numero.hpp"
 #include "fecha.hpp"
 #include "usuario.hpp"
 
 class Usuario;
+class Numero {
+	public:
+		// Constructor
+		explicit Numero(const Cadena&);
+		// Enum de error
+		enum Razon {LONGITUD, DIGITOS, NO_VALIDO};
+		class Incorrecto {
+			public:
+				Incorrecto(Razon);
+				inline Razon razon() { return razon_; }
+			private:
+				Razon razon_;
+		};
+		// Operadores
+		inline 	operator const char* () const { return num_.c_str(); }
+		bool 	operator < (Numero&);
+	private:
+		Cadena num_;
+};
+
 class Tarjeta {
 
 	public:
 		// Constructor
-		explicit Tarjeta(const Numero&, Usuario*, const Fecha&);
+		explicit Tarjeta(const Numero&, const Usuario*, const Fecha&);
 
 		// Destructor
 		~Tarjeta();
