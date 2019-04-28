@@ -2,6 +2,7 @@
 #define CADENA_HPP_
 
 #include <iostream>
+#include <functional>
 
 // Para P2 y ss.
 // Especialización de la plantilla hash<T>para definir la
