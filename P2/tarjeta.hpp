@@ -4,14 +4,15 @@
 #include <iostream>
 
 #include "numero.hpp"
-#include "usuario.hpp"
 #include "fecha.hpp"
+#include "usuario.hpp"
 
+class Usuario;
 class Tarjeta {
 
 	public:
 		// Constructor
-		explicit Tarjeta(const Numero&, const Usuario&, const Fecha&);
+		explicit Tarjeta(const Numero&, Usuario*, const Fecha&);
 
 		// Destructor
 		~Tarjeta();
@@ -69,7 +70,7 @@ class Tarjeta {
 		Numero  num_;
 		Fecha   caducidad_;
 		bool    estado_;
-		const 	Usuario* titular_;
+		Usuario* const titular_;
 
 };
 

@@ -2,18 +2,20 @@
 #include <cstring>
 
 #include "numero.hpp"
+#include "cadena.hpp"
 #include "luhn.hpp"
 
 Numero::Numero(const Cadena& num) {
 
 	Cadena cad = num;
 	int j = 0;
-	for(auto i = num.begin(); i != num.end(); ++i){
-		if(*i != ' ')
+	for(auto i = num.begin(); i != num.end(); ++i) {
+		if(*i != ' ') {
 			if(int(*i) >= 48 && int(*i) <= 57)
 				cad[j++] = *i;
 			else
 				throw Incorrecto(DIGITOS);
+		}
 	}
 
 	cad = cad.substr(0,j);

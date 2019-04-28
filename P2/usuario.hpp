@@ -2,14 +2,16 @@
 #define USUARIO_HPP
 
 #include <unordered_set>
+#include <map>
+#include <unordered_map>
 #include <iostream>
 
-#include "cadena.hpp"
 #include "clave.hpp"
-#include "tarjeta.hpp"
-#include "numero.hpp"
+#include "cadena.hpp"
 #include "articulo.hpp"
+#include "numero.hpp"
 
+class Tarjeta;
 class Usuario {
 
 	public:
@@ -31,6 +33,10 @@ class Usuario {
 		// Funcion externa
 		friend void mostrar_carro(std::ostream&, const Usuario&);
 
+		// Maps
+		typedef std::map<Numero, Tarjeta*> Tarjetas;
+		typedef std::unordered_map<Articulo*, unsigned int> Articulos;
+
 		// Metodos
 		const 	Cadena& 	id();
 		const 	Cadena& 	nombre();
@@ -43,7 +49,7 @@ class Usuario {
 
 		void 	compra				(const Articulo&, size_t = 1);
 		const 	Articulos& compra	();
-		int 	n_articulos			(const Articulos&);
+		int 	n_articulos			(const Articulo&);
 
 		// Clase de error Id duplicado
 		class Id_duplicado {
@@ -54,18 +60,18 @@ class Usuario {
 				Cadena iden_;
 		};
 
-		// Maps
-		map<Numero, Tarjeta*> Tarjetas;
-		std::unordered_map<Articulo*, size_t> Articulos;
-
 	private:
 		Cadena 		iden_;
 		Cadena 		nomb_;
 		Cadena 		apell_;
 		Cadena 		dirr_;
 		Clave  		clave_;
+		
 		Tarjetas 	tarjetas_;
 		Articulos 	articulos_;
+
+		typedef std::unordered_set<const Cadena&> Usuarios;
+		static 	Usuarios 	usuarios_;
 
 };
 

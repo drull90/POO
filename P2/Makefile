@@ -54,7 +54,7 @@ LIBS      = ${LOCALLIBS} ${EXTLIBS}
 VPATH     = .:${DIRTESTS}:${DIRFECHACADENA}:${DIRLUHN}
 
 # Estos son los ficheros que tiene que hacer el alumno. El resto se le da.
-OWN_SRCS  = usuario.cpp tarjeta.cpp articulo.cpp
+OWN_SRCS  = usuario.cpp tarjeta.cpp articulo.cpp #clave.cpp numero.cpp sha256.cpp
 OWN_HDRS  = $(OWN_SRCS:.cpp=.hpp)
 
 OWN_OBJS  = $(OWN_SRCS:.cpp=.o)
