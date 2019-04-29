@@ -6,8 +6,6 @@
 #include <iomanip> 
 
 #include "usuario.hpp"
-#include "tarjeta.hpp"
-#include "cadena.hpp"
 
 Clave::Clave(const char* clave) {
 	if(strlen(clave) < 5) throw Incorrecta(CORTA);
@@ -145,19 +143,21 @@ void Clave::SHA256::final(unsigned char *digest) {
 	}
 }
 
-Usuario::Usuarios usuario_;
+Usuario::Usuarios Usuario::users;
 
 Usuario::Usuario(const Cadena& iden, const Cadena& nomb, const Cadena& apell, const Cadena& dirr, const Clave& clave) : iden_{iden}, nomb_{nomb}, 
 apell_{apell}, dirr_{dirr}, clave_{clave} {
 
-	if(usuario_.insert(iden_).second == false) throw Usuario::Id_duplicado(iden);
+	if(users.insert(iden_).second == false) throw Usuario::Id_duplicado(iden_);
 
 }
 
 Usuario::~Usuario(){
 
-	for(auto i = tarjetas_.begin(); i != tarjetas_.end(); ++i)
-		i->second->anula_titular();
+	for(auto i : tarjetas_)
+		i.second->anula_titular();
+	
+	users.erase(iden_);
 
 }
 
@@ -179,7 +179,6 @@ void Usuario::compra(const Articulo& articulo, size_t unidades) {
 			i->second = unidades;
 		else
 			articulos_[const_cast<Articulo*>(&articulo)] = unidades;
-		
 	}
 	else
 		articulos_.erase(const_cast<Articulo*>(&articulo));

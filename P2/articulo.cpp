@@ -11,7 +11,7 @@ std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
 	o << "[" << articulo.referencia() << "] " << "\"" << articulo.titulo() << "\"" ", ";
 	o << articulo.f_publi().anno();
-	o << std::setprecision(2) << ". " << articulo.precio() << "€";
+	o << ". " << articulo.precio() << "€";
 
 	return o;
 }

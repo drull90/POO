@@ -124,7 +124,7 @@ class Usuario {
 		void 	compra	(const Articulo&, size_t = 1);
 		
 	private:
-		static 		Usuarios usuarios_;
+		static 		Usuarios users;
 
 		Cadena 		iden_;
 		Cadena 		nomb_;
