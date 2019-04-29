@@ -71,7 +71,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p4) {
   FCT_SETUP_BGN() {
     pUsuarioPedido = new Usuario("fjord", "Franz", "Jordan",
                                  "Rue del Percebe, 13", Clave("supersecreta"));
-    pTarjetaPedido = new Tarjeta(TIPO::VISA, Numero("11234567890126"), 
+    pTarjetaPedido = new Tarjeta(Numero("11234567890126"), 
 				 *pUsuarioPedido, Fecha() + 7);
   }
   FCT_SETUP_END();

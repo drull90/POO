@@ -273,7 +273,7 @@ FCTMF_SUITE_BGN(test_cadena) {
 
   FCT_TEST_BGN(Cadena - Leer caracter: at y posicion no valida) {
     const Cadena a;
-    fct_chk_ex(out_of_range, a.at(0));
+    fct_chk_ex(out_of_range&, a.at(0));
   }
   FCT_TEST_END();
 
@@ -292,7 +292,7 @@ FCTMF_SUITE_BGN(test_cadena) {
   FCT_TEST_END();
   FCT_TEST_BGN(Cadena - Escribir caracter: at() y posicion no valida) {
     Cadena a("Papa");
-    fct_chk_ex(out_of_range, a.at(21) = 'x');
+    fct_chk_ex(out_of_range&, a.at(21) = 'x');
   }
   FCT_TEST_END();
 
@@ -304,31 +304,31 @@ FCTMF_SUITE_BGN(test_cadena) {
 
   FCT_TEST_BGN(Cadena - Subcadena: posicion inicial mayor que longitud) {
     const Cadena a("0123456789");
-    fct_chk_ex(out_of_range, a.substr(10, 10));
+    fct_chk_ex(out_of_range&, a.substr(10, 10));
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Cadena - Subcadena: posicion inicial negativa) {
     const Cadena a("0123456789");
-    fct_chk_ex(out_of_range, a.substr(-1, 10));
+    fct_chk_ex(out_of_range&, a.substr(-1, 10));
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Cadena - Subcadena: tamanno mayor que longitud restante) {
     const Cadena a("0123456789");
-    fct_chk_ex(out_of_range, a.substr(9, 2));
+    fct_chk_ex(out_of_range&, a.substr(9, 2));
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Cadena - Subcadena: tamanno negativo) {
     const Cadena a("0123456789");
-    fct_chk_ex(out_of_range, a.substr(9, -1));
+    fct_chk_ex(out_of_range&, a.substr(9, -1));
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Cadena - Subcadena: tamanno excesivo) {
     const Cadena a("0123456789");
-    fct_chk_ex(out_of_range, a.substr(9, 1000));
+    fct_chk_ex(out_of_range&, a.substr(9, 1000));
   }
   FCT_TEST_END();
 

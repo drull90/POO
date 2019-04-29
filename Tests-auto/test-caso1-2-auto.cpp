@@ -18,9 +18,9 @@ namespace {
   const Cadena sApellidos("Perez Palotes");
   const Cadena sDireccion("13 Rue del Percebe");
   const Clave  clave("pedrofueacomprarpan");
-  const Numero nTarjeta("01234 56789 012 8");
-  const Numero nTarjeta2("01234567890128");
-  const Numero nTarjeta3("11234567890126");
+  const Numero nTarjeta("4164 2959 2196 7832");
+  const Numero nTarjeta2("3138799837441258");
+  const Numero nTarjeta3("5544313153232185");
   const Fecha  fHoy;
   const Fecha  fUnaSemana = fHoy + 7;
   const Fecha  fSiguienteAnno(1, 1, fHoy.anno() + 1);
@@ -224,7 +224,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_BGN(Tarjeta - caducada) {
     const Fecha ayer { fHoy - 1 };
     try {
-      Tarjeta tarjeta(TIPO::VISA, nTarjeta, *pU, ayer);
+      Tarjeta tarjeta(nTarjeta, *pU, ayer);
       fct_chk(!"Se esperaba una excepción Tarjeta::Caducada");
     } catch (const Tarjeta::Caducada& ex) {
       fct_chk(ex.cuando() == ayer);
@@ -232,35 +232,55 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   }
   FCT_TEST_END();
 
+  FCT_TEST_BGN(Tarjeta - desactivada) {
+    Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
+    bool a = tarjeta.activa(false);
+    fct_chk(!a);
+    fct_chk_ex(Tarjeta::Desactivada, if (!a) throw Tarjeta::Desactivada());
+    a = tarjeta.activa();
+    fct_chk(a);
+  }
+  FCT_TEST_END();
+
+  FCT_TEST_BGN(Tarjeta - duplicada) {
+    Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
+    try {
+      Tarjeta tarjeta2(nTarjeta, *pU, fSiguienteAnno);
+    } catch(const Tarjeta::Num_duplicado& ex) {
+      fct_chk(ex.que() == nTarjeta);
+    }
+  }
+  FCT_TEST_END();
+
   FCT_TEST_BGN(Tarjeta - observadores) {
-    const Tarjeta tarjeta(TIPO::AmericanExpress, nTarjeta, *pU, fUnaSemana);
-    fct_chk(tarjeta.tipo     () == TIPO::AmericanExpress);
+    const Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
+    fct_chk(tarjeta.tipo     () == Tarjeta::Tipo::VISA );
     fct_chk(tarjeta.numero   () == nTarjeta             );
     fct_chk(tarjeta.caducidad() == fUnaSemana           );
     fct_chk(tarjeta.titular  () == pU                   );
-    fct_chk_eq_istr(tarjeta.titular_facial().c_str(), "PERICO PEREZ PALOTES");
+    fct_chk(tarjeta.activa   () == true                 );
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Tarjeta - comparacion) {
-    const Tarjeta tarjeta1(TIPO::JCB, nTarjeta, *pU, fUnaSemana),
-      tarjeta2(TIPO::Mastercard, nTarjeta2, *pU, fUnaSemana),
-      tarjeta3(TIPO::Maestro, nTarjeta3, *pU, fUnaSemana);
+    const Tarjeta tarjeta1(nTarjeta, *pU, fUnaSemana),
+      tarjeta2(nTarjeta2, *pU, fUnaSemana),
+      tarjeta3(nTarjeta3, *pU, fUnaSemana);
     fct_chk(!(tarjeta1 < tarjeta2));
-    fct_chk(!(tarjeta2 < tarjeta1));
-    fct_chk(  tarjeta1 < tarjeta3) ;
+    fct_chk(  tarjeta2 < tarjeta1 );
+    fct_chk(  tarjeta1 < tarjeta3 );
     fct_chk(!(tarjeta3 < tarjeta1));
-    fct_chk(  tarjeta2 < tarjeta3) ;
+    fct_chk(  tarjeta2 < tarjeta3 );
     fct_chk(!(tarjeta3 < tarjeta2));
   }
   FCT_TEST_END();
 
   FCT_TEST_BGN(Tarjeta - insercion en flujo) {
-    const Tarjeta tarjeta(TIPO::VISA, nTarjeta, *pU, fSiguienteAnno);
+    const Tarjeta tarjeta(nTarjeta, *pU, fSiguienteAnno);
     const string sTarjeta = toString(tarjeta);
     chk_incl_cstr(sTarjeta, "VISA");
     chk_incl_cstr(sTarjeta, nTarjeta);
-    chk_incl_str (sTarjeta, tarjeta.titular_facial());
+    chk_incl_cstr(sTarjeta, "PERICO PEREZ PALOTES");
     chk_incl_cstr(sTarjeta, "Caduca:");
 
     // Equivalente en C++ a printf("%02d/%02d", mes, anno%100);
@@ -277,7 +297,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_BGN(Usuario---Tarjeta - usuario roba tarjeta) {
     Usuario caco {"caco", "John", "Koone", "5.ª avda., NYC",
 	Clave("KorreEnCu3r05")};
-    Tarjeta tarjeta(TIPO::JCB, nTarjeta, *pU, fUnaSemana);
+    Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
     caco.es_titular_de(tarjeta); // No. La tarjeta es robada.
     fct_chk(caco.tarjetas().empty());
   }
@@ -286,7 +306,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_BGN(Usuario---Tarjeta - usuario no puede tener tarjeta anulada) {
     Usuario u2 {"otroId", "John", "Koone", "5.ª avda., NYC",
 	Clave("CierraBares")};
-    Tarjeta tarjeta(TIPO::JCB, nTarjeta, *pU, fUnaSemana);
+    Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
     pU->no_es_titular_de(tarjeta);
     u2.es_titular_de(tarjeta); // No hace nada
     fct_chk(u2. tarjetas().empty());
@@ -297,7 +317,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_BGN(Usuario---Tarjeta - destruccion de Tarjeta) {
     const Usuario::Tarjetas& tarjetas = pU->tarjetas();
     {
-      const Tarjeta tarjeta(TIPO::JCB, nTarjeta, *pU, fUnaSemana);
+      const Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
       if(tarjetas.size() == 1)
 	fct_chk(tarjetas.begin()->second->numero() == tarjeta.numero());
       else
@@ -308,7 +328,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_END();
 
   FCT_TEST_BGN(Usuario---Tarjeta - destruccion de Usuario) {
-    const Tarjeta tarjeta(TIPO::Maestro, nTarjeta, *pU, fUnaSemana);
+    const Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
     delete pU;
     pU = nullptr;
     fct_chk(!tarjeta.titular());
@@ -316,7 +336,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p2) {
   FCT_TEST_END();
   
   FCT_TEST_BGN(Usuario---Tarjeta - insercion en flujo) {
-    const Tarjeta tarjeta(TIPO::Mastercard, nTarjeta, *pU, fUnaSemana);
+    const Tarjeta tarjeta(nTarjeta, *pU, fUnaSemana);
     const string s = toString(*pU);
     chk_incl_str(s, sId);
     chk_incl_str(s, clave.clave());

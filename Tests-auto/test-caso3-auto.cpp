@@ -1,6 +1,6 @@
 /* $Id: test-caso3-auto.cpp 344 2016-04-29 20:20:13Z gerardo $
  * ©2014 Antonio G.ª Dguez.
- * ©2015-16 el resto de profesores de POO
+ * ©2015-19 el resto de profesores de POO
  *
  */
 #include "test-auto.hpp"
@@ -90,8 +90,8 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     pAsocPedidoArticulo = new Pedido_Articulo;
     pU  = new Usuario(sId, sNombre, sApellidos, sDireccion, clave);
     pU2 = new Usuario("u2", "Mario", "Segali", "Mundo 1-1", "jumpman");
-    pTarjetaU  = new Tarjeta(TIPO::Mastercard, nTarjeta , *pU , fUnaSemana);
-    pTarjetaU2 = new Tarjeta(TIPO::Maestro   , nTarjeta3, *pU2, fUnaSemana);
+    pTarjetaU  = new Tarjeta(nTarjeta , *pU , fUnaSemana);
+    pTarjetaU2 = new Tarjeta(nTarjeta3, *pU2, fUnaSemana);
   }
   FCT_SETUP_END();
 
@@ -156,6 +156,15 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     catch (const Tarjeta::Caducada& ex) {
       fct_chk(ex.cuando() == fUnaSemana);
     }
+  }
+  FCT_TEST_END();
+
+  FCT_TEST_BGN(Pedido - tarjeta desactivada) {
+    pU->compra(articulo1, 4649);
+    pTarjetaU->activa(false);
+    fct_chk_ex(Tarjeta::Desactivada,
+	       Pedido(*pAsocUsuarioPedido, *pAsocPedidoArticulo,
+		      *pU, *pTarjetaU, fHoy));
   }
   FCT_TEST_END();
   
@@ -227,7 +236,7 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_clases) {
     chk_incl_cstr(sPed, "Núm. pedido:");
     chk_incl_cstr(sPed, "Fecha:"      );
     chk_incl_cstr(sPed, "Pagado con:" );
-    chk_incl_cstr(sPed, "Mastercard" );
+    chk_incl_cstr(sPed, "Tipo indeterminado" );
     chk_incl_cstr(sPed, "Importe:"    );
     chk_incl_str (sPed, toString(pPed->numero()));
     chk_incl_cstr(sPed, pPed->fecha().cadena()  );
@@ -285,8 +294,8 @@ FCTMF_FIXTURE_SUITE_BGN(test_p3_informes) {
     pAsocPedidoArticulo = new Pedido_Articulo;
     pU  = new Usuario(sId, sNombre, sApellidos, sDireccion, clave);
     pU2 = new Usuario("u2", "Mario", "Segali", "Mundo 1-1", "jumpman");
-    pTarjetaU  = new Tarjeta(TIPO::AmericanExpress, nTarjeta, *pU, fUnaSemana);
-    pTarjetaU2 = new Tarjeta(TIPO::AmericanExpress, nTarjeta3,*pU2,fUnaSemana);
+    pTarjetaU  = new Tarjeta(nTarjeta, *pU, fUnaSemana);
+    pTarjetaU2 = new Tarjeta(nTarjeta3,*pU2,fUnaSemana);
 
     // Primera venta
     pU->compra(articulo1, cantidad_A1_P1);
