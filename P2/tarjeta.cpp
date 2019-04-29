@@ -4,26 +4,32 @@
 #include "cadena.hpp"
 #include "usuario.hpp"
 
+#include <iostream>
+
 bool luhn(const Cadena&);
 
 Numero::Numero(const Cadena& num) {
-	Cadena cad = num;
+
+	char cad[20];
 	int j = 0;
-	for(auto i = num.begin(); i != num.end(); ++i) {
-		if(*i != ' ') {
-			if(int(*i) >= 48 && int(*i) <= 57)
-				cad[j++] = *i;
-			else
-				throw Incorrecto(DIGITOS);
+
+	for (auto i = num.begin(); i != num.end(); ++i) {
+		if (!isspace(*i)){
+			if (*i < '0' || *i > '9') throw Incorrecto(Razon::DIGITOS);
+			cad[j] = *i;
+			++j;
 		}
-	}
-	cad 	= cad.substr(0,j);
-	int tam = cad.length();
+  	}
+	cad[j] = '\0';
 
-	if(tam < 13 || tam > 19) 	throw Incorrecto(LONGITUD);
-	if(luhn(cad) != true) 		throw Incorrecto(NO_VALIDO);
+	Cadena numAux{cad};
 
-	num_ = cad;
+	int tam = j;
+
+	if(tam < 13 || tam > 19) throw Incorrecto(LONGITUD);
+	if(!luhn(numAux)) 		 throw Incorrecto(NO_VALIDO);
+
+	num_ = numAux;
 }
 
 Numero::Incorrecto::Incorrecto(const Razon& r) : razon_{r} {}
