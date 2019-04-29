@@ -136,7 +136,7 @@ class Usuario {
 		Articulos 	articulos_;
 
 		typedef std::unordered_set<const Cadena&> Usuarios;
-		static 	Usuarios 	usuarios_;
+		static 		Usuarios usuarios_;
 
 };
 

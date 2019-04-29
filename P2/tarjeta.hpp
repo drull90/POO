@@ -2,9 +2,11 @@
 #define TARJETA_HPP
 
 #include <iostream>
+#include <unordered_set>
 
 #include "fecha.hpp"
 #include "usuario.hpp"
+#include "cadena.hpp"
 
 class Usuario;
 
@@ -17,13 +19,13 @@ class Numero {
 		class Incorrecto {
 			public:
 				Incorrecto(const Razon&);
-				inline const Razon razon() const { return razon_; }
+				inline const Razon razon() 	const noexcept { return razon_; }
 			private:
 				Razon razon_;
 		};
 		// Operadores
-		inline 	operator const char* () const { return num_.c_str(); }
-		bool 	operator < (const Numero&) const;
+		inline 	operator const char* () 	const noexcept { return num_.c_str(); }
+		bool 	operator < (const Numero&) 	const noexcept;
 	private:
 		Cadena num_;
 };
@@ -32,7 +34,7 @@ class Tarjeta {
 
 	public:
 		// Constructor
-		explicit Tarjeta(const Numero&, Usuario& const, const Fecha&);
+		explicit Tarjeta(const Numero&, Usuario&, const Fecha&);
 
 		// Destructor
 		~Tarjeta();
@@ -47,21 +49,16 @@ class Tarjeta {
 		void operator = (Tarjeta&) 			= delete;
 
 		// Sobrecarga de operadores
-		// Internos
-		bool operator < (Tarjeta&);
-		// Externos
-		friend std::ostream& operator << (std::ostream&, Tarjeta&);
-		friend std::ostream& operator << (std::ostream&, Tipo);
+		bool operator < (const Tarjeta&) const noexcept;
 
 		// Metodos
 		void 					anula_titular();
-
 		inline const Tipo& 		tipo()					const 	{ return tipo_;			}
 		inline const Numero& 	numero()				const 	{ return num_;  		}
 		inline const Fecha& 	caducidad() 			const 	{ return caducidad_;	}
+		inline const Usuario* 	titular() 				const	{ return titular_;		}
 		inline const bool 		activa()				const 	{ return estado_;		}
 		inline const bool		activa(bool b = true) 			{ return estado_ = b; 	}
-		Usuario* 				titular();
 
 		// Clase de error Tarjeta Desactivada
 		class Desactivada { };
@@ -85,13 +82,19 @@ class Tarjeta {
 		};
 
 	private:
-		Tipo tipoTarjeta();
-		Tipo tipo_;
-		Numero  num_;
-		Fecha   caducidad_;
-		bool    estado_;
-		Usuario* const titular_;
+		typedef 	std::unordered_set<Cadena> Tarjetas;
+		static		Tarjetas tarjetas_;
+		
+		Tipo 		tipoTarjeta();
+		Tipo 		tipo_;
+		Numero  	num_;
+		Fecha   	caducidad_;
+		bool    	estado_;
+		Usuario* 	const titular_;
 
 };
+
+std::ostream& operator << (std::ostream&, const Tarjeta&);
+std::ostream& operator << (std::ostream&, const Tipo&);
 
 #endif
