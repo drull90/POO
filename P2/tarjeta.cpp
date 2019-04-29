@@ -30,7 +30,7 @@ Numero::Incorrecto::Incorrecto(const Razon& r) : razon_{r} {}
 
 bool Numero::operator < (const Numero& num) const noexcept { return this->num_ < num.num_; }
 
-Tarjeta::Tarjetas Tarjeta::tarjetas_;
+Tarjeta::Tarjetas tarjetas_;
 
 Tarjeta::Tarjeta(const Numero& num, Usuario& us, const Fecha& fe) : num_{num}, titular_{&us}, caducidad_{fe}, estado_{true} {
 

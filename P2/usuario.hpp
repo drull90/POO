@@ -92,15 +92,12 @@ class Usuario {
 		// Destructor
 		~Usuario();
 
-		// Operador externo
 		friend std::ostream& operator << (std::ostream&, const Usuario&);
 
-		// Funcion externa
-		friend void mostrar_carro(std::ostream&, const Usuario&);
-
 		// Maps
-		typedef std::map			<Numero, Tarjeta*> 			Tarjetas;
+		typedef std::map			<Numero, 	Tarjeta*> 		Tarjetas;
 		typedef std::unordered_map	<Articulo*, unsigned int> 	Articulos;
+		typedef std::unordered_set	<Cadena> 					Usuarios;
 
 		// Clase de error
 		class Id_duplicado {
@@ -121,11 +118,14 @@ class Usuario {
 		void 	es_titular_de		(const Tarjeta&);
 		void 	no_es_titular_de	(const Tarjeta&);
 
-		void 	compra				(const Articulo&, size_t = 1);
-		const 	Articulos& compra	();
-		int 	n_articulos			(const Articulo&);
+		inline  const 	Articulos& compra	() const noexcept { return articulos_;	 		}
+		inline 	int 	n_articulos			() const noexcept { return articulos_.size(); 	}
 
+		void 	compra	(const Articulo&, size_t = 1);
+		
 	private:
+		static 		Usuarios usuarios_;
+
 		Cadena 		iden_;
 		Cadena 		nomb_;
 		Cadena 		apell_;
@@ -135,9 +135,8 @@ class Usuario {
 		Tarjetas 	tarjetas_;
 		Articulos 	articulos_;
 
-		typedef 	std::unordered_set<const Cadena&> Usuarios;
-		static 		Usuarios usuarios_;
-
 };
+
+void mostrar_carro(std::ostream&, const Usuario&);
 
 #endif

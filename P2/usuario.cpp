@@ -1,7 +1,11 @@
 #include <cstring>
 #include <iostream>
+#include <unordered_set>
+#include <map>
+#include <utility>
 
 #include "usuario.hpp"
+#include "tarjeta.hpp"
 #include "cadena.hpp"
 
 Clave::Clave(const char* clave) {
@@ -140,15 +144,70 @@ void Clave::SHA256::final(unsigned char *digest) {
 	}
 }
 
+Usuario::Usuarios usuario_;
+
 Usuario::Usuario(const Cadena& iden, const Cadena& nomb, const Cadena& apell, const Cadena& dirr, const Clave& clave) : iden_{iden}, nomb_{nomb}, 
 apell_{apell}, dirr_{dirr}, clave_{clave} {
 
-
+	if(usuario_.insert(iden_).second == false) throw Usuario::Id_duplicado(iden);
 
 }
 
 Usuario::~Usuario(){
 
+	for(auto i = tarjetas_.begin(); i != tarjetas_.end(); ++i)
+		i->second->anula_titular();
+
 }
 
 Usuario::Id_duplicado::Id_duplicado(const Cadena& cad) : iden_{cad} {}
+
+void Usuario::es_titular_de(const Tarjeta& t){
+
+	if(this == t.titular()) tarjetas_[t.numero()] = const_cast<Tarjeta*>(&t);
+
+}
+
+void Usuario::no_es_titular_de(const Tarjeta& t){ tarjetas_.erase(t.numero()); }
+
+void Usuario::compra(const Articulo& articulo, size_t unidades) {
+
+	if(unidades > 0){
+		auto i = articulos_.find(const_cast<Articulo*>(&articulo));
+		if(i != articulos_.end()) 
+			i->second = unidades;
+		else
+			articulos_[const_cast<Articulo*>(&articulo)] = unidades;
+		
+	}
+	else
+		articulos_.erase(const_cast<Articulo*>(&articulo));
+
+}
+
+std::ostream& operator << (std::ostream& o, const Usuario& us) {
+
+	o << us.iden_ 		<< " [" << us.clave_.clave() << "] " << us.nomb_ << " " << us.apell_ << std::endl;
+	o << us.dirr_ 		<< std::endl;
+	o << "Tarjetas:" 	<< std::endl;
+	
+	for(auto i : us.tarjetas_)
+		o << i.second << std::endl;
+
+	return o;
+}
+
+void mostrar_carro(std::ostream& o, const Usuario& us) {
+
+	o << "Carrito de compra de " << us.id() << " [" << "Artículos: " << us.n_articulos() << "] " << std::endl;
+	
+	if(us.n_articulos() > 0){
+		o << "Cant. Artículo" << std::endl;
+
+		for(auto i : us.compra()){
+			o << i.second << "  [" << i.first->referencia() << "] " << "\"" << i.first->titulo() << "\", ";
+			o << i.first->f_publi().anno() << ". " << i.first->precio() << " €" << std::endl;
+		}
+	}
+	
+}

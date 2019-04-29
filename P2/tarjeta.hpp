@@ -51,6 +51,8 @@ class Tarjeta {
 		// Sobrecarga de operadores
 		bool operator < (const Tarjeta&) const noexcept;
 
+		typedef 	std::unordered_set<Cadena> Tarjetas;
+
 		// Metodos
 		void 					anula_titular();
 		inline const Tipo& 		tipo()					const 	{ return tipo_;			}
@@ -82,7 +84,6 @@ class Tarjeta {
 		};
 
 	private:
-		typedef 	std::unordered_set<Cadena> Tarjetas;
 		static		Tarjetas tarjetas_;
 		
 		Tipo 		tipoTarjeta();
