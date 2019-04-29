@@ -94,12 +94,13 @@ Tarjeta::Tipo Tarjeta::tipoTarjeta(){
 
 std::ostream& operator << (std::ostream& o, const Tarjeta& t) {
 
-	o << t.tipo() 				<< std::endl;
-	o << t.numero() 			<< std::endl;
-	o << t.titular() 			<< std::endl;
+	o << t.tipo() 					<< std::endl;
+	o << t.numero() 				<< std::endl;
+	o << t.titular()->nombre()		<< " ";
+	o << t.titular()->apellidos()	<< std::endl;
 	o << "Caduca:";
-	o << t.caducidad().mes() 	<< "/";
-	o << t.caducidad().anno() 	<< std::endl;;
+	o << t.caducidad().mes() 		<< "/";
+	o << t.caducidad().anno() % 100	<< std::endl;;
 
 	return o;
 }

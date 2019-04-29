@@ -16,8 +16,10 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
  * Constructor de parametro const char*
  */
 Fecha::Fecha(const char* fecha) {
-	if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3)
-		throw Invalida((const char*)"Cadena fecha introducida no válida");
+
+	if(sscanf(fecha, "%d/%d/%d", &dia_, &mes_ ,&anno_) != 3)
+		throw Invalida("Cadena fecha introducida no válida");
+
 	fechaValida();
 }
 
@@ -25,13 +27,6 @@ Fecha::Fecha(const char* fecha) {
  * Constructor clase Invalida
  */
 Fecha::Invalida::Invalida(const char* error) noexcept : error_{error} {}
-
-/**
- * Metodo que devuelve el tipo de error
- */
-const char* Fecha::Invalida::por_que() const noexcept {
-	return error_;
-}
 
 /**
  * Validamos si la fecha es correcta
@@ -48,20 +43,20 @@ void Fecha::fechaValida() {
 
 	anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
-	if(dia_ < 1 || mes_ < 1 || mes_ > 12)
-		throw Invalida((const char*)"Fecha fuera de rango");
+	if(dia_ < 1 || mes_ < 1 || mes_ > 12 || anno_ < 0)
+		throw Invalida("Fecha fuera de rango");
 	if(!fechaEnRango())
-		throw Invalida((const char*)"Año fuera del rango");
+		throw Invalida("Año fuera del rango");
 	if(dia_ > diasMeses[mes_ - 1] && mes_ != 2)
-		throw Invalida((const char*)"Dia fuera del rango del mes");
+		throw Invalida("Dia fuera del rango del mes");
 	else{
 		if(anno_ % 4 == 0 && (anno_ % 400 == 0 || anno_ % 100 != 0)){
 			if(dia_ > diasMeses[mes_ - 1] + 1)
-				throw Invalida((const char*)"Dia fuera del rango del mes");
+				throw Invalida("Dia fuera del rango del mes");
 		}
 		else
 			if(dia_ > diasMeses[mes_ - 1])
-				throw Invalida((const char*)"Dia fuera del rango del mes");
+				throw Invalida("Dia fuera del rango del mes");
 	}
 }
 
@@ -91,7 +86,7 @@ Fecha& Fecha::operator += (int dia){
 	mes_ 	= (fechaSumada->tm_mon + 1);
 	anno_ 	= (fechaSumada->tm_year + 1900);
 	
-	if(!fechaEnRango()) throw Invalida((const char*)"Año fuera del rango");
+	if(!fechaEnRango()) throw Invalida("Año fuera del rango");
 
 	return *this;
 }

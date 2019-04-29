@@ -3,6 +3,7 @@
 #include <unordered_set>
 #include <map>
 #include <utility>
+#include <iomanip> 
 
 #include "usuario.hpp"
 #include "tarjeta.hpp"
@@ -192,7 +193,7 @@ std::ostream& operator << (std::ostream& o, const Usuario& us) {
 	o << "Tarjetas:" 	<< std::endl;
 	
 	for(auto i : us.tarjetas_)
-		o << i.second << std::endl;
+		o << *i.second << std::endl;
 
 	return o;
 }
@@ -205,8 +206,7 @@ void mostrar_carro(std::ostream& o, const Usuario& us) {
 		o << "Cant. Artículo" << std::endl;
 
 		for(auto i : us.compra()){
-			o << i.second << "  [" << i.first->referencia() << "] " << "\"" << i.first->titulo() << "\", ";
-			o << i.first->f_publi().anno() << ". " << i.first->precio() << " €" << std::endl;
+			o << std::setw(3) << i.second  << "  " << *i.first << std::endl;
 		}
 	}
 	

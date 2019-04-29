@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 #include "articulo.hpp"
 #include "cadena.hpp"
@@ -8,7 +9,9 @@ Articulo::Articulo(const Cadena& ref, const Cadena& titulo, const Fecha& fecha, 
 
 std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
-	o << "[" << articulo.referencia()<< "] " << "\"" << articulo.titulo() << "\"" ", " << articulo.f_publi().anno() << ". " << articulo.precio() << "€";
+	o << "[" << articulo.referencia() << "] " << "\"" << articulo.titulo() << "\"" ", ";
+	o << articulo.f_publi().anno();
+	o << std::setprecision(2) << ". " << articulo.precio() << "€";
 
 	return o;
 }

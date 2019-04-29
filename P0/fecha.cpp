@@ -16,8 +16,8 @@ Fecha::Fecha(int dia, int mes, int anno) : dia_{dia}, mes_{mes}, anno_{anno} {
  * Constructor de parametro const char*
  */
 Fecha::Fecha(const char* fecha) {
-	if(sscanf(fecha, "%i/%i/%i", &dia_, &mes_ ,&anno_) != 3)
-		throw Invalida((const char*)"Cadena fecha introducida no válida");
+	if(sscanf(fecha, "%d/%d/%d", &dia_, &mes_ ,&anno_) != 3)
+		throw Invalida("Cadena fecha introducida no válida");
 	fechaValida();
 }
 
@@ -48,7 +48,7 @@ void Fecha::fechaValida() {
 
 	anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
-	if(dia_ < 1 || mes_ < 1 || mes_ > 12)
+	if(dia_ < 1 || mes_ < 1 || mes_ > 12 || anno_ < 0)
 		throw Invalida((const char*)"Fecha fuera de rango");
 	if(!fechaEnRango())
 		throw Invalida((const char*)"Año fuera del rango");

@@ -36,8 +36,8 @@ class Fecha {
 		//Clases
 		class Invalida{
 			public:
-				Invalida(const char*) noexcept;
-				const char* por_que() const noexcept;
+				Invalida(const char*) 				noexcept;
+				inline const char* por_que() const 	noexcept { return error_; }
 			private:
 				const char* error_;
 		};
