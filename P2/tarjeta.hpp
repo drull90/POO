@@ -78,7 +78,7 @@ class Tarjeta {
 		class Num_duplicado {
 			public:
 				Num_duplicado(const Numero&);
-				inline const Numero& num() { return num_; }
+				inline const Numero& que() const noexcept { return num_; }
 			private:
 				Numero num_;
 		};
