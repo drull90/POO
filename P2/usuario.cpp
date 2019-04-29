@@ -15,14 +15,14 @@ Clave::Clave(const char* clave) {
 
 Clave::Incorrecta::Incorrecta(Razon r) : razon_{r} {}
 
-bool Clave::verifica(const Cadena& pass) noexcept {
+bool Clave::verifica(const Cadena& pass) const noexcept {
 
 	if( cifrar(pass) == clave_ ) return true;
 
 	return false;
 }
 
-const Cadena Clave::cifrar(const Cadena& pass) {
+const Cadena Clave::cifrar(const Cadena& pass) const {
 
 	unsigned char digest[SHA256::DIGEST_SIZE];
 	memset(digest,0,SHA256::DIGEST_SIZE);

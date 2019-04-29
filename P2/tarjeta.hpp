@@ -69,7 +69,7 @@ class Tarjeta {
 		class Caducada {
 			public:
 				Caducada(const Fecha&);
-				inline const Fecha& cuando() { return fecha_; }
+				inline const Fecha& cuando() const noexcept { return fecha_; }
 			private:
 				Fecha fecha_;
 		};
@@ -95,7 +95,7 @@ class Tarjeta {
 
 };
 
-std::ostream& operator << (std::ostream&, const Tarjeta&);
 std::ostream& operator << (std::ostream&, const Tarjeta::Tipo&);
+std::ostream& operator << (std::ostream&, const Tarjeta&);
 
 #endif

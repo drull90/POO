@@ -30,9 +30,9 @@ Numero::Incorrecto::Incorrecto(const Razon& r) : razon_{r} {}
 
 bool Numero::operator < (const Numero& num) const noexcept { return this->num_ < num.num_; }
 
-Tarjeta::Tarjetas tarjetas_;
+Tarjeta::Tarjetas Tarjeta::tarjetas_;
 
-Tarjeta::Tarjeta(const Numero& num, Usuario& us, const Fecha& fe) : num_{num}, titular_{&us}, caducidad_{fe}, estado_{true} {
+Tarjeta::Tarjeta(const Numero& num, Usuario& us, const Fecha& fe) : num_{num}, caducidad_{fe}, estado_{true}, titular_{&us} {
 
 	Fecha f;
 	if(caducidad_ < f) throw Tarjeta::Caducada(caducidad_);
@@ -86,7 +86,7 @@ Tarjeta::Tipo Tarjeta::tipoTarjeta(){
 	return tipo;
 }
 
-std::ostream& operator << (std::ostream& o, Tarjeta& t) {
+std::ostream& operator << (std::ostream& o, const Tarjeta& t) {
 
 	o << t.tipo() 				<< std::endl;
 	o << t.numero() 			<< std::endl;
@@ -98,7 +98,7 @@ std::ostream& operator << (std::ostream& o, Tarjeta& t) {
 	return o;
 }
 
-std::ostream& operator << (std::ostream& o, Tarjeta::Tipo& t) {
+std::ostream& operator << (std::ostream& o, const Tarjeta::Tipo& t) {
 
 	switch (t) {
 		case Tarjeta::Tipo::VISA:

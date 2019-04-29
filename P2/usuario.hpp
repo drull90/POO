@@ -71,9 +71,9 @@ class Clave {
 		};
 		// Metodos
 		inline const Cadena& clave() const 	noexcept { return clave_; }
-		bool verifica(const Cadena&) 		noexcept;
+		bool verifica(const Cadena&) const	noexcept;
 	private:
-		const Cadena cifrar(const Cadena&);
+		const Cadena cifrar(const Cadena&) const;
 		Cadena clave_;
 };
 
@@ -103,17 +103,17 @@ class Usuario {
 		class Id_duplicado {
 			public:
 				Id_duplicado(const Cadena&);
-				inline const Cadena& idd() { return iden_; }
+				inline const Cadena& idd() const noexcept { return iden_; }
 			private:
 				Cadena iden_;
 		};
 
 		// Metodos
-		inline const 	Cadena& 	id()		const	{ return iden_; }
-		inline const 	Cadena& 	nombre()	const	{ return nomb_;	}
-		inline const	Cadena& 	apellidos()	const	{ return apell_;}
-		inline const 	Cadena& 	direccion()	const	{ return dirr_;	}
-		const 			Tarjeta& 	tarjetas();
+		inline const 	Cadena& 	id()		const noexcept	{ return iden_; 	}
+		inline const 	Cadena& 	nombre()	const noexcept	{ return nomb_;		}
+		inline const	Cadena& 	apellidos()	const noexcept	{ return apell_;	}
+		inline const 	Cadena& 	direccion()	const noexcept 	{ return dirr_;		}
+		const 			Tarjetas& 	tarjetas()	const noexcept 	{ return tarjetas_;	}
 
 		void 	es_titular_de		(const Tarjeta&);
 		void 	no_es_titular_de	(const Tarjeta&);
