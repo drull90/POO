@@ -95,6 +95,6 @@ class Tarjeta {
 };
 
 std::ostream& operator << (std::ostream&, const Tarjeta&);
-std::ostream& operator << (std::ostream&, const Tipo&);
+std::ostream& operator << (std::ostream&, const Tarjeta::Tipo&);
 
 #endif

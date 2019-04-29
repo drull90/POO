@@ -99,8 +99,8 @@ class Usuario {
 		friend void mostrar_carro(std::ostream&, const Usuario&);
 
 		// Maps
-		typedef std::map<Numero, Tarjeta*> Tarjetas;
-		typedef std::unordered_map<Articulo*, unsigned int> Articulos;
+		typedef std::map			<Numero, Tarjeta*> 			Tarjetas;
+		typedef std::unordered_map	<Articulo*, unsigned int> 	Articulos;
 
 		// Clase de error
 		class Id_duplicado {
@@ -135,7 +135,7 @@ class Usuario {
 		Tarjetas 	tarjetas_;
 		Articulos 	articulos_;
 
-		typedef std::unordered_set<const Cadena&> Usuarios;
+		typedef 	std::unordered_set<const Cadena&> Usuarios;
 		static 		Usuarios usuarios_;
 
 };
