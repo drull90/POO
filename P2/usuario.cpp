@@ -156,7 +156,7 @@ Usuario::~Usuario(){
 
 	for(auto i : tarjetas_)
 		i.second->anula_titular();
-	
+
 	users.erase(iden_);
 
 }
@@ -169,7 +169,7 @@ void Usuario::es_titular_de(const Tarjeta& t){
 
 }
 
-void Usuario::no_es_titular_de(const Tarjeta& t){ tarjetas_.erase(t.numero()); }
+void Usuario::no_es_titular_de(const Tarjeta& t) { tarjetas_.erase(t.numero()); }
 
 void Usuario::compra(const Articulo& articulo, size_t unidades) {
 

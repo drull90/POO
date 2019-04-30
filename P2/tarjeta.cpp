@@ -40,26 +40,28 @@ Tarjeta::Tarjetas Tarjeta::tarjetas_;
 
 Tarjeta::Tarjeta(const Numero& num, Usuario& us, const Fecha& fe) : num_{num}, caducidad_{fe}, estado_{true}, titular_{&us} {
 
-	Fecha f;
-	if(caducidad_ < f) throw Tarjeta::Caducada(caducidad_);
+	if(caducidad_ < Fecha()) throw Tarjeta::Caducada(caducidad_);
 
-	us.es_titular_de(*this);
+	if(tarjetas_.insert(static_cast<Cadena>(num)).second == false) throw Tarjeta::Num_duplicado(num);
+
+	const_cast<Usuario*>(titular_)->es_titular_de(*this);
 
 	tipo_ = tipoTarjeta();
 
-	if(tarjetas_.insert(static_cast<Cadena>(num)).second == false) throw Tarjeta::Num_duplicado(num);
 }
 
 Tarjeta::~Tarjeta() {
 
-	if(titular_ != nullptr) titular_->no_es_titular_de(*this);
+	if(titular_ != nullptr) const_cast<Usuario*>(titular_)->no_es_titular_de(*this);
+
+	tarjetas_.erase(static_cast<Cadena>(num_));
 
 }
 
 void Tarjeta::anula_titular(){
 
-	estado_ 						= false;
-	const_cast<Usuario*&>(titular_) = nullptr;
+	estado_ 	= false;
+	titular_	= nullptr;
 
 }
 

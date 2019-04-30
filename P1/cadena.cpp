@@ -1,6 +1,7 @@
 #include <stdexcept>
 #include <cstring>
 #include <iostream>
+#include <iomanip>
 
 #include "cadena.hpp"
 
@@ -9,11 +10,10 @@
  */
 Cadena::Cadena(size_t tam, char c) noexcept : tam_{tam} {
 
-	size_t i = 0;
 	s_ = new char[tam + 1];				// Caracter terminador \0 +1
-	for(i = 0; i < tam; ++i)
+	for(size_t i = 0; i < tam_; ++i)
 		s_[i] = c;
-	s_[i] = '\0';
+	s_[tam_] = '\0';
 }
 
 /**
@@ -23,6 +23,7 @@ Cadena::Cadena(const Cadena& cad) noexcept : tam_{cad.tam_} {
 
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad.s_);
+	s_[tam_] = '\0';
 
 }
 
@@ -44,8 +45,14 @@ Cadena::Cadena(const char* cad) noexcept {
 
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
-	strcpy(s_, cad);
-	strcat(s_, "\0");
+
+	char* buff = new char[tam_ + 1];
+
+	strcpy(buff, cad);
+	strcpy(s_, buff);
+	s_[tam_] = '\0';
+
+	delete[] buff;
 	
 }
 
@@ -83,6 +90,7 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
 	strcpy(s_, cad);
+	s_[tam_] = '\0';
 
 	return *this;
 }
@@ -104,22 +112,16 @@ Cadena&	Cadena::operator = (Cadena&& cad) noexcept {
  */
 Cadena& Cadena::operator +=	(const Cadena& cad2) noexcept {
 
-	int tam = this->tam_ + cad2.tam_ + 1;
+	tam_ += cad2.tam_;
+	char* buff = new char [tam_ + 1];
 
-	char* buff = new char[tam];
-
-	strcpy(buff, this->s_);
+	strcpy(buff, s_);
 	strcat(buff, cad2.s_);
-	strcat(buff, "\0");
 
-	delete[] this->s_;
+	buff[tam_] = '\0';
+	delete[] s_;
 
-	this->tam_ = tam;
-	this->s_ = new char[tam];
-
-	strcpy(this->s_, buff);
-
-	delete[] buff;
+	s_ = buff;
 
 	return *this;
 }
@@ -178,7 +180,7 @@ char& Cadena::at(size_t n) {
  */
 Cadena Cadena::substr(size_t indice, size_t tam) const {
 
-	if(indice > tam_ || indice + tam > tam_) throw std::out_of_range("Rango substr no válido");
+	if(indice > tam_ ||  tam_ - indice < tam) throw std::out_of_range("Rango substr no válido");
 
 	char* buff = new char[tam];
 	int j = 0;
@@ -214,11 +216,10 @@ std::ostream& operator << (std::ostream& o, const Cadena& cad) noexcept {
  */
 std::istream& operator >> (std::istream& i, Cadena& cad) {
 
-	char *buff = new char[32];
-	i >> buff;
-
-	cad = buff;
-	delete[] buff;
+	char* aux = new char[33]{'\0'};
+	i >> std::setw(33) >> aux;
+	cad = Cadena(aux);
+	delete[] aux;
 
 	return i;
 }

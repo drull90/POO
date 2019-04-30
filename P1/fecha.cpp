@@ -3,6 +3,8 @@
 #include <cstring>
 #include <clocale>
 #include <time.h>
+#include <iomanip>
+
 #include "fecha.hpp"
 
 /**
@@ -43,7 +45,7 @@ void Fecha::fechaValida() {
 
 	anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
-	if(dia_ < 1 || mes_ < 1 || mes_ > 12 || anno_ < 0)
+	if(dia_ < 1 || mes_ < 1 || mes_ > 12)
 		throw Invalida("Fecha fuera de rango");
 	if(!fechaEnRango())
 		throw Invalida("Año fuera del rango");
@@ -64,7 +66,7 @@ void Fecha::fechaValida() {
  * Comprobar rango de los años de la fecha
  */
 bool Fecha::fechaEnRango() const noexcept{
-	return (this->anno_ >= AnnoMinimo || this->anno_ <= AnnoMaximo); 
+	return (this->anno_ >= AnnoMinimo && this->anno_ <= AnnoMaximo); 
 }
 
 /**
@@ -192,16 +194,15 @@ std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept{
 std::istream& operator >> (std::istream& i, Fecha& fecha) {
 
 	int dia, mes, anno;
+	char* f = new char[11];
 
-	fflush(stdin);
-	scanf("%i/%i/%i", &dia, &mes ,&anno);
+	i >> std::setw(11) >> f;
 
-	fecha.dia_ 	= dia;
-	fecha.mes_ 	= mes;
-	fecha.anno_ = anno;
+	sscanf(f, "%d/%d/%d", &dia, &mes ,&anno);
+	delete[] f;
 
 	try{
-		fecha.fechaValida();
+		fecha = Fecha(dia, mes, anno);
 	}
 	catch(const Fecha::Invalida& e){
 		i.setstate(std::ios_base::failbit);

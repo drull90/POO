@@ -54,7 +54,6 @@ class Tarjeta {
 		typedef 	std::unordered_set<Cadena> Tarjetas;
 
 		// Metodos
-		void 					anula_titular();
 		inline const Tipo& 		tipo()					const 	{ return tipo_;			}
 		inline const Numero& 	numero()				const 	{ return num_;  		}
 		inline const Fecha& 	caducidad() 			const 	{ return caducidad_;	}
@@ -84,14 +83,17 @@ class Tarjeta {
 		};
 
 	private:
+		friend 		class Usuario;
+		void 		anula_titular();
+		Tipo 		tipoTarjeta();
+
 		static		Tarjetas tarjetas_;
 		
-		Tipo 		tipoTarjeta();
 		Tipo 		tipo_;
 		Numero  	num_;
 		Fecha   	caducidad_;
 		bool    	estado_;
-		Usuario* 	const titular_;
+		Usuario 	const* titular_;
 
 };
 
