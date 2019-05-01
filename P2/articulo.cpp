@@ -9,8 +9,11 @@ Articulo::Articulo(const Cadena& ref, const Cadena& titulo, const Fecha& fecha, 
 
 std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
+	char art[5];
+	sprintf(art, "%d", articulo.f_publi().anno());
+
 	o << "[" << articulo.referencia() << "] " << "\"" << articulo.titulo() << "\"" ", ";
-	o << (articulo.f_publi().anno());
+	o << art;
 	o << ". " << std::fixed << std::setprecision(2) << articulo.precio() << " €";
 
 	return o;
