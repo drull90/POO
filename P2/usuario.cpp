@@ -3,20 +3,99 @@
 #include <unordered_set>
 #include <map>
 #include <utility>
-#include <iomanip> 
+#include <iomanip>
+#include <random>
 
 #include "usuario.hpp"
 
 Clave::Clave(const char* clave) {
 	if(strlen(clave) < 5) throw Incorrecta(CORTA);
+
+	std::uniform_int_distribution<int> 	distribution(1000000,9999999);
+	std::random_device					random_;
+	std::default_random_engine 			generator(random_());
+
+	// hasheamos la clave suministrada
+	// hash(clave)
 	clave_ = cifrar(clave);
+
+	// Generamos un sal aleatorio
+	int sal = distribution(generator);
+
+	// Concatenamos el sal al hash de forma poco predecible
+	// En este caso tenemos un numero de 7 cifras
+	// lo haremos de la siguiente forma
+	// 3 al principio de la Cadena y 4 al final
+
+	// Pasamos el sal a una cadena
+	char salS[7];
+	sprintf(salS, "%d", sal);
+	Cadena salCad{salS};
+
+	// Creamos una Cadena auxiliar que nos guarde el valor
+	// ClaveAux = hash + sal => SSS_hash_SSSS
+	// S caracteres del sal
+	Cadena claveAux;
+
+	claveAux += salCad.substr(0, 3);
+	claveAux += clave_;
+	claveAux += salCad.substr(3, 4);
+
+	// Volvemos a hashear el resultado
+	// hash(clave + sal) => hashRobusto
+
+	claveAux = cifrar(claveAux);
+	
+	// Agregamos el sal de nuevo al hashRobusto
+	// Nos queda SSS_hasRobusto_SSSS
+	// S es cada caracter del sal
+	Cadena aux;
+	aux = salCad.substr(0, 3);
+	aux += claveAux;
+	aux += salCad.substr(3, 4);
+
+	clave_ = aux;
+
 }
 
 Clave::Incorrecta::Incorrecta(Razon r) : razon_{r} {}
 
 bool Clave::verifica(const Cadena& pass) const noexcept {
 
-	if( cifrar(pass) == clave_ ) return true;
+	// Copiamos la cadena a cifrar en una cadena auxiliar
+	Cadena passAux{pass};
+
+	// hacemos hash sobre la clave suministrada
+	passAux = cifrar(passAux);
+
+	// Obtenemos el sal de la clave del usuario
+	// SSS_hashRobusto_SSSS
+	Cadena sal;
+	
+	sal += clave_.substr(0, 3);
+	sal += clave_.substr(clave_.length() - 4, 4);
+
+	// Agregamos sal al sal de la clave introducidad
+	// SSS_hash_SSSS
+
+	Cadena aux{};
+	aux += sal.substr(0, 3);
+	aux += passAux;
+	aux += sal.substr(3, 4);
+
+	// aux = SSS_hash_SSSS
+	// hacemos nuevamente hash
+	// passAux = hashRobusto
+	passAux = cifrar(aux);
+
+	// Ponemos el sal al hash robusto y comparamos
+	aux = "";
+	aux += sal.substr(0, 3);
+	aux += passAux;
+	aux += sal.substr(3, 4);
+
+	if( aux == clave_)
+		return true;
 
 	return false;
 }

@@ -10,7 +10,7 @@
  */
 Cadena::Cadena(size_t tam, char c) noexcept : tam_{tam} {
 
-	s_ = new char[tam + 1];				// Caracter terminador \0 +1
+	s_ = new char[tam + 1]{'\0'};				// Caracter terminador \0 +1
 	for(size_t i = 0; i < tam_; ++i)
 		s_[i] = c;
 	s_[tam_] = '\0';
@@ -44,7 +44,7 @@ Cadena::Cadena(Cadena&& cadena) noexcept : tam_{cadena.tam_} {
 Cadena::Cadena(const char* cad) noexcept {
 
 	tam_ = strlen(cad);
-	s_ = new char[tam_ + 1];
+	s_ = new char[tam_ + 1]{'\0'};
 
 	char* buff = new char[tam_ + 1];
 
@@ -180,12 +180,12 @@ char& Cadena::at(size_t n) {
  */
 Cadena Cadena::substr(size_t indice, size_t tam) const {
 
-	if(indice > tam_ ||  tam_ - indice < tam) throw std::out_of_range("Rango substr no válido");
+	if(indice > tam_ ||  tam > tam_ - indice ) throw std::out_of_range("Rango substr no válido");
 
-	char* buff = new char[tam];
+	char* buff = new char[tam + 1]{'\0'};
 	int j = 0;
-	for(size_t i = indice; i < indice+tam; ++i){
-		buff[j] = s_[i];
+	for(size_t i = 0; i < tam; ++i){
+		buff[j] = s_[i + indice];
 		++j;
 	}
 
