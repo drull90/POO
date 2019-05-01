@@ -37,13 +37,12 @@ void Fecha::fechaValida() {
 
 	time_t tiempo_calendario = time(nullptr);
 	tm* fechaHoy = localtime(&tiempo_calendario);
+
+	if(dia_ == 0) 	dia_ 	= fechaHoy->tm_mday;
+  	if(mes_ == 0) 	mes_ 	= fechaHoy->tm_mon 	+ 1;
+  	if(anno_ == 0) 	anno_ 	= fechaHoy->tm_year + 1900;
+
 	const int diasMeses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-	dia_    = (dia_ == 0)   ? fechaHoy->tm_mday         : dia_;
-
-	mes_    = (mes_ == 0)   ? fechaHoy->tm_mon + 1      : mes_;
-
-	anno_   = (anno_ == 0)  ? fechaHoy->tm_year + 1900  : anno_;
  
 	if(dia_ < 1 || mes_ < 1 || mes_ > 12)
 		throw Invalida("Fecha fuera de rango");
@@ -74,19 +73,19 @@ bool Fecha::fechaEnRango() const noexcept{
  */
 Fecha& Fecha::operator += (int dia){
 
-	time_t tiempo = time(nullptr);
-	tm* fechaSumada = localtime(&tiempo);
+;
+	tm fechaSumada{};
 
-	fechaSumada->tm_mday	= (dia_		+ dia);
-	fechaSumada->tm_mon     = (mes_		- 1);
-	fechaSumada->tm_year    = (anno_	- 1900);
-	fechaSumada->tm_hour    = 12;
+	fechaSumada.tm_mday	= (dia_		+ dia);
+	fechaSumada.tm_mon 	= (mes_		- 1);
+	fechaSumada.tm_year = (anno_	- 1900);
+	fechaSumada.tm_isdst = 1;
 
-	mktime(fechaSumada);
+	mktime(&fechaSumada);
 
-	dia_ 	= fechaSumada->tm_mday;
-	mes_ 	= (fechaSumada->tm_mon + 1);
-	anno_ 	= (fechaSumada->tm_year + 1900);
+	dia_ 	= fechaSumada.tm_mday;
+	mes_ 	= fechaSumada.tm_mon 	+ 1;
+	anno_ 	= fechaSumada.tm_year 	+ 1900;
 	
 	if(!fechaEnRango()) throw Invalida("Año fuera del rango");
 
@@ -161,19 +160,18 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
  */
 const char* Fecha::cadena() const noexcept{
 
-	static char* fecha = new char[50];
-	time_t tiempo = time(nullptr);
-	tm* fechaTiempo = localtime(&tiempo);
+	char* fecha = new char[50];
+	tm fechaTiempo{};
 	std::locale::global(std::locale(""));
 
-	fechaTiempo->tm_mday    = this->dia_;
-	fechaTiempo->tm_mon     = this->mes_ - 1;
-	fechaTiempo->tm_year    = this->anno_ - 1900;
-	fechaTiempo->tm_hour    = 12;
+	fechaTiempo.tm_mday    = dia_;
+	fechaTiempo.tm_mon     = mes_ - 1;
+	fechaTiempo.tm_year    = anno_ - 1900;
+	fechaTiempo.tm_isdst = 1;
 
-	mktime(fechaTiempo);
+	mktime(&fechaTiempo);
 
-	strftime(fecha, 50, "%A %e de %B de %Y", fechaTiempo);
+	strftime(fecha, 50, "%A %e de %B de %Y", &fechaTiempo);
 
 	return fecha;
 }

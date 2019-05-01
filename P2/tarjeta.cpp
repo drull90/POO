@@ -1,10 +1,12 @@
 #include <unordered_set>
+#include <iomanip>
+#include <ctype.h>
 
 #include "tarjeta.hpp"
+#include "fecha.hpp"
 #include "cadena.hpp"
 #include "usuario.hpp"
 
-#include <iostream>
 
 bool luhn(const Cadena&);
 
@@ -41,7 +43,6 @@ Tarjeta::Tarjetas Tarjeta::tarjetas_;
 Tarjeta::Tarjeta(const Numero& num, Usuario& us, const Fecha& fe) : num_{num}, caducidad_{fe}, estado_{true}, titular_{&us} {
 
 	if(caducidad_ < Fecha()) throw Tarjeta::Caducada(caducidad_);
-
 	if(tarjetas_.insert(static_cast<Cadena>(num)).second == false) throw Tarjeta::Num_duplicado(num);
 
 	const_cast<Usuario*>(titular_)->es_titular_de(*this);
@@ -67,23 +68,22 @@ void Tarjeta::anula_titular(){
 
 Tarjeta::Tipo Tarjeta::tipoTarjeta(){
 
-	Cadena num{num_};
 	Tipo tipo;
 
-	switch (num[0]) {
+	switch (num_[0]) {
 		case '3':
-			if(num[1] == '4' || num[1] == '7')
+			if(num_[1] == '4' || num_[1] == '7')
 				tipo = AmericanExpress;
 			else
 				tipo = JCB;
 			break;
-		case 4:
+		case '4':
 			tipo = VISA;
 			break;
-		case 5:
+		case '5':
 			tipo = Mastercard;
 			break;
-		case 6:
+		case '6':
 			tipo = Maestro;
 			break;
 		default:
@@ -96,40 +96,35 @@ Tarjeta::Tipo Tarjeta::tipoTarjeta(){
 
 std::ostream& operator << (std::ostream& o, const Tarjeta& t) {
 
+	Cadena nomApell{t.titular()->nombre()};
+	nomApell += " ";
+	nomApell += t.titular()->apellidos();
+
+	for(auto i = nomApell.begin(); i != nomApell.end(); ++i)
+		*i = toupper(*i);
+
 	o << t.tipo() 					<< std::endl;
 	o << t.numero() 				<< std::endl;
-	o << t.titular()->nombre()		<< " ";
-	o << t.titular()->apellidos()	<< std::endl;
+	o << nomApell					<< std::endl;
 	o << "Caduca:";
+	o << std::setfill('0') 			<< std::setw(2);
 	o << t.caducidad().mes() 		<< "/";
-	o << t.caducidad().anno() % 100	<< std::endl;;
+	o << (t.caducidad().anno() % 100);
 
 	return o;
 }
 
 std::ostream& operator << (std::ostream& o, const Tarjeta::Tipo& t) {
 
-	switch (t) {
-		case Tarjeta::Tipo::VISA:
-			o << "VISA";
-			break;
-		case Tarjeta::Tipo::Mastercard:
-			o << "Mastercard";
-			break;
-		case Tarjeta::Tipo::Maestro:
-			o << "Maestro";
-			break;
-		case Tarjeta::Tipo::JCB:
-			o << "JCB";
-			break;
-		case Tarjeta::Tipo::AmericanExpress:
-			o << "American Express";
-			break;
-		default:
-			o << "Otro";
-	}
-
-	return o;
+	switch(t) {
+        case Tarjeta::VISA: 			o << "VISA"; 			break;
+        case Tarjeta::Mastercard: 		o << "Mastercard";		break;
+        case Tarjeta::Maestro: 			o << "Maestro"; 		break;
+        case Tarjeta::JCB: 				o << "JCB"; 			break;
+        case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
+		default: 						o << "Otro";
+    }
+    return o;
 }
 
 bool Tarjeta::operator < (const Tarjeta& t) const noexcept{
