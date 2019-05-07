@@ -3,12 +3,21 @@
 
 #include <iostream>
 #include <unordered_set>
+#include <functional>
 
 #include "fecha.hpp"
 #include "usuario.hpp"
 #include "cadena.hpp"
 
 class Usuario;
+
+class EsDigito : public std::unary_function<int, bool>{
+	public:
+		EsDigito(char c) : c_{c} {}
+		inline bool operator () (char c) const { return (c_ >= '0' && c_ <= '9'); }
+	private:
+		char c_;
+};
 
 class Numero {
 	public:

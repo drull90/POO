@@ -1,6 +1,8 @@
 #include <unordered_set>
 #include <iomanip>
 #include <ctype.h>
+#include <algorithm>
+#include <functional>
 
 #include "tarjeta.hpp"
 #include "fecha.hpp"
@@ -12,26 +14,24 @@ bool luhn(const Cadena&);
 
 Numero::Numero(const Cadena& num) {
 
-	char cad[20];
-	int j = 0;
+	Cadena aux{num};
 
-	for (auto i = num.begin(); i != num.end(); ++i) {
-		if (!isspace(*i)){
-			if (*i < '0' || *i > '9') throw Incorrecto(Razon::DIGITOS);
-			cad[j] = *i;
-			++j;
-		}
-  	}
-	cad[j] = '\0';
+	auto EsBlanco = [&](char c) -> bool { return std::isspace(c); };
 
-	Cadena numAux{cad};
+	auto iterator = std::remove_if(aux.begin(), aux.end(), EsBlanco);
 
-	int tam = j;
+	aux = aux.substr(0, std::distance(aux.begin(), iterator));
 
-	if(tam < 13 || tam > 19) throw Incorrecto(LONGITUD);
-	if(!luhn(numAux)) 		 throw Incorrecto(NO_VALIDO);
+	for(auto i = aux.begin(); i != aux.end(); ++i)
+		if(std::find_if(aux.begin(), aux.end(), not1(EsDigito(*i))) != aux.end())
+			throw Incorrecto(DIGITOS);
 
-	num_ = numAux;
+	int tam = aux.length();
+
+	if(tam < 13 || tam > 19) 	throw Incorrecto(LONGITUD);
+	if(!luhn(aux)) 				throw Incorrecto(NO_VALIDO);
+
+	num_ = aux;
 }
 
 Numero::Incorrecto::Incorrecto(const Razon& r) : razon_{r} {}
@@ -117,14 +117,14 @@ std::ostream& operator << (std::ostream& o, const Tarjeta& t) {
 std::ostream& operator << (std::ostream& o, const Tarjeta::Tipo& t) {
 
 	switch(t) {
-        case Tarjeta::VISA: 			o << "VISA"; 			break;
-        case Tarjeta::Mastercard: 		o << "Mastercard";		break;
-        case Tarjeta::Maestro: 			o << "Maestro"; 		break;
-        case Tarjeta::JCB: 				o << "JCB"; 			break;
-        case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
+				case Tarjeta::VISA: 			o << "VISA"; 			break;
+				case Tarjeta::Mastercard: 		o << "Mastercard";		break;
+				case Tarjeta::Maestro: 			o << "Maestro"; 		break;
+				case Tarjeta::JCB: 				o << "JCB"; 			break;
+				case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
 		default: 						o << "Otro";
-    }
-    return o;
+		}
+		return o;
 }
 
 bool Tarjeta::operator < (const Tarjeta& t) const noexcept{
