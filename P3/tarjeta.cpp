@@ -23,7 +23,7 @@ Numero::Numero(const Cadena& num) {
 	aux = aux.substr(0, std::distance(aux.begin(), iterator));
 
 	for(auto i = aux.begin(); i != aux.end(); ++i)
-		if(std::find_if(aux.begin(), aux.end(), not1(EsDigito(*i))) != aux.end())
+		if(std::find_if(aux.begin(), aux.end(), not1(EsDigito())) != aux.end())
 			throw Incorrecto(DIGITOS);
 
 	int tam = aux.length();

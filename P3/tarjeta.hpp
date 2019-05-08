@@ -11,12 +11,9 @@
 
 class Usuario;
 
-class EsDigito : public std::unary_function<int, bool>{
+class EsDigito : public std::unary_function<char, bool>{
 	public:
-		EsDigito(char c) : c_{c} {}
-		inline bool operator () (char c) const { return (c_ >= '0' && c_ <= '9'); }
-	private:
-		char c_;
+		inline bool operator () (char c) const { return isdigit(c); }
 };
 
 class Numero {
