@@ -5,6 +5,9 @@
 
 #include "tarjeta.hpp"
 #include "fecha.hpp"
+#include "articulo.hpp"
+#include "pedido-articulo.hpp"
+#include "usuario-pedido.hpp"
 
 class Usuario_Pedido;
 class Pedido_Articulo;
@@ -13,7 +16,7 @@ class Tarjeta;
 class Pedido {
 
 	public:
-		Pedido(Usuario_Pedido&, Pedido_Articulo&, Usuario&, const Tarjeta&, const Fecha());
+		Pedido(Usuario_Pedido&, Pedido_Articulo&, Usuario&, const Tarjeta&, const Fecha& = Fecha());
 
 		class Vacio{
 			public:
@@ -39,7 +42,7 @@ class Pedido {
 				Articulo * articulo_;
 		};
 
-		inline int 				numero() 			const 	{ return nPedido; 	 }
+		inline int 				numero() 			const 	{ return nPedido_; 	 }
 		inline Tarjeta const* 	tarjeta() 			const 	{ return tarjeta_; 	 }
 		inline Fecha 			fecha() 			const 	{ return fecha_;	 }
 		inline double 			total()				const 	{ return importe_;	 }
@@ -48,12 +51,12 @@ class Pedido {
 	private:
 		int 		nPedido_;
 		int 		importe_;
-		int 		total_;
+		static int 	total_;
 		Fecha 		fecha_;
 		Tarjeta 	const* tarjeta_;
 
 };
 
-ostream& operator << (ostream& o, const Pedido& pedido);
+std::ostream& operator << (std::ostream& o, const Pedido& pedido);
 
 #endif
