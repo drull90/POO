@@ -7,8 +7,8 @@
 
 int Pedido::total_ = 0;
 
-Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& usuario, const Tarjeta& tarjeta, const Fecha& fecha = Fecha()) 
-: tarjeta_{&tarjeta}, fecha_{fecha} {
+Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& usuario, const Tarjeta& tarjeta, const Fecha& fecha) 
+: fecha_{fecha}, tarjeta_{&tarjeta} {
 
 	if(usuario.compra().empty())        throw Pedido::Vacio(&usuario);
 	if(tarjeta.titular() != &usuario)   throw Pedido::Impostor(&usuario);
@@ -41,7 +41,7 @@ std::ostream& operator << (std::ostream& o, const Pedido& pedido) {
     	<< "Fecha:       " 	<< pedido.fecha() 						<< std::endl
     	<< "Pagado con:  " 	<< pedido.tarjeta()->tipo()
     	<< " n.º: " 		<< pedido.tarjeta()->numero() 			<< std::endl
-    	<< "Importe:     " 	<< std::fixed << std::setprecision(2) 	<< pedido.total()
+    	<< "Importe:     "  << std::setprecision(2) 				<< pedido.total()
     	<< " €" 			<< std::endl;
 
   return o;

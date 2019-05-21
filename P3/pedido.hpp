@@ -3,6 +3,7 @@
 
 #include <iostream>
 
+#include "usuario.hpp"
 #include "tarjeta.hpp"
 #include "fecha.hpp"
 #include "articulo.hpp"
@@ -44,9 +45,9 @@ class Pedido {
 
 		inline int 				numero() 			const 	{ return nPedido_; 	 }
 		inline Tarjeta const* 	tarjeta() 			const 	{ return tarjeta_; 	 }
-		inline Fecha 			fecha() 			const 	{ return fecha_;	 }
+		inline const Fecha& 	fecha() 			const 	{ return fecha_;	 }
 		inline double 			total()				const 	{ return importe_;	 }
-		inline int 				n_total_pedidos() 			{ return total_;	 }
+		inline static int 		n_total_pedidos() 			{ return total_;	 }
 
 	private:
 		int 		nPedido_;

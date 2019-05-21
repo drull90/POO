@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <map>
 
+#include "articulo.hpp"
 #include "pedido.hpp"
 
 class Pedido;
@@ -25,12 +26,12 @@ std::ostream& operator << (std::ostream&, const LineaPedido&);
 
 class OrdenaArticulos : public std::binary_function<Articulo*,Articulo*,bool> {
 	public:
-  		bool operator()(const Articulo* a1,const Articulo* a2) const { return (a1->referencia() < a2->referencia()); }
+  		inline bool operator()(const Articulo* articulo1,const Articulo* articulo2) const { return (articulo1->referencia() < articulo2->referencia()); }
 };
 
 class OrdenaPedidos : public std::binary_function<Pedido*,Pedido*,bool> {
 	public:
-		bool operator()(const Pedido* p1,const Pedido* p2) const { return p1->numero() < p2->numero(); }
+		bool operator()(const Pedido* pedido1,const Pedido* pedido2) const;
 };
 
 class Pedido_Articulo {
