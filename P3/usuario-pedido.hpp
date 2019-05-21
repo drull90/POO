@@ -12,19 +12,20 @@ class Usuario;
 
 class Usuario_Pedido {
 
-    public:
-        typedef std::set<Pedido*>  Pedidos;
-        typedef std::map<Usuario*, Pedidos>     UsuarioPedido;
-        typedef std::map<Pedido*,  Usuario*>    PedidoUsuario;
+	public:
+		typedef std::set<Pedido*>  Pedidos;
+		typedef std::map<Usuario*, Pedidos>     UsuarioPedido;
+		typedef std::map<Pedido*,  Usuario*>    PedidoUsuario;
 
-        void asocia(const Usuario&, const Pedido&);
-        void asocia(const Pedido&,  const Usuario&);
+		void asocia(Usuario&, Pedido&);
+		void asocia(Pedido&,  Usuario&);
 
-        const Pedidos& pedidos(const Usuario&);
-        const Usuario* cliente(const Pedido&);
+		const Pedidos& pedidos(Usuario&);
+		const Usuario* cliente(Pedido&);
 
-    private:
-
+	private:
+		UsuarioPedido usuarioPedido_;
+		PedidoUsuario pedidoUsuario_;
 };
 
 #endif
