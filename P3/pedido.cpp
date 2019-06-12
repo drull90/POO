@@ -13,6 +13,7 @@ Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& u
 	if(usuario.compra().empty())        throw Pedido::Vacio(&usuario);
 	if(tarjeta.titular() != &usuario)   throw Pedido::Impostor(&usuario);
 	if(tarjeta.caducidad() < fecha)     throw Tarjeta::Caducada(tarjeta.caducidad());
+	if(tarjeta.activa() == false )		throw Tarjeta::Desactivada();
 
 	for(auto i = usuario.compra().begin(); i != usuario.compra().end(); ++i){
 		if( i->second > i->first->stock()){
@@ -37,12 +38,13 @@ Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& u
 
 std::ostream& operator << (std::ostream& o, const Pedido& pedido) {
 
-	o 	<< "Núm. pedido: " 	<< pedido.numero() 						<< std::endl
-    	<< "Fecha:       " 	<< pedido.fecha() 						<< std::endl
+	o 	<< "Núm. pedido: " 	<< pedido.numero() 				<< std::endl
+    	<< "Fecha:       " 	<< pedido.fecha() 				<< std::endl
     	<< "Pagado con:  " 	<< pedido.tarjeta()->tipo()
-    	<< " n.º: " 		<< pedido.tarjeta()->numero() 			<< std::endl
-    	<< "Importe:     "  << std::setprecision(2) 				<< pedido.total()
-    	<< " €" 			<< std::endl;
+    	<< " n.º: " 		<< pedido.tarjeta()->numero() 	<< std::endl
+    	<< "Importe:     "  
+		<< std::fixed		<< std::setprecision(2) 							
+		<< pedido.total()	<< " €" 						<< std::endl;
 
   return o;
 

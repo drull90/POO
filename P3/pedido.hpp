@@ -51,7 +51,7 @@ class Pedido {
 
 	private:
 		int 		nPedido_;
-		int 		importe_;
+		double 		importe_;
 		static int 	total_;
 		Fecha 		fecha_;
 		Tarjeta 	const* tarjeta_;

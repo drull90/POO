@@ -117,14 +117,14 @@ std::ostream& operator << (std::ostream& o, const Tarjeta& t) {
 std::ostream& operator << (std::ostream& o, const Tarjeta::Tipo& t) {
 
 	switch(t) {
-				case Tarjeta::VISA: 			o << "VISA"; 			break;
-				case Tarjeta::Mastercard: 		o << "Mastercard";		break;
-				case Tarjeta::Maestro: 			o << "Maestro"; 		break;
-				case Tarjeta::JCB: 				o << "JCB"; 			break;
-				case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
+		case Tarjeta::VISA: 			o << "VISA"; 			break;
+		case Tarjeta::Mastercard: 		o << "Mastercard";		break;
+		case Tarjeta::Maestro: 			o << "Maestro"; 		break;
+		case Tarjeta::JCB: 				o << "JCB"; 			break;
+		case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
 		default: 						o << "Otro";
-		}
-		return o;
+	}
+	return o;
 }
 
 bool Tarjeta::operator < (const Tarjeta& t) const noexcept{
