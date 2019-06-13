@@ -40,7 +40,7 @@ class Pedido {
 				SinStock(Articulo* articulo): articulo_(articulo){}
 				const Articulo& articulo() const { return *articulo_; }
 			private:
-				Articulo * articulo_;
+				Articulo* articulo_;
 		};
 
 		inline int 				numero() 			const 	{ return nPedido_; 	 }
