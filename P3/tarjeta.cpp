@@ -122,7 +122,7 @@ std::ostream& operator << (std::ostream& o, const Tarjeta::Tipo& t) {
 		case Tarjeta::Maestro: 			o << "Maestro"; 		break;
 		case Tarjeta::JCB: 				o << "JCB"; 			break;
 		case Tarjeta::AmericanExpress: 	o << "AmericanExpress"; break; 
-		default: 						o << "Otro";
+		default: 						o << "Tipo indeterminado";
 	}
 	return o;
 }

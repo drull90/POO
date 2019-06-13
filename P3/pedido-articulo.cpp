@@ -3,7 +3,7 @@
 
 #include "pedido-articulo.hpp"
 
-bool OrdenaPedidos::operator()(const Pedido* pedido1,const Pedido* pedido2) const { return pedido1->numero() < pedido2->numero(); }
+bool OrdenaPedidos::operator() (const Pedido* pedido1, const Pedido* pedido2) const { return pedido1->numero() < pedido2->numero(); }
 
 std::ostream& operator <<(std::ostream& o, const LineaPedido& lineaPedido) {
 
@@ -14,12 +14,12 @@ std::ostream& operator <<(std::ostream& o, const LineaPedido& lineaPedido) {
 	return o;
 }
 
-void Pedido_Articulo::pedir(Pedido& p, Articulo& a, double precio, int cantidad ) {
+void Pedido_Articulo::pedir(Pedido& p, Articulo& a, double precio, unsigned cantidad) {
 	pedidoArticulo_[&p].insert(std::make_pair(&a, LineaPedido(precio, cantidad)));
   	articuloPedido_[&a].insert(std::make_pair(&p, LineaPedido(precio, cantidad)));
 }
 
-void Pedido_Articulo::pedir(Articulo& articulo, Pedido& pedido, double precio, int cantidad ) {
+void Pedido_Articulo::pedir(Articulo& articulo, Pedido& pedido, double precio, unsigned cantidad) {
 	pedir(pedido, articulo, precio, cantidad);
 }
 
@@ -27,8 +27,13 @@ const Pedido_Articulo::ItemsPedido& Pedido_Articulo::detalle(Pedido& pedido) {
 	return pedidoArticulo_.find(&pedido)->second;
 }
 
-const Pedido_Articulo::Pedidos& Pedido_Articulo::ventas(Articulo& articulo) {
-	return articuloPedido_.find(&articulo)->second;
+Pedido_Articulo::Pedidos Pedido_Articulo::ventas(Articulo& articulo) {
+	if(articuloPedido_.find(&articulo) != articuloPedido_.end())
+    	return articuloPedido_.find(&articulo)->second;
+  	else {
+		Pedido_Articulo::Pedidos nada;
+		return nada;
+  	}
 }
 
 std::ostream& Pedido_Articulo::mostrarDetallePedidos(std::ostream& o) const {
@@ -44,8 +49,8 @@ std::ostream& Pedido_Articulo::mostrarDetallePedidos(std::ostream& o) const {
 		total += i->first->total();
 	}
 
-	o << std::fixed
-	  << "TOTAL VENTAS\t" << std::setprecision(2) 
+	o << "TOTAL VENTAS\t" << std::fixed
+	  << std::setprecision(2) 
 	  << total            << " €" 
 	  << std::endl;
 	
@@ -66,7 +71,8 @@ std::ostream& Pedido_Articulo::mostrarVentasArticulos(std::ostream& o) const {
 std::ostream& operator <<(std::ostream& o, const Pedido_Articulo::ItemsPedido& itemsPedido) {
 
 	double total = 0;
-	
+
+	o << std::endl;
 	o << "  PVP\tCantidad\tArticulo"                          					<< std::endl;
 	o << "=================================================================="   << std::endl;
 
@@ -78,8 +84,8 @@ std::ostream& operator <<(std::ostream& o, const Pedido_Articulo::ItemsPedido& i
 
 		total += i->second.precio_venta() * i->second.cantidad();
 	}
-	o << "==================================================================" << std::endl;
-	o << "Total\t" << std::setprecision(2) << total << " €" << std::endl;
+	o << "==================================================================" 	<< std::endl;
+	o << "Total\t" << std::fixed << std::setprecision(2) << total << " €" 		<< std::endl;
 
   return o;
 }
