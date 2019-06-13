@@ -7,7 +7,7 @@
 
 Autor::Autor(const Cadena& nombre, const Cadena& apellido, const Cadena& direccion) : nombre_{nombre}, apellido_{apellido}, direccion_{direccion} {}
 
-Articulo::Articulo(const Articulo::Autores& autores, const Cadena& referencia, const Cadena& titulo, const Fecha& fecha, double precio) : ref_{referencia}, titulo_{titulo}, fecha_{fecha}, precio_{precio}{
+Articulo::Articulo(const Articulo::Autores& autores, const Cadena& referencia, const Cadena& titulo, const Fecha& fecha, double precio) : ref_{referencia}, titulo_{titulo}, fecha_{fecha}, precio_{precio}, autores_{autores}{
 	if(autores.empty()) throw Autores_vacios();
 }
 
@@ -15,8 +15,12 @@ std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
 	o << "[" << articulo.referencia() << "] " << "\"" << articulo.titulo() << "\", de ";
 
-	for(auto i = articulo.autores().begin(); i != articulo.autores().end(); ++i)
-		o << ", " << (*i)->apellidos();
+	auto autores = articulo.autores().begin();
+
+	o << (*autores++)->apellidos();
+
+	for(; autores != articulo.autores().end(); ++autores)
+		o << ", " << (*autores)->apellidos();
 
 	o << ". " 		<< std::fixed 			<< articulo.f_publi().anno()
 	  << ". " 		<< std::setprecision(2) << articulo.precio() << " €"
@@ -27,7 +31,7 @@ std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 	return o;
 }
 
-ArticuloAlmacenable::ArticuloAlmacenable(const Articulo::Autores& autores, const Cadena& referencia, const Cadena& titulo, const Fecha& fecha, double precio, unsigned stock) : Articulo(autores, referencia, titulo, fecha, precio), stock_(stock) {}
+ArticuloAlmacenable::ArticuloAlmacenable(const Articulo::Autores& autores, const Cadena& referencia, const Cadena& titulo, const Fecha& fecha, double precio, size_t stock) : Articulo(autores, referencia, titulo, fecha, precio), stock_(stock) {}
 
 LibroDigital::LibroDigital(const Articulo::Autores& autores, const Cadena& referencia, const Cadena& titulo, const Fecha& fecha, double precio, const Fecha& fechaExp) : Articulo(autores, referencia, titulo, fecha, precio), fechaExp_(fechaExp) {}
 

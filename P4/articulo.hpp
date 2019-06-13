@@ -11,9 +11,9 @@ class Autor {
 	public:
 		Autor(const Cadena&, const Cadena&, const Cadena&);
 
-		inline Cadena nombre() 		const noexcept { return nombre_; 	};
-		inline Cadena apellidos() 	const noexcept { return apellido_;  };
-		inline Cadena direccion() 	const noexcept { return direccion_; };
+		inline Cadena nombre() 		const noexcept { return nombre_; 	}
+		inline Cadena apellidos() 	const noexcept { return apellido_;  }
+		inline Cadena direccion() 	const noexcept { return direccion_; }
 
 	private:
 		Cadena nombre_;
@@ -55,12 +55,13 @@ class Articulo {
 
 class ArticuloAlmacenable: public Articulo {
 	public:
-		ArticuloAlmacenable(const Autores&, const Cadena&, const Cadena&, const Fecha&, double, unsigned = 0);
+		ArticuloAlmacenable(const Autores&, const Cadena&, const Cadena&, const Fecha&, double, size_t = 0);
 
-		inline unsigned stock() const { return stock_; };
+		inline size_t& 	stock() 		{ return stock_; }
+		inline size_t 	stock() const 	{ return stock_; }
 
 	protected:
-		unsigned stock_;
+		size_t stock_;
 };
 
 class Libro: public ArticuloAlmacenable {
@@ -68,7 +69,7 @@ class Libro: public ArticuloAlmacenable {
 	public:
 		Libro(const Autores&, const Cadena&, const Cadena&, const Fecha&, double, unsigned, unsigned = 0);
 
-		inline unsigned n_pag() const { return pag_; };
+		inline unsigned n_pag() const { return pag_; }
 
 		void impresion_especifica(std::ostream& os) const;
 
@@ -82,7 +83,7 @@ class Cederron: public ArticuloAlmacenable {
 		//Constructor
 		Cederron(const Autores&, const Cadena&, const Cadena&, const Fecha&, double, unsigned, unsigned = 0);
 
-		inline unsigned tam() const { return tam_; };
+		inline unsigned tam() const { return tam_; }
 
 		void impresion_especifica(std::ostream& os) const;
 
@@ -96,7 +97,7 @@ class LibroDigital: public Articulo {
 		LibroDigital(const Autores&, const Cadena&, const Cadena&, const Fecha&, double, const Fecha&);
 
 		//Observador
-		inline const Fecha& f_expir() const { return fechaExp_; };
+		inline const Fecha& f_expir() const { return fechaExp_; }
 
 		void impresion_especifica(std::ostream& os) const;
 

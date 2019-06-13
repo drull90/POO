@@ -12,10 +12,10 @@ class Articulo;
 
 class LineaPedido {
 	public:
-		inline explicit LineaPedido	(double precio, unsigned cantidad = 1u): precioVenta_(precio), cantidadVendida_(cantidad) {}
+		inline explicit LineaPedido	(double precio, unsigned cantidad = 1): precioVenta_(precio), cantidadVendida_(cantidad) {}
 
-		inline double 	precio_venta() 	const { return precioVenta_;}
-		inline unsigned cantidad() 		const { return cantidadVendida_;}
+		inline double 	precio_venta() 	const noexcept { return precioVenta_;		}
+		inline unsigned cantidad() 		const noexcept { return cantidadVendida_;	}
 
 	private:
 		double 		precioVenta_;
@@ -24,12 +24,12 @@ class LineaPedido {
 
 std::ostream& operator << (std::ostream&, const LineaPedido&);
 
-class OrdenaArticulos : public std::binary_function<Articulo*,Articulo*,bool> {
+class OrdenaArticulos : public std::binary_function<const Articulo*, const Articulo*,bool> {
 	public:
   		inline bool operator()(const Articulo* articulo1, const Articulo* articulo2) const { return (articulo1->referencia() < articulo2->referencia()); }
 };
 
-class OrdenaPedidos : public std::binary_function<Pedido*,Pedido*,bool> {
+class OrdenaPedidos : public std::binary_function<const Pedido*, const Pedido*,bool> {
 	public:
 		bool operator()(const Pedido* pedido1, const Pedido* pedido2) const;
 };

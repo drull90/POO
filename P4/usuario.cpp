@@ -278,14 +278,19 @@ std::ostream& operator << (std::ostream& o, const Usuario& us) {
 
 void mostrar_carro(std::ostream& o, const Usuario& us) {
 
-	o << "Carrito de compra de " << us.id() << " [" << "Artículos: " << us.n_articulos() << "] " << std::endl;
-	
-	if(us.n_articulos() > 0){
-		o << "Cant. Artículo" << std::endl;
+	o << "Carrito de compra de " 	<< us.id() << " [Artículos: " 		<< us.n_articulos() << "] " << std::endl;
+	o << " Cant.   Artículo" 		<< std::endl;
+	o << "==========================================================="	<< std::endl;
 
-		for(auto i : us.compra()){
-			o << std::setw(3) << i.second  << "  " << *i.first << std::endl;
-		}
+	for(auto i : us.compra()) {
+		o << "   " 			<< i.second 				<< "   ";
+		o << "[" 			<< i.first->referencia() 	<< "] " 
+		  << "\"" << i.first->titulo() 					<< "\", " 
+		  << i.first->f_publi().anno() 					<< ". " 
+		  << std::fixed 	<< std::setprecision(2) 	<< i.first->precio() 
+		  << " €" 			<< std::endl;
 	}
+
+	o << std::endl;
 	
 }
