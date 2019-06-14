@@ -96,7 +96,7 @@ class Usuario {
 
 		// Maps
 		typedef std::map			<Numero, 	Tarjeta*> 		Tarjetas;
-		typedef std::unordered_map	<Articulo*, unsigned int> 	Articulos;
+		typedef std::unordered_map	<Articulo*, size_t> 		Articulos;
 		typedef std::unordered_set	<Cadena> 					Usuarios;
 
 		// Clase de error
