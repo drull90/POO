@@ -119,7 +119,7 @@ class Usuario {
 		void 	no_es_titular_de	(const Tarjeta&);
 
 		inline  const 	Articulos& 	compra	() const noexcept { return articulos_;	 		}
-		inline 	int 	n_articulos			() const noexcept { return articulos_.size(); 	}
+		inline 	size_t 	n_articulos			() const noexcept { return articulos_.size(); 	}
 
 		void 	compra	(const Articulo&, size_t = 1);
 		

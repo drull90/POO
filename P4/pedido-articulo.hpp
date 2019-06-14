@@ -48,7 +48,7 @@ class Pedido_Articulo {
 		void pedir(Articulo&, 	Pedido&, 	double, unsigned = 1);
 
 		const ItemsPedido& 	detalle(Pedido&);
-		Pedidos				ventas (Articulo&);
+		const Pedidos&		ventas (Articulo&);
 
 		std::ostream& mostrarDetallePedidos (std::ostream&) const;
 		std::ostream& mostrarVentasArticulos(std::ostream&) const;

@@ -27,13 +27,8 @@ const Pedido_Articulo::ItemsPedido& Pedido_Articulo::detalle(Pedido& pedido) {
 	return pedidoArticulo_.find(&pedido)->second;
 }
 
-Pedido_Articulo::Pedidos Pedido_Articulo::ventas(Articulo& articulo) {
-	if(articuloPedido_.find(&articulo) != articuloPedido_.end())
-    	return articuloPedido_.find(&articulo)->second;
-  	else {
-		Pedido_Articulo::Pedidos nada;
-		return nada;
-  	}
+const Pedido_Articulo::Pedidos& Pedido_Articulo::ventas(Articulo& articulo) {
+	return articuloPedido_[&articulo];
 }
 
 std::ostream& Pedido_Articulo::mostrarDetallePedidos(std::ostream& o) const {
@@ -59,10 +54,10 @@ std::ostream& Pedido_Articulo::mostrarDetallePedidos(std::ostream& o) const {
 
 std::ostream& Pedido_Articulo::mostrarVentasArticulos(std::ostream& o) const {
 
-	for(auto i = articuloPedido_.begin(); i != articuloPedido_.end(); ++i) {
-		o << "Ventas de "     	<< "["                  << i->first->referencia() 	<< "] ";
-		o << "\""             	<< i->first->titulo()   << "\""						<< std::endl;
-		o << i->second			<< std::endl;
+	for(auto i : articuloPedido_) {
+		o << "Ventas de " 	<< "[" 					<< i.first->referencia() 	<< "] ";
+		o << "\""         	<< i.first->titulo()   	<< "\""						<< std::endl;
+		o << i.second 		<< std::endl;
 	}
 
 	return o;

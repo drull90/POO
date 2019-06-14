@@ -43,18 +43,18 @@ class Pedido {
 				Articulo* articulo_;
 		};
 
-		inline int 				numero() 			const 	{ return nPedido_; 	 }
+		inline size_t 			numero() 			const 	{ return nPedido_; 	 }
 		inline Tarjeta const* 	tarjeta() 			const 	{ return tarjeta_; 	 }
 		inline const Fecha& 	fecha() 			const 	{ return fecha_;	 }
 		inline double 			total()				const 	{ return importe_;	 }
-		inline static int 		n_total_pedidos() 			{ return total_;	 }
+		inline static size_t 	n_total_pedidos() 			{ return total_;	 }
 
 	private:
-		int 		nPedido_;
-		double 		importe_;
-		static int 	total_;
-		Fecha 		fecha_;
-		Tarjeta 	const* tarjeta_;
+		size_t 			nPedido_;
+		double 			importe_;
+		static size_t 	total_;
+		Fecha 			fecha_;
+		Tarjeta const* 	tarjeta_;
 
 };
 

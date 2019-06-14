@@ -5,24 +5,24 @@
 #include "pedido-articulo.hpp"
 #include "usuario-pedido.hpp"
 
-int Pedido::total_ = 0;
+size_t Pedido::total_ = 0;
 
 Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& usuario, const Tarjeta& tarjeta, const Fecha& fecha) 
-: fecha_{fecha}, tarjeta_{&tarjeta} {
+: nPedido_{total_ + 1}, fecha_{fecha}, tarjeta_{&tarjeta} {
 
 	if(tarjeta.titular() != &usuario)   throw Pedido::Impostor(&usuario);
 	if(tarjeta.caducidad() < fecha)     throw Tarjeta::Caducada(tarjeta.caducidad());
 	if(tarjeta.activa() == false )		throw Tarjeta::Desactivada();
 
-	importe_ = 0;
+	importe_ = 0.0;
 
 	auto compra = usuario.compra();
 
 	for(auto i : compra) {
 		if(ArticuloAlmacenable* articuloAlmacenable = dynamic_cast<ArticuloAlmacenable*>(i.first)) {
 			if(i.second > articuloAlmacenable->stock()) {
-				usuario.compra(*i.first, 0);
-				throw SinStock(i.first);
+				usuario.compra(*articuloAlmacenable, 0);
+				throw SinStock(articuloAlmacenable);
 			}
 			articuloAlmacenable->stock() -= i.second;
 			peArticulo.pedir(*this, *articuloAlmacenable, articuloAlmacenable->precio(), i.second);
@@ -31,11 +31,14 @@ Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& u
 		else {
 			LibroDigital* libroDigital = dynamic_cast<LibroDigital*>(i.first);
 
-			if(libroDigital->f_expir() > fecha) {
+			if(libroDigital->f_expir() < fecha) {
+				usuario.compra(*libroDigital, 0);
+			}
+			else{
 				peArticulo.pedir(*this, *libroDigital, libroDigital->precio(), i.second);
 				importe_ += libroDigital->precio() * i.second;
 			}
-			usuario.compra(*libroDigital, 0);
+				
 		}
 	}
 

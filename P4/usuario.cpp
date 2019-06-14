@@ -253,11 +253,7 @@ void Usuario::no_es_titular_de(const Tarjeta& t) { tarjetas_.erase(t.numero()); 
 void Usuario::compra(const Articulo& articulo, size_t unidades) {
 
 	if(unidades > 0){
-		auto i = articulos_.find(const_cast<Articulo*>(&articulo));
-		if(i != articulos_.end()) 
-			i->second = unidades;
-		else
-			articulos_[const_cast<Articulo*>(&articulo)] = unidades;
+		articulos_[const_cast<Articulo*>(&articulo)] = unidades;
 	}
 	else
 		articulos_.erase(const_cast<Articulo*>(&articulo));
