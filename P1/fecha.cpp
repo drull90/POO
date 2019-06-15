@@ -35,11 +35,14 @@ Fecha::Invalida::Invalida(const char* error) noexcept : error_{error} {}
  */
 void Fecha::fechaValida() {
 
-	time_t tiempo_calendario = time(nullptr);
-	tm* fechaHoy = localtime(&tiempo_calendario);
+	time_t rawtime;
+	struct tm* fechaHoy;
 
-	if(dia_ == 0) 	dia_ 	= fechaHoy->tm_mday;
-  	if(mes_ == 0) 	mes_ 	= fechaHoy->tm_mon 	+ 1;
+	time(&rawtime);
+	fechaHoy = localtime(&rawtime);
+
+	if(dia_  == 0) 	dia_ 	= fechaHoy->tm_mday;
+  	if(mes_  == 0) 	mes_ 	= fechaHoy->tm_mon 	+ 1;
   	if(anno_ == 0) 	anno_ 	= fechaHoy->tm_year + 1900;
 
 	const int diasMeses[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
