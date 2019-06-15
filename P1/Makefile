@@ -3,7 +3,6 @@ TEST		:= ../Tests-auto
 CXX 		:= clang++
 CPPFLAGS	:= -DP1 -I ../P1/ -I $(TEST)
 CXXFLAGS 	:= -std=c++14 -Wall -pedantic -g
-VPATH 		:= ../Tests-auto:.
 SOURCES		:= fecha.cpp cadena.cpp
 OBJECTS     := $(SOURCES:.cpp=.o)
 
