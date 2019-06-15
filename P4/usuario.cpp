@@ -35,9 +35,7 @@ Clave::Clave(const char* clave) {
 	// Creamos una Cadena auxiliar que nos guarde el valor
 	// ClaveAux = hash + sal => SSS_hash_SSSS
 	// S caracteres del sal
-	Cadena claveAux;
-
-	claveAux += salCad.substr(0, 3);
+	Cadena claveAux = salCad.substr(0, 3);
 	claveAux += clave_;
 	claveAux += salCad.substr(3, 4);
 
@@ -49,8 +47,7 @@ Clave::Clave(const char* clave) {
 	// Agregamos el sal de nuevo al hashRobusto
 	// Nos queda SSS_hasRobusto_SSSS
 	// S es cada caracter del sal
-	Cadena aux;
-	aux = salCad.substr(0, 3);
+	Cadena aux = salCad.substr(0, 3);
 	aux += claveAux;
 	aux += salCad.substr(3, 4);
 

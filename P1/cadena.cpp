@@ -8,20 +8,17 @@
 /**
  * Constructor tam y char, tam, o predeterminado
  */
-Cadena::Cadena(size_t tam, char c) noexcept : tam_{tam} {
+Cadena::Cadena(size_t tam, char c) noexcept : s_{new char[tam + 1]}, tam_{tam} {
 
-	s_ = new char[tam + 1]{'\0'};				// Caracter terminador \0 +1
-	for(size_t i = 0; i < tam_; ++i)
-		s_[i] = c;
-	s_[tam_] = '\0';
+	memset(s_, c, tam);
+	s_[tam] = '\0';
 }
 
 /**
  * Constructor de copia
  */
-Cadena::Cadena(const Cadena& cad) noexcept : tam_{cad.tam_} {
+Cadena::Cadena(const Cadena& cad) noexcept : s_{new char[cad.tam_ + 1]}, tam_{cad.tam_} {
 
-	s_ = new char[tam_ + 1];
 	strcpy(s_, cad.s_);
 	s_[tam_] = '\0';
 

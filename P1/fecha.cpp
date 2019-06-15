@@ -164,7 +164,7 @@ Fecha& Fecha::operator -= (int dia){ return (*this += -dia); }
  */
 const char* Fecha::cadena() const noexcept{
 
-	char* fecha = new char[50];
+	static char fecha[50];
 
 	time_t rawtime;
 	struct tm* fechaTiempo;
