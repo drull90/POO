@@ -18,10 +18,7 @@ Cadena::Cadena(size_t tam, char c) noexcept : s_{new char[tam + 1]}, tam_{tam} {
  * Constructor de copia
  */
 Cadena::Cadena(const Cadena& cad) noexcept : s_{new char[cad.tam_ + 1]}, tam_{cad.tam_} {
-
-	strcpy(s_, cad.s_);
-	s_[tam_] = '\0';
-
+	std::memcpy(s_, cad.s_, cad.tam_ + 1);
 }
 
 /**
@@ -41,16 +38,10 @@ Cadena::Cadena(Cadena&& cadena) noexcept : tam_{cadena.tam_} {
 Cadena::Cadena(const char* cad) noexcept {
 
 	tam_ = strlen(cad);
-	s_ = new char[tam_ + 1]{'\0'};
+	s_ = new char[tam_ + 1];
 
-	char* buff = new char[tam_ + 1];
-
-	strcpy(buff, cad);
-	strcpy(s_, buff);
+	std::memcpy(s_, cad, tam_);
 	s_[tam_] = '\0';
-
-	delete[] buff;
-	
 }
 
 /**
@@ -59,7 +50,6 @@ Cadena::Cadena(const char* cad) noexcept {
 Cadena::~Cadena(){
 
 	delete[] s_;
-	s_ = nullptr;
 	tam_ = 0;
 
 }
@@ -73,7 +63,7 @@ Cadena& Cadena::operator = (const Cadena& cad) noexcept {
 		delete[] s_;
 		tam_ = cad.tam_;
 		s_ = new char[tam_ + 1];
-		strcpy(s_, cad.s_);
+		std::memcpy(s_, cad.s_, tam_ + 1);
 	}
 
 	return *this;
@@ -87,7 +77,7 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
 	delete[] s_;
 	tam_ = strlen(cad);
 	s_ = new char[tam_ + 1];
-	strcpy(s_, cad);
+	std::memcpy(s_, cad, tam_);
 	s_[tam_] = '\0';
 
 	return *this;

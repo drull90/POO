@@ -200,16 +200,12 @@ std::ostream& operator << (std::ostream& o, const Fecha& fecha) noexcept{
  */
 std::istream& operator >> (std::istream& i, Fecha& fecha) {
 
-	int dia, mes, anno;
-	char* f = new char[11];
+	char f[11];
 
 	i >> std::setw(11) >> f;
 
-	sscanf(f, "%d/%d/%d", &dia, &mes ,&anno);
-	delete[] f;
-
 	try{
-		fecha = Fecha(dia, mes, anno);
+		fecha = Fecha(f);
 	}
 	catch(const Fecha::Invalida& e){
 		i.setstate(std::ios_base::failbit);
