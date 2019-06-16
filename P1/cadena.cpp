@@ -59,6 +59,7 @@ Cadena::Cadena(const char* cad) noexcept {
 Cadena::~Cadena(){
 
 	delete[] s_;
+	s_ = nullptr;
 	tam_ = 0;
 
 }
