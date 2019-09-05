@@ -9,7 +9,6 @@
  * Constructor tam y char, tam, o predeterminado
  */
 Cadena::Cadena(size_t tam, char c) noexcept : s_{new char[tam + 1]}, tam_{tam} {
-
 	memset(s_, c, tam);
 	s_[tam] = '\0';
 }
@@ -24,22 +23,14 @@ Cadena::Cadena(const Cadena& cad) noexcept : s_{new char[cad.tam_ + 1]}, tam_{ca
 /**
  * Constructor de movimiento
  */
-Cadena::Cadena(Cadena&& cadena) noexcept : tam_{cadena.tam_} {
-
-	s_ = cadena.s_;
-	cadena.tam_ = 0;
-	cadena.s_ = nullptr;
-	
+Cadena::Cadena(Cadena&& cadena) noexcept : s_{nullptr}, tam_{0} {
+	*this = std::move(cadena);
 }
 
 /**
  * Constructor de conversion const char* a Cadena
  */
-Cadena::Cadena(const char* cad) noexcept {
-
-	tam_ = strlen(cad);
-	s_ = new char[tam_ + 1];
-
+Cadena::Cadena(const char* cad) noexcept : s_{new char[strlen(cad) + 1]}, tam_{strlen(cad)} {
 	std::memcpy(s_, cad, tam_);
 	s_[tam_] = '\0';
 }
@@ -50,6 +41,7 @@ Cadena::Cadena(const char* cad) noexcept {
 Cadena::~Cadena(){
 
 	delete[] s_;
+	s_ = nullptr;
 	tam_ = 0;
 
 }
@@ -63,7 +55,7 @@ Cadena& Cadena::operator = (const Cadena& cad) noexcept {
 		delete[] s_;
 		tam_ = cad.tam_;
 		s_ = new char[tam_ + 1];
-		std::memcpy(s_, cad.s_, tam_ + 1);
+		strcpy(s_, cad.s_ );
 	}
 
 	return *this;
@@ -87,10 +79,13 @@ Cadena& Cadena::operator = (const char* cad) noexcept {
  */
 Cadena&	Cadena::operator = (Cadena&& cad) noexcept {
 
-	s_ = cad.s_;
-	cad.s_ = nullptr;
-	tam_ = cad.tam_;
-	cad.tam_ = 0;
+	if( this != &cad) {
+		delete[] s_;
+		s_ = cad.s_;
+		tam_ = cad.tam_;
+		cad.tam_ = 0;
+		cad.s_ = nullptr;
+	}
 
 	return *this;
 }
@@ -136,7 +131,7 @@ bool operator != 	(const Cadena& cad1, const Cadena& cad2) noexcept { return (!(
 /**
  * Operador [] para acceder a elemento Cadena constante
  */
-const char 	Cadena::operator [] (size_t n) const noexcept{ return s_[n]; }
+const char Cadena::operator [] (size_t n) const noexcept{ return s_[n]; }
 
 /**
  * Operador [] para acceder a elemento Cadena

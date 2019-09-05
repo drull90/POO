@@ -36,4 +36,4 @@ checks:
 	@make -f Make_check.mk $@
 
 clean:
-	@${RM} test-P1-consola test-P1-auto *.o
+	@${RM} test-P1-consola test-P1-auto *.o cadena_check fecha_check

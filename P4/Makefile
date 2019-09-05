@@ -123,8 +123,8 @@ check:  ${OWN_SRCS}
 # Ejecuta los tests comprobando que no haya fugas de memoria
 # - valgrind: http://valgrind.org
 valgrind: ${MAIN_EXE} ${TEST_EXE}
-	valgrind --quiet ./${TEST_EXE} --logger=minimal
-	valgrind --quiet ./${MAIN_EXE}
+	valgrind --leak-check=full ./${TEST_EXE}
+	valgrind --leak-check=full ./${MAIN_EXE}
 
 ## Compilación ## 
 

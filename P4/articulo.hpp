@@ -42,7 +42,7 @@ class Articulo {
 		inline double& 				precio() 			noexcept { return precio_; 	}
 		inline const 	Autores&	autores() 	 const 			 { return autores_; }
 
-		virtual void impresion_especifica(std::ostream& os) const = 0;
+		virtual void impresion_especifica(std::ostream&) const = 0;
 
 	private:
 		Cadena 	ref_;
@@ -71,7 +71,7 @@ class Libro: public ArticuloAlmacenable {
 
 		inline unsigned n_pag() const { return pag_; }
 
-		void impresion_especifica(std::ostream& os) const;
+		void impresion_especifica(std::ostream&) const;
 
 	private:
 		const unsigned pag_;
@@ -85,7 +85,7 @@ class Cederron: public ArticuloAlmacenable {
 
 		inline unsigned tam() const { return tam_; }
 
-		void impresion_especifica(std::ostream& os) const;
+		void impresion_especifica(std::ostream&) const;
 
 	private:
 		unsigned tam_;
@@ -99,12 +99,12 @@ class LibroDigital: public Articulo {
 		//Observador
 		inline const Fecha& f_expir() const { return fechaExp_; }
 
-		void impresion_especifica(std::ostream& os) const;
+		void impresion_especifica(std::ostream& o) const;
 
 	private:
 		const Fecha fechaExp_;
 };
 
-std::ostream& operator << (std::ostream& o, const Articulo&);
+std::ostream& operator << (std::ostream&, const Articulo&);
 
 #endif

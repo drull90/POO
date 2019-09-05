@@ -8,13 +8,11 @@
 size_t Pedido::total_ = 0;
 
 Pedido::Pedido(Usuario_Pedido& usPedido, Pedido_Articulo& peArticulo, Usuario& usuario, const Tarjeta& tarjeta, const Fecha& fecha) 
-: nPedido_{total_ + 1}, fecha_{fecha}, tarjeta_{&tarjeta} {
+: nPedido_{total_ + 1}, importe_{0.},fecha_{fecha}, tarjeta_{&tarjeta} {
 
 	if(tarjeta.titular() != &usuario)   throw Pedido::Impostor(&usuario);
 	if(tarjeta.caducidad() < fecha)     throw Tarjeta::Caducada(tarjeta.caducidad());
 	if(tarjeta.activa() == false )		throw Tarjeta::Desactivada();
-
-	importe_ = 0.0;
 
 	auto compra = usuario.compra();
 

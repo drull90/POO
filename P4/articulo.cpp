@@ -15,12 +15,13 @@ std::ostream& operator << (std::ostream& o, const Articulo& articulo) {
 
 	o << "[" << articulo.referencia() << "] " << "\"" << articulo.titulo() << "\", de ";
 
-	auto autores = articulo.autores().begin();
+	auto autores = articulo.autores();
+	auto i 		 = autores.begin();
 
-	o << (*autores++)->apellidos();
+	o << (*i)->apellidos();
 
-	for(; autores != articulo.autores().end(); ++autores)
-		o << ", " << (*autores)->apellidos();
+	while( ++i != autores.end())
+		o << ", " << (*i)->apellidos();
 
 	o << ". " 		<< std::fixed 			<< articulo.f_publi().anno()
 	  << ". " 		<< std::setprecision(2) << articulo.precio() << " €"

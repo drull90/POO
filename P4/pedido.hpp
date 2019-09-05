@@ -58,6 +58,6 @@ class Pedido {
 
 };
 
-std::ostream& operator << (std::ostream& o, const Pedido& pedido);
+std::ostream& operator << (std::ostream&, const Pedido&);
 
 #endif
